@@ -18,14 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32f0xx.h"
-#include "lcd.h"
-#include "oled.h"
-#include <stdio.h> // for sprintf()
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32f0xx.h"
+#include "lcd.h"
+#include "oled.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,7 +38,7 @@ void menu_move(int selectIndex);
 void Tune_move(int scrollidx, int selectIndex, int enable);
 void Tunemode();
 int Tune_select(int selectIndex);
-void stepperMotor(int direction, int freq, int step);
+void stepperMotor(int direction, int freq, int step, int mode);
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -62,6 +61,7 @@ const char* menu[3] = {"Info", "Tune", "Manual"};
 const char* Tune[7] = {"Back", "Peg1", "Peg2", "Peg3", "Peg4", "Peg5", "Peg6"};
 const char* Manual[3] = {"Back", "Tight", "Loose"};
 const char* Info[2] = {"Back", "Next"};
+const char* peg[3] = {"Back", "90", "180"};
 int currentSelectIndex = 0;
 int currentScrollIndex = 0;
 uint8_t lastPressed = -1;
@@ -98,12 +98,11 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+
   /* MCU Configuration--------------------------------------------------------*/
-	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-  //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
 
   /* USER CODE BEGIN Init */
 
@@ -118,11 +117,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_ADC_Init();
-  //MX_I2C2_Init();
+  MX_ADC_Init();
+  MX_I2C2_Init();
   MX_SPI1_Init();
   MX_TIM1_Init();
-
   /* USER CODE BEGIN 2 */
 
   LCD_Init();
@@ -161,14 +159,25 @@ int main(void)
   nano_wait(5000000000);
   HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
-  /*stepperMotor(1, 0, 1000);
+  stepperMotor(1, 0, 1000);
   stepperMotor(0, 0, 1000);*/
+
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+
+  /*	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
+  	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
+  for (int i = 0; i < 90; i++)
+  	{
+  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+  		nano_wait(5000000);
+  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+  		nano_wait(5000000);
+  	}
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+  //stepperMotor(1, 15000, 90, 0);*/
   while (1)
   {
-    /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
 	LCD_DrawString(80 ,40,  YELLOW, BLUE,"Home Menu", 16, 0);
 
 	if (updateToggleHistory(2)) {
@@ -201,23 +210,23 @@ int main(void)
 
 
   }
-  /* USER CODE END 3 HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)*/
 }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+
 void change_pwm(int per)
 {
 	TIM_MasterConfigTypeDef sMasterConfig = {0};
 	  TIM_OC_InitTypeDef sConfigOC = {0};
 	  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
-	  /* USER CODE BEGIN TIM1_Init 1 */
-
-	  /* USER CODE END TIM1_Init 1 */
 	  htim1.Instance = TIM1;
 	  htim1.Init.Prescaler = 0;
 	  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
 	  htim1.Init.Period = per;
 	  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	  htim1.Init.RepetitionCounter = 0;
+	  htim1.Init.RepetitionCounter = 90;//0;
 	  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
 	  {
@@ -251,11 +260,7 @@ void change_pwm(int per)
 	  {
 	    Error_Handler();
 	  }
-	  /* USER CODE BEGIN TIM1_Init 2 */
 
-
-
-	  /* USER CODE END TIM1_Init 2 */
 	  HAL_TIM_MspPostInit(&htim1);
 }
 
@@ -292,7 +297,7 @@ void menu_select(int selectIndex) {
 void Infomode()
 {
 	LCD_Clear(BLUE);
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 2; i++) {
 		LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, Info[i], 16, 0);
 	}
 	LCD_DrawString(25 ,50,  YELLOW, BLUE,"Info will be displayed", 16, 0);
@@ -432,16 +437,16 @@ int Manual_select(int selectIndex) {
     }
     else if (currentSelectIndex == 1)
     {
-    	stepperMotor(0, 15000, 1000);
+    	stepperMotor(0, 15000, 1000, 1);
     }
     else if(currentSelectIndex == 2)
     {
-    	stepperMotor(1, 15000, 1000);
+    	stepperMotor(1, 15000, 1000, 1);
     }
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     return 0;
 }
-void stepperMotor(int direction, int per, int step)
+void stepperMotor(int direction, int per, int step, int mode)
 {
 	if(direction == 0)
 	{
@@ -453,13 +458,29 @@ void stepperMotor(int direction, int per, int step)
 	}
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
 	change_pwm(per);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
-
+	if(mode == 1)
+	{
 	while(updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))
 	{
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 		nano_wait(5000000);
+
 	}
+	/*for (int i = 0; i < 90; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+		nano_wait(5000000);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+		nano_wait(5000000);
+	}*/
+	}
+	else
+		{
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+		nano_wait(per * step * 10 * 1.135);
+		}
+
 	//nano_wait(5000000000);
 	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
@@ -483,9 +504,6 @@ void Tunemode() {
 	Tune_move(0, 0, 0);
 	while (1)
 	  {
-	    /* USER CODE END WHILE */
-
-	    /* USER CODE BEGIN 3 */
 		scrollidx = currentScrollIndex;
 
 		if (updateToggleHistory(2)) {
@@ -608,9 +626,100 @@ int Tune_select(int selectIndex) {
     	currentSelectIndex = 0;
     	return 1;
     }
+    else
+    {
+    	pegDisplay();
+    	LCD_Clear(BLUE);
+    	for (int i = 0; i < 3; i++) {
+    	    LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, Tune[i], 16, 0);
+    	 }
+    	LCD_DrawString(75*selectIndex + 25,200,  YELLOW, BLACK, Tune[selectIndex], 16, 0);
+    	currentSelectIndex = 0;
+    	currentScrollIndex = 0;
+    	return 0;
+    }
     return 0;
 }
+int pegDisplay()
+{
+	LCD_Clear(BLUE);
+	for (int i = 0; i < 3; i++) {
+		LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, peg[i], 16, 0);
+	}
+	LCD_DrawString(60 ,40,  YELLOW, BLUE,"Peg 1", 16, 0);
+	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play note A", 16, 0);
+	//LCD_DrawString(25,200,  YELLOW, BLUE, "Back", 16, 0);
+	stepperMotor(1, 15000, 90, 0);
+	while(1)
+	{
 
+		if (updateToggleHistory(2)) {
+				if (currentSelectIndex == 0) {
+					peg_move(2);
+
+				} else {
+					peg_move((currentSelectIndex - 1) % 3);
+				}
+				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+
+			} else if (updateToggleHistory(3)) {
+				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+				if(peg_select(currentSelectIndex) == 1)
+				{
+					return;
+				}
+
+			} else if (updateToggleHistory(4)) {
+
+				if (currentSelectIndex == 2) {
+							peg_move(0);
+				} else {
+					peg_move((currentSelectIndex + 1) % 3);
+				}
+				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+
+			} else {
+				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
+			}
+	}
+}
+void peg_move(int selectIndex)
+{
+	LCD_DrawString(75*selectIndex + 25,200,  YELLOW, BLACK, peg[selectIndex], 16, 0);
+	LCD_DrawString(75*currentSelectIndex + 25,200,  YELLOW, BLUE, peg[currentSelectIndex], 16, 0);
+	currentSelectIndex = selectIndex;
+}
+int peg_select(int selectIndex) {
+	/*if (selectIndex == lastPressed) {
+			return 0;
+	}*/
+    LCD_DrawString(75*selectIndex + 25,200,  YELLOW, RED, peg[selectIndex], 16, 0);
+    lastPressed = selectIndex;
+    if(currentSelectIndex == 0)
+    {
+    	LCD_Clear(BLUE);
+    	for (int i = 0; i < 3; i++) {
+    		/*bb_init_oled();
+    		bb_display1("Home Display");
+    		bb_display2("Info Tune Manual");*/
+    		LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, peg[i], 16, 0);
+    	}
+    	LCD_DrawString(75*selectIndex + 25,200,  YELLOW, BLACK, peg[selectIndex], 16, 0);
+    	currentSelectIndex = 0;
+    	return 1;
+    }
+    else if (currentSelectIndex == 1)
+    {
+    	stepperMotor(0, 15000, 90, 0);
+    }
+    else if(currentSelectIndex == 2)
+    {
+    	stepperMotor(1, 15000, 180, 0);
+    }
+    HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+    HAL_Delay(100);
+    return 0;
+}
 uint8_t updateToggleHistory(uint8_t button) {
 	uint8_t prev = pressHistory[button - 2];
 	uint8_t new = HAL_GPIO_ReadPin(GPIOB, 1 << (button));
@@ -624,15 +733,10 @@ uint8_t updateToggleHistory(uint8_t button) {
 
 	return prev && new;
 
+
+  /* USER CODE END 3 */
 }
-/*
-uint8_t Pushedbutton() {
-	//uint8_t prev = pressHistory[button - 2];
-	uint8_t new = HAL_GPIO_ReadPin(GPIOB, 2);
 
-	return new;
-
-}*/
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -783,7 +887,7 @@ static void MX_SPI1_Init(void)
 
   /* USER CODE END SPI1_Init 1 */
   /* SPI1 parameter configuration*/
-  /*hspi1.Instance = SPI1;
+  hspi1.Instance = SPI1;
   hspi1.Init.Mode = SPI_MODE_MASTER;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
   hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
@@ -800,7 +904,7 @@ static void MX_SPI1_Init(void)
   if (HAL_SPI_Init(&hspi1) != HAL_OK)
   {
     Error_Handler();
-  }*/
+  }
   /* USER CODE BEGIN SPI1_Init 2 */
 
   RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
@@ -843,7 +947,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 30000;
+  htim1.Init.Period = 65535;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -858,7 +962,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 15000;
+  sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -925,9 +1029,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB2 PB3 PB4 PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pins : PB2 PB3 PB4 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -937,10 +1041,52 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PB5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_3_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI2_Callback(uint16_t GPIO_Pin)
+{
+	UNUSED(GPIO_Pin);
+	//HAL_GPIO_TogglePin(GPIOB, GPIO_Pin);
+	currentSelectIndex -= 1;
+	currentScrollIndex -= 1;
+}
+void HAL_GPIO_EXTI3_Callback(uint16_t GPIO_Pin)
+{
+	UNUSED(GPIO_Pin);
+	//HAL_GPIO_TogglePin(GPIOB, GPIO_Pin);
+	//confirmSelect = 1;
+}
+void HAL_GPIO_EXTI4_Callback(uint16_t GPIO_Pin)
+{
+	UNUSED(GPIO_Pin);
+	//HAL_GPIO_TogglePin(GPIOB, GPIO_Pin);
+	currentSelectIndex += 1;
+	currentScrollIndex += 1;
+}
 
+/*void EXTI2_IQRHandler(Void)
+{
+	HAL_GPIO_EXTI_IRQHandler(GPIOB, GPIO_PIN_2);
+}
+void Systick_Handler(void)
+{
+	HAL_IncTick();
+	HAL_SYSTICK_IRQHandler();
+}*/
 /* USER CODE END 4 */
 
 /**
@@ -950,7 +1096,7 @@ static void MX_GPIO_Init(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
+  /* User can add his own implementation to report the HAL error return state*/
   __disable_irq();
   while (1)
   {
