@@ -49,6 +49,7 @@ void peg_move(int selectIndex);
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc;
+DMA_HandleTypeDef hdma_adc;
 
 I2C_HandleTypeDef hi2c2;
 
@@ -69,6 +70,7 @@ int currentSelectIndex = 0;
 int currentScrollIndex = 0;
 int goleft = 0;
 int goright  =0;
+#define ADC_BUF_LEN 2500
 //int thefall = 0;
 uint32_t prev = 0;
 uint32_t curr = 0;
@@ -77,7 +79,7 @@ uint32_t stepcurr = 0;
 uint8_t lastPressed = -1;
 uint8_t lastButton = -1;
 uint8_t pressHistory[3] = {0,0,0};
-
+uint16_t adc_buf[ADC_BUF_LEN];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -86,6 +88,7 @@ static void MX_GPIO_Init(void);
 static void MX_ADC_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_DMA_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -130,6 +133,7 @@ int main(void)
   MX_ADC_Init();
   MX_I2C2_Init();
   MX_SPI1_Init();
+  MX_DMA_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
@@ -143,48 +147,14 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  //----------------------added----------------------------------//
-  /*setup_bb();
-  setup_spi1();
-  bb_init_oled();
-  bb_display1("Home Display");
-  bb_display2("Info Tune Manual");*/
-  //----------------------ENDadded----------------------------------//
-  //stepperMotor(1, 100, 1000);
-  /*HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_SET);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  nano_wait(5000000000);*/
-  /*HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-  nano_wait(5000000000);
-  HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-  change_pwm(15000);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  nano_wait(5000000000);
-  HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-  change_pwm(7500);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  nano_wait(5000000000);
-  HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
-  stepperMotor(1, 0, 1000);
-  stepperMotor(0, 0, 1000);*/
 
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
-  /*	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
-  	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
-  for (int i = 0; i < 90; i++)
-  	{
-  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
-  		nano_wait(5000000);
-  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-  		nano_wait(5000000);
-  	}
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
-  //stepperMotor(1, 15000, 90, 0);*/
+
+  HAL_ADC_Start_DMA(&hadc, (uint32_t*)adc_buf, ADC_BUF_LEN);
+  //adc_buf[3] = 420;
+  //HAL_Delay(200);
+  HAL_ADC_Stop(&hadc);
   while (1)
   {
 
@@ -859,11 +829,11 @@ static void MX_ADC_Init(void)
   hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc.Init.LowPowerAutoWait = DISABLE;
   hadc.Init.LowPowerAutoPowerOff = DISABLE;
-  hadc.Init.ContinuousConvMode = DISABLE;
+  hadc.Init.ContinuousConvMode = ENABLE;
   hadc.Init.DiscontinuousConvMode = DISABLE;
   hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc.Init.DMAContinuousRequests = DISABLE;
+  hadc.Init.DMAContinuousRequests = ENABLE;
   hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   if (HAL_ADC_Init(&hadc) != HAL_OK)
   {
@@ -1052,6 +1022,22 @@ static void MX_TIM1_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Ch1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Ch1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Ch1_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -1089,14 +1075,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB2 PB3 PB4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2/*|GPIO_PIN_3*/|GPIO_PIN_4;
+  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PB2 PB3 PB4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_3;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -1135,6 +1115,18 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		prev = curr;
 		}
 }
+
+// Called when first half of buffer is filled
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
+  //HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+}
+
+// Called when buffer is completely filled
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+  //HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	HAL_ADC_Stop_DMA(&hadc);
+}
+
 /* USER CODE END 4 */
 
 /**
