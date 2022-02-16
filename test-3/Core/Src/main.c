@@ -39,6 +39,7 @@ void Tune_move(int scrollidx, int selectIndex, int enable);
 void Tunemode();
 int Tune_select(int selectIndex);
 void stepperMotor(int direction, int freq, int step, int mode);
+void peg_move(int selectIndex);
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -61,9 +62,18 @@ const char* menu[3] = {"Info", "Tune", "Manual"};
 const char* Tune[7] = {"Back", "Peg1", "Peg2", "Peg3", "Peg4", "Peg5", "Peg6"};
 const char* Manual[3] = {"Back", "Tight", "Loose"};
 const char* Info[2] = {"Back", "Next"};
-const char* peg[3] = {"Back", "90", "180"};
+const char* peg[3] = {"Back", "Test1", "90"};
+const char* pegsel[6] = {"Peg 1", "Peg 2", "Peg 3", "Peg 4", "Peg 5", "Peg 6"};
+const char* note[6] = {"E", "A", "D", "G", "B", "E"};
 int currentSelectIndex = 0;
 int currentScrollIndex = 0;
+int goleft = 0;
+int goright  =0;
+//int thefall = 0;
+uint32_t prev = 0;
+uint32_t curr = 0;
+uint32_t stepprev = 0;
+uint32_t stepcurr = 0;
 uint8_t lastPressed = -1;
 uint8_t lastButton = -1;
 uint8_t pressHistory[3] = {0,0,0};
@@ -163,7 +173,7 @@ int main(void)
   stepperMotor(0, 0, 1000);*/
 
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
   /*	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
   	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
   for (int i = 0; i < 90; i++)
@@ -180,7 +190,7 @@ int main(void)
 
 	LCD_DrawString(80 ,40,  YELLOW, BLUE,"Home Menu", 16, 0);
 
-	if (updateToggleHistory(2)) {
+	if (goleft == 1/*updateToggleHistory(2)*/) {
 		if (currentSelectIndex == 0) {
 			menu_move(2);
 
@@ -188,12 +198,13 @@ int main(void)
 			menu_move((currentSelectIndex - 1) % 3);
 		}
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+		goleft = 0;
 
 	} else if (updateToggleHistory(3)) {
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
 		menu_select(currentSelectIndex);
 
-	} else if (updateToggleHistory(4)) {
+	} else if (goright == 1/*updateToggleHistory(4)*/) {
 
 		if (currentSelectIndex == 2) {
 					menu_move(0);
@@ -201,6 +212,7 @@ int main(void)
 			menu_move((currentSelectIndex + 1) % 3);
 		}
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+		goright = 0;
 
 	} else {
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
@@ -305,7 +317,7 @@ void Infomode()
 
 	 while (1)
 	  {
-		if (updateToggleHistory(2)) {
+		if (goleft == 1) {
 			if (currentSelectIndex == 0) {
 				Info_move(1);
 
@@ -313,7 +325,7 @@ void Infomode()
 				Info_move((currentSelectIndex - 1) % 3);
 			}
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
-
+			goleft = 0;
 		} else if (updateToggleHistory(3)) {
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
 			if(Info_select(currentSelectIndex) == 1)
@@ -321,7 +333,7 @@ void Infomode()
 				return;
 			}
 
-		} else if (updateToggleHistory(4)) {
+		} else if (goright == 1) {
 
 			if (currentSelectIndex == 1) {
 						Info_move(0);
@@ -329,7 +341,7 @@ void Infomode()
 				Info_move((currentSelectIndex + 1) % 3);
 			}
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
-
+			goright = 0;
 		} else {
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
 		}
@@ -377,7 +389,7 @@ void Manualmode()
 
 	 while (1)
 	  {
-		if (updateToggleHistory(2)) {
+		if (goleft == 1) {
 			if (currentSelectIndex == 0) {
 				Manual_move(2);
 
@@ -385,7 +397,7 @@ void Manualmode()
 				Manual_move((currentSelectIndex - 1) % 3);
 			}
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
-
+			goleft = 0;
 		} else if (updateToggleHistory(3)) {
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
 			if(Manual_select(currentSelectIndex) == 1)
@@ -393,7 +405,7 @@ void Manualmode()
 				return;
 			}
 
-		} else if (updateToggleHistory(4)) {
+		} else if (goright == 1) {
 
 			if (currentSelectIndex == 2) {
 						Manual_move(0);
@@ -401,7 +413,7 @@ void Manualmode()
 				Manual_move((currentSelectIndex + 1) % 3);
 			}
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
-
+			goright = 0;
 		} else {
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
 		}
@@ -448,6 +460,7 @@ int Manual_select(int selectIndex) {
 }
 void stepperMotor(int direction, int per, int step, int mode)
 {
+	//thefall = 0;
 	if(direction == 0)
 	{
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
@@ -477,8 +490,15 @@ void stepperMotor(int direction, int per, int step, int mode)
 	}
 	else
 		{
+		uint32_t timemotor = per* step  / 10000 / 1.8 * 1.25;
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-		nano_wait(per * step * 10 * 1.135);
+		uint32_t startmotor = HAL_GetTick();
+		//HAL_TIM_Base_Start(&htim2);
+		uint32_t currmotor = HAL_GetTick();
+		while((HAL_GetTick() - startmotor < timemotor) &( updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3))))
+		{
+		//nano_wait(per * step * 10 * 1.135);
+		}
 		}
 
 	//nano_wait(5000000000);
@@ -506,7 +526,7 @@ void Tunemode() {
 	  {
 		scrollidx = currentScrollIndex;
 
-		if (updateToggleHistory(2)) {
+		if (goleft == 1) {
 			if (currentSelectIndex == 0) {
 				if(scrollidx == 0)
 				{
@@ -533,7 +553,7 @@ void Tunemode() {
 				}
 					Tune_move((currentScrollIndex - 1) % 7, 0, 0);
 			}
-
+			goleft = 0;
 
 			} else {
 				if(scrollidx == 0)
@@ -555,7 +575,7 @@ void Tunemode() {
 			}
 
 
-		} else if (updateToggleHistory(4)) {
+		} else if (goright == 1) {
 
 			if (currentSelectIndex == 2) {
 				if(currentScrollIndex == 6)
@@ -587,7 +607,7 @@ void Tunemode() {
 					Tune_move( (currentScrollIndex + 1) % 7,(currentSelectIndex + 1) % 3, 1);
 			}
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
-
+			goright = 0;
 		} else {
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
 		}
@@ -633,9 +653,17 @@ int Tune_select(int selectIndex) {
     	for (int i = 0; i < 3; i++) {
     	    LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, Tune[i], 16, 0);
     	 }
-    	LCD_DrawString(75*selectIndex + 25,200,  YELLOW, BLACK, Tune[selectIndex], 16, 0);
+
     	currentSelectIndex = 0;
     	currentScrollIndex = 0;
+    	LCD_DrawString(95 ,25,  YELLOW, BLUE,"-----", 16, 0);
+    	LCD_DrawString(60 ,40,  YELLOW, BLUE,"3 - |    | - 4", 16, 0);
+    	LCD_DrawString(60 ,60,  YELLOW, BLUE,"2 - |    | - 5", 16, 0);
+    	LCD_DrawString(60 ,80,  YELLOW, BLUE,"1 - |    | - 6", 16, 0);
+    	LCD_DrawString(95 ,100,  YELLOW, BLUE,"-----", 16, 0);
+    	LCD_DrawString(100 ,115,  YELLOW, BLUE,"||||", 16, 0);
+    	LCD_DrawString(100 ,130,  YELLOW, BLUE,"||||", 16, 0);
+    	Tune_move(0, 0, 0);
     	return 0;
     }
     return 0;
@@ -646,14 +674,16 @@ int pegDisplay()
 	for (int i = 0; i < 3; i++) {
 		LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, peg[i], 16, 0);
 	}
-	LCD_DrawString(60 ,40,  YELLOW, BLUE,"Peg 1", 16, 0);
-	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play note A", 16, 0);
+	LCD_DrawString(60 ,40,  YELLOW, BLUE,pegsel[currentScrollIndex-1], 16, 0);
+	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play Note", 16, 0);
+	LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentScrollIndex-1], 16, 0);
+	peg_move(0);
 	//LCD_DrawString(25,200,  YELLOW, BLUE, "Back", 16, 0);
-	stepperMotor(1, 15000, 90, 0);
+	//stepperMotor(1, 15000, 90, 0);
 	while(1)
 	{
 
-		if (updateToggleHistory(2)) {
+		if (goleft == 1) {
 				if (currentSelectIndex == 0) {
 					peg_move(2);
 
@@ -661,6 +691,7 @@ int pegDisplay()
 					peg_move((currentSelectIndex - 1) % 3);
 				}
 				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+			goleft = 0;
 
 			} else if (updateToggleHistory(3)) {
 				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
@@ -669,7 +700,7 @@ int pegDisplay()
 					return;
 				}
 
-			} else if (updateToggleHistory(4)) {
+			} else if (goright == 1) {
 
 				if (currentSelectIndex == 2) {
 							peg_move(0);
@@ -677,6 +708,7 @@ int pegDisplay()
 					peg_move((currentSelectIndex + 1) % 3);
 				}
 				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
+			goright =0;
 
 			} else {
 				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
@@ -710,11 +742,38 @@ int peg_select(int selectIndex) {
     }
     else if (currentSelectIndex == 1)
     {
-    	stepperMotor(0, 15000, 90, 0);
+    	stepperMotor(0, 15000,45 , 0);
+    	HAL_Delay(500);
+
+    		for(int j = 0; j < 10; j++)
+    		{
+    	if(updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))
+    		{stepperMotor(0, 15000,10 , 0);
+    		HAL_Delay(500);}
+    		}
+    		for(int j = 0; j < 10; j++)
+    		 {
+    		if(updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))
+    			{stepperMotor(0, 15000,45 , 0);
+    			HAL_Delay(500);}
+
+    		 }
+    		for(int j = 0; j < 10; j++)
+    		  {
+    		   if(updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))
+    			   {stepperMotor(0, 15000,90 , 0);
+    			   HAL_Delay(500);}
+    		  }
+    		for(int j = 0; j < 10; j++)
+    		    		  {
+    		    		   if (updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))
+    		    			   {stepperMotor(0, 15000,180 , 0);
+    		    			   HAL_Delay(500);}
+    		    		  }
     }
     else if(currentSelectIndex == 2)
     {
-    	stepperMotor(1, 15000, 180, 0);
+    	stepperMotor(1, 15000, 90, 0);
     }
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     HAL_Delay(100);
@@ -1030,8 +1089,14 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB2 PB3 PB4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4;
+  GPIO_InitStruct.Pin = GPIO_PIN_2/*|GPIO_PIN_3*/|GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB2 PB3 PB4 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -1057,36 +1122,19 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI2_Callback(uint16_t GPIO_Pin)
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	curr = HAL_GetTick();
 	UNUSED(GPIO_Pin);
-	//HAL_GPIO_TogglePin(GPIOB, GPIO_Pin);
-	currentSelectIndex -= 1;
-	currentScrollIndex -= 1;
+	if((GPIO_Pin == 4) && (curr - prev > 200))
+		{goleft = 1;
+		 prev = curr;
+		}
+	if((GPIO_Pin == 16) && (curr - prev > 200))
+		{goright = 1;
+		prev = curr;
+		}
 }
-void HAL_GPIO_EXTI3_Callback(uint16_t GPIO_Pin)
-{
-	UNUSED(GPIO_Pin);
-	//HAL_GPIO_TogglePin(GPIOB, GPIO_Pin);
-	//confirmSelect = 1;
-}
-void HAL_GPIO_EXTI4_Callback(uint16_t GPIO_Pin)
-{
-	UNUSED(GPIO_Pin);
-	//HAL_GPIO_TogglePin(GPIOB, GPIO_Pin);
-	currentSelectIndex += 1;
-	currentScrollIndex += 1;
-}
-
-/*void EXTI2_IQRHandler(Void)
-{
-	HAL_GPIO_EXTI_IRQHandler(GPIOB, GPIO_PIN_2);
-}
-void Systick_Handler(void)
-{
-	HAL_IncTick();
-	HAL_SYSTICK_IRQHandler();
-}*/
 /* USER CODE END 4 */
 
 /**
