@@ -1,0 +1,17 @@
+menu.c:27:6:menu_home	24	static
+menu.c:67:6:menu_move	32	static
+menu.c:75:6:menu_select	40	static
+menu.c:95:6:Infomode	32	static
+menu.c:139:6:Info_move	32	static
+menu.c:145:5:Info_select	48	static
+menu.c:166:6:Manualmode	32	static
+menu.c:211:6:Manual_move	32	static
+menu.c:217:5:Manual_select	48	static
+menu.c:245:6:stepperMotor	48	static
+menu.c:285:6:Tunemode	64	static
+menu.c:397:6:Tune_move	40	static
+menu.c:407:5:Tune_select	48	static
+menu.c:447:5:pegDisplay	32	static
+menu.c:494:6:peg_move	32	static
+menu.c:500:5:peg_select	64	static
+menu.c:555:9:updateToggleHistory	40	static
