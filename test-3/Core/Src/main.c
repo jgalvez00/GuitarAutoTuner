@@ -59,7 +59,7 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
-
+#define ADC_BUF_LEN 10
 /*const char* menu[3] = {"Info", "Tune", "Manual"};
 const char* Tune[7] = {"Back", "Peg1", "Peg2", "Peg3", "Peg4", "Peg5", "Peg6"};
 const char* Manual[3] = {"Back", "Tight", "Loose"};
@@ -71,7 +71,7 @@ int currentSelectIndex = 0;
 int currentScrollIndex = 0;
 //int goleft = 0;
 int goright  =0;
-#define ADC_BUF_LEN 2500
+
 //int thefall = 0;
 uint32_t prev = 0;
 uint32_t curr = 0;
@@ -79,8 +79,8 @@ uint32_t stepprev = 0;
 uint32_t stepcurr = 0;
 uint8_t lastPressed = -1;
 uint8_t lastButton = -1;
-uint8_t pressHistory[3] = {0,0,0};
-uint16_t adc_buf[ADC_BUF_LEN];*/
+uint8_t pressHistory[3] = {0,0,0};*/
+uint16_t adc_buf[ADC_BUF_LEN];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -149,13 +149,14 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);//disable motor
 
- // HAL_ADC_Start_DMA(&hadc, (uint32_t*)adc_buf, ADC_BUF_LEN);
-  //adc_buf[3] = 420;
-  //HAL_Delay(200);
-  HAL_ADC_Stop(&hadc);
+  HAL_ADC_Start_DMA(&hadc, (uint32_t*)&adc_buf, ADC_BUF_LEN);
+  while(1)
+	{
+	  HAL_Delay(100);
+	  }
+
   menu_home();
 
 }
@@ -576,12 +577,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 // Called when first half of buffer is filled
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
-  //HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	__NOP();
 }
 
 // Called when buffer is completely filled
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-  //HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  __NOP();
+
 	HAL_ADC_Stop_DMA(hadc);
 }
 

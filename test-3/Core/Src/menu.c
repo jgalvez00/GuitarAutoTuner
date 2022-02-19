@@ -548,6 +548,15 @@ int peg_select(int selectIndex) {
     HAL_Delay(100);
     return 0;
 }
+/*void startmotor()
+{
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+}
+void stopmotor()
+{
+	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+}*/
 uint8_t updateToggleHistory(uint8_t button) {
 	uint8_t prev = pressHistory[button - 2];
 	uint8_t new = HAL_GPIO_ReadPin(GPIOB, 1 << (button));

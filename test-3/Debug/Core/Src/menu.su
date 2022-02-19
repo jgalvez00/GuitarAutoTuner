@@ -14,4 +14,4 @@ menu.c:406:5:Tune_select	48	static
 menu.c:444:5:pegDisplay	32	static
 menu.c:490:6:peg_move	32	static
 menu.c:496:5:peg_select	64	static
-menu.c:551:9:updateToggleHistory	40	static
+menu.c:560:9:updateToggleHistory	40	static
