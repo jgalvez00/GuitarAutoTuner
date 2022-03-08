@@ -47,6 +47,7 @@ I2C_HandleTypeDef hi2c2;
 SPI_HandleTypeDef hspi1;
 /* USER CODE BEGIN PV */
 uint16_t adc_buf[ADC_BUF_LEN];
+int tmp;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -105,11 +106,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  Sample(&hadc, &adc_buf, ADC_BUF_LEN);
-  while (1)
-  {
-	  HAL_Delay(100);
-  }
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
   menu_home();
     /* USER CODE END WHILE */
 
@@ -328,9 +325,9 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 15000;
+  htim1.Init.Period = 7500;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.RepetitionCounter = 90;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
   {
@@ -343,7 +340,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 7500;
+  sConfigOC.Pulse =7500/2;//7500/2 is the proper, it is slow but is not stutterong
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -480,18 +477,43 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   __NOP();
   //HAL_Delay(100);
   HAL_ADC_Stop_DMA(hadc);
+  for(int i = 0; i < 5; i++)
+	  LCD_Draw4digit(i, 0, i);
+  for(int i = 5; i < 10; i++)
+  	  LCD_Draw4digit(i, 1, i-5);
 }
 
 void Sample(ADC_HandleTypeDef* hadc, uint16_t* adc_buf, uint32_t buf_len) {
 	  HAL_ADC_Start_DMA(hadc, (uint32_t*)adc_buf, buf_len);
 }
+void LCD_Draw4digit(int idx, int side, int row)
+{
+	tmp =0;
+	int renew = 0;
+	int fact = 1;
+	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
+	for(int i = 0; i < 4; i++)
+	{
+		fact = 1;
+		for(int j = i ; j < 3; j++)
+		  {
+			  fact = fact * 10;
+		  }
+		tmp = (adc_buf[idx]- renew)/fact ;
+
+		LCD_DrawChar(60 +i*10 + side * 100,100 + row*20,YELLOW, BLUE,tmp+48, 16, 0);
+		renew +=  tmp * fact;
+	  }
+
+}
 void auto_tune()
 {
+	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
 	Sample(&hadc, &adc_buf, ADC_BUF_LEN);
-	  while (1)
+	 /* while (1)
 	  {
 		  HAL_Delay(100);
-	  }
+	  }*/
 }
 void startmotor()
 {

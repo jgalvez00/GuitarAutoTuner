@@ -728,3 +728,117 @@ java.io.FileNotFoundException: /Users/markscheker/OneDrive - purdue.edu/Senior y
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2022-02-20 14:48:35.467
 !MESSAGE ST-LINK firmware verification, No latest info found: -1
+!SESSION 2022-02-21 13:18:51.497 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-02-21 13:19:06.819
+!MESSAGE Log4j initialized with config file /Users/markscheker/OneDrive - purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-02-21 13:19:18.634
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.debug.core 4 125 2022-02-21 14:07:26.462
+!MESSAGE Error logged from Debug Core: 
+!STACK 1
+org.eclipse.core.runtime.CoreException: Source lookup error
+	at org.eclipse.debug.core.sourcelookup.AbstractSourceLookupDirector$SourceLookupQuery.run(AbstractSourceLookupDirector.java:168)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.debug.core.sourcelookup.AbstractSourceLookupDirector.doSourceLookup(AbstractSourceLookupDirector.java:473)
+	at org.eclipse.debug.core.sourcelookup.AbstractSourceLookupDirector.getSourceElement(AbstractSourceLookupDirector.java:714)
+	at org.eclipse.cdt.dsf.debug.ui.sourcelookup.DsfSourceDisplayAdapter$LookupJob.performLookup(DsfSourceDisplayAdapter.java:222)
+	at org.eclipse.cdt.dsf.debug.ui.sourcelookup.DsfSourceDisplayAdapter$LookupJob.run(DsfSourceDisplayAdapter.java:202)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Contains: Stack data not available
+Contains: Stack data not available
+!SUBENTRY 1 org.eclipse.debug.core 4 125 2022-02-21 14:07:26.463
+!MESSAGE Source lookup error
+!SUBENTRY 2 org.eclipse.cdt.dsf 4 10002 2022-02-21 14:07:26.463
+!MESSAGE Stack data not available
+!SUBENTRY 2 org.eclipse.cdt.dsf 4 10002 2022-02-21 14:07:26.463
+!MESSAGE Stack data not available
+!SESSION 2022-02-23 15:06:50.818 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-02-23 15:07:47.746
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-02-23 15:09:28.924
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-02-24 15:33:14.546 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-02-24 15:33:33.596
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-02-24 15:33:47.935
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-02-27 15:44:19.162 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-02-27 15:44:33.294
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-02-27 15:44:45.535
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-03-01 14:57:19.123 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-03-01 14:57:31.689
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-03-01 14:57:42.360
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-03-07 14:27:50.514 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY org.eclipse.core.resources 2 10035 2022-03-07 14:27:57.198
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-03-07 14:28:02.636
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-03-07 14:28:17.644
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-03-08 14:56:08.248 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-03-08 14:56:31.505
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/ADC_test/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-03-08 14:56:44.819
+!MESSAGE Started RMI Server, listening on port 41337
