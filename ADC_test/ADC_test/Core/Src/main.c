@@ -18,6 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "stdio.h"
+#include "fftw3.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -37,16 +39,18 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 #define ADC_BUF_LEN 10
+#define I2C_BUF_LEN 4
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc;
 DMA_HandleTypeDef hdma_adc;
 TIM_HandleTypeDef htim1;
-I2C_HandleTypeDef hi2c2;
+I2C_HandleTypeDef hi2c1;
 SPI_HandleTypeDef hspi1;
 /* USER CODE BEGIN PV */
-uint16_t adc_buf[ADC_BUF_LEN];
+uint32_t adc_buf[ADC_BUF_LEN];
+uint32_t batbuf[I2C_BUF_LEN];
 int tmp;
 /* USER CODE END PV */
 
@@ -56,10 +60,10 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_I2C2_Init(void);
+static void MX_I2C1_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
-void Sample(ADC_HandleTypeDef*, uint16_t*, uint32_t);
+void Sample(ADC_HandleTypeDef*, uint32_t*, uint32_t);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -97,9 +101,10 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_ADC_Init();
-  MX_I2C2_Init();
+  MX_I2C1_Init();
   MX_SPI1_Init();
   MX_TIM1_Init();
+  LCD_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -107,11 +112,17 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+  initialize();
+  LCD_Clear(BLUE);
+  resetSel();
   menu_home();
+  while(1)
+  {
+  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+  fftw_complex re;
   /* USER CODE END 3 */
 }
 
@@ -208,44 +219,44 @@ static void MX_ADC_Init(void)
   * @param None
   * @retval None
   */
-static void MX_I2C2_Init(void)
+static void MX_I2C1_Init(void)
 {
 
-  /* USER CODE BEGIN I2C2_Init 0 */
+  /* USER CODE BEGIN I2C1_Init 0 */
 
-  /* USER CODE END I2C2_Init 0 */
+  /* USER CODE END I2C1_Init 0 */
 
-  /* USER CODE BEGIN I2C2_Init 1 */
+  /* USER CODE BEGIN I2C1_Init 1 */
 
-  /* USER CODE END I2C2_Init 1 */
-  hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x2000090E;
-  hi2c2.Init.OwnAddress1 = 0;
-  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c2.Init.OwnAddress2 = 0;
-  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.Timing = 0x2000090E;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
   {
     Error_Handler();
   }
   /** Configure Analogue filter
   */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
   /** Configure Digital filter
   */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN I2C2_Init 2 */
+  /* USER CODE BEGIN I2C1_Init 2 */
 
-  /* USER CODE END I2C2_Init 2 */
+  /* USER CODE END I2C1_Init 2 */
 
 }
 
@@ -453,17 +464,27 @@ static void MX_GPIO_Init(void)
 
 
 /* USER CODE BEGIN 4 */
+//===========================================================================
+// EXTERNAL INTERRUPT CALLBACK
+// Used for navigation buttons and trigger
+//===========================================================================
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{//LCD_DrawString(40 ,40,  YELLOW, BLUE,"PRESSED", 16, 0);
+{
 	curr = HAL_GetTick();
 	UNUSED(GPIO_Pin);
-	if((GPIO_Pin == 4) && (curr - prev > 200))
+	if((GPIO_Pin == 4) && (curr - prev > 200)) //Left button
 	{
-		goleft = 1;
+		move_left();//move left
 		prev = curr;
 	}
-	if((GPIO_Pin == 16) && (curr - prev > 200))
-	{	goright = 1;
+	if((GPIO_Pin == 8) && (curr - prev > 200)) //select button
+		{
+			display_select(currentSelectIndex); //select option
+			prev = curr;
+		}
+	if((GPIO_Pin == 16) && (curr - prev > 200)) // right button
+	{
+		move_right();//move right
 		prev = curr;
 	}
 }
@@ -478,15 +499,19 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   //HAL_Delay(100);
   HAL_ADC_Stop_DMA(hadc);
   for(int i = 0; i < 5; i++)
-	  LCD_Draw4digit(i, 0, i);
+	  LCD_Draw4digit(i, 0, i, adc_buf);
   for(int i = 5; i < 10; i++)
-  	  LCD_Draw4digit(i, 1, i-5);
+  	  LCD_Draw4digit(i, 1, i-5, adc_buf);
 }
-
-void Sample(ADC_HandleTypeDef* hadc, uint16_t* adc_buf, uint32_t buf_len) {
-	  HAL_ADC_Start_DMA(hadc, (uint32_t*)adc_buf, buf_len);
+void battery() {
+	HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
 }
-void LCD_Draw4digit(int idx, int side, int row)
+void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
+{
+	for(int i = 0; i < 4; i++)
+		LCD_Draw4digit(i, 0, i, batbuf);
+}
+void LCD_Draw4digit(int idx, int side, int row, uint8_t *buff)
 {
 	tmp =0;
 	int renew = 0;
@@ -499,7 +524,7 @@ void LCD_Draw4digit(int idx, int side, int row)
 		  {
 			  fact = fact * 10;
 		  }
-		tmp = (adc_buf[idx]- renew)/fact ;
+		tmp = (buff[idx]- renew)/fact ;
 
 		LCD_DrawChar(60 +i*10 + side * 100,100 + row*20,YELLOW, BLUE,tmp+48, 16, 0);
 		renew +=  tmp * fact;
@@ -509,11 +534,7 @@ void LCD_Draw4digit(int idx, int side, int row)
 void auto_tune()
 {
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
-	Sample(&hadc, &adc_buf, ADC_BUF_LEN);
-	 /* while (1)
-	  {
-		  HAL_Delay(100);
-	  }*/
+	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
 }
 void startmotor()
 {
