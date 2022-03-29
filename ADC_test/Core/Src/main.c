@@ -19,12 +19,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stdio.h"
+#include "stdlib.h"
 #include "fftw3.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
 #include "menu.h"
+#include "dsp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,6 +54,8 @@ SPI_HandleTypeDef hspi1;
 uint32_t adc_buf[ADC_BUF_LEN];
 uint32_t batbuf[I2C_BUF_LEN];
 int tmp;
+uint32_t curr;
+uint32_t prev;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,6 +66,7 @@ static void MX_ADC_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM1_Init(void);
+double RETCONST(void);
 /* USER CODE BEGIN PFP */
 void Sample(ADC_HandleTypeDef*, uint32_t*, uint32_t);
 /* USER CODE END PFP */
@@ -106,6 +111,10 @@ int main(void)
   MX_TIM1_Init();
   LCD_Init();
   /* USER CODE BEGIN 2 */
+	fftw_complex *in;
+	in = fftw_malloc(sizeof(fftw_complex));
+	fftw_free(in);
+  //DSPMain();
 
   /* USER CODE END 2 */
 
@@ -122,7 +131,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  fftw_complex re;
+
   /* USER CODE END 3 */
 }
 
@@ -468,6 +477,11 @@ static void MX_GPIO_Init(void)
 // EXTERNAL INTERRUPT CALLBACK
 // Used for navigation buttons and trigger
 //===========================================================================
+double RETCONST(void)
+{
+	return (double)0.5;
+}
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	curr = HAL_GetTick();

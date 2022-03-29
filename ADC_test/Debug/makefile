@@ -60,8 +60,8 @@ all: main-build
 main-build: ADC_test.elf secondary-outputs
 
 # Tool invocations
-ADC_test.elf: $(OBJS) $(USER_OBJS) /Users/markscheker/OneDrive\ -\ purdue.edu/Senior\ year/spring2022/ADC_test/ADC_test/STM32F091RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list" $(USER_OBJS) -Wl,--start-group $(LIBS) -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/OneDrive - purdue.edu/Senior year/spring2022/ADC_test/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static -L/usr/local/lib -L/usr/local/include --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+ADC_test.elf: $(OBJS) $(USER_OBJS) C:\Users\Logan\OneDrive\Documents\GitHub\GuitarAutoTuner\ADC_test\STM32F091RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list" $(USER_OBJS) -Wl,--start-group $(LIBS) -Wl,--end-group -mcpu=cortex-m0 -T"C:\Users\Logan\OneDrive\Documents\GitHub\GuitarAutoTuner\ADC_test\STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static -L"C:\Users\Logan\OneDrive\Documents\GitHub\GuitarAutoTuner\fftw" --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
