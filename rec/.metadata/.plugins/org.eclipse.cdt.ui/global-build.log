@@ -1,4 +1,4 @@
-19:29:38 **** Incremental Build of configuration Debug for project ADC_test ****
+19:39:08 **** Incremental Build of configuration Debug for project ADC_test ****
 make -j3 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/FFTW_LIBRARY" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'HAL_ADC_ConvCpltCallback':
@@ -50,10 +50,17 @@ arm-none-eabi-size   ADC_test.elf
 arm-none-eabi-objdump -h -S  ADC_test.elf  > "ADC_test.list"
 arm-none-eabi-objcopy  -O binary  ADC_test.elf  "ADC_test.bin"
    text	   data	    bss	    dec	    hex	filename
-  36780	    244	   2084	  39108	   98c4	ADC_test.elf
+  36804	    244	   2084	  39132	   98dc	ADC_test.elf
 Finished building: default.size.stdout
  
 Finished building: ADC_test.bin
  
 Finished building: ADC_test.list
+ 
+19:39:27 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-size   ADC_test.elf 
+   text	   data	    bss	    dec	    hex	filename
+  36804	    244	   2084	  39132	   98dc	ADC_test.elf
+Finished building: default.size.stdout
  

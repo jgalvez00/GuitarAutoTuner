@@ -490,7 +490,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		move_left();//move left
 		prev = curr;
 	}
-	if((GPIO_Pin == (1<<5)) && (curr - prev > 200)) //select button
+	if(((GPIO_Pin == (1<<5)) | (GPIO_Pin == (1<<7))) && (curr - prev > 200)) //select button
 		{
 			display_select(currentSelectIndex); //select option
 			prev = curr;
