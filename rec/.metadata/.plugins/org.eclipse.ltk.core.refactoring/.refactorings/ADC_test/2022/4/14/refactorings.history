@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;ADC_test/ffwtlib&apos; to &apos;fftwlib&apos;" description="Rename resource &apos;ffwtlib&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="ffwtlib" name="fftwlib" stamp="1648819109995" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;ADC_test/fftwlib&apos; to &apos;FFTW_LIBRARY&apos;" description="Rename resource &apos;fftwlib&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="fftwlib" name="FFTW_LIBRARY" stamp="1648941612171" updateReferences="true"/>
+</session>
