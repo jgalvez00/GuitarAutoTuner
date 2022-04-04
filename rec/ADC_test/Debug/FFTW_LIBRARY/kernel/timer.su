@@ -1,0 +1,4 @@
+timer.c:88:12:fftw_get_crude_time	8	static
+timer.c:92:15:elapsed_since	16	static
+timer.c:101:8:fftw_elapsed_since	48	static
+timer.c:185:10:fftw_measure_execution_time	24	static

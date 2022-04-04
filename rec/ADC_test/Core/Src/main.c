@@ -23,7 +23,6 @@
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
 #include "menu.h"
-#include "fftw3.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,8 +51,8 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
-uint32_t adc_buf[ADC_BUF_LEN];
-uint32_t batbuf[I2C_BUF_LEN];
+uint8_t adc_buf[ADC_BUF_LEN];
+uint8_t batbuf[I2C_BUF_LEN];
 int tmp;
 /* USER CODE END PV */
 
@@ -120,9 +119,6 @@ int main(void)
   resetSel();
   menu_home();
 
-  /*fftw_complex *in;
-  in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * 10);
-  fftw_free(in);*/
    __NOP();
   while(1)
   {
@@ -567,7 +563,7 @@ void LCD_Drawpin(uint8_t pin)
 void auto_tune()
 {
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
-	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t *)adc_buf, ADC_BUF_LEN);
 }
 void startmotor()
 {

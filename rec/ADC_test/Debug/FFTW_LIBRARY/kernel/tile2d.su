@@ -1,0 +1,2 @@
+tile2d.c:24:6:fftw_tile2d	64	static
+tile2d.c:49:5:fftw_compute_tilesz	16	static

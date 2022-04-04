@@ -61,7 +61,7 @@ main-build: ADC_test.elf secondary-outputs
 
 # Tool invocations
 ADC_test.elf: $(OBJS) $(USER_OBJS) /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior\ year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list" $(USER_OBJS) -Wl,--start-group $(LIBS) -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static -L"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/FFTW_LIBRARY" --specs=nano.specs -mfloat-abi=soft -mthumb
+	arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list" $(USER_OBJS) -Wl,--start-group $(LIBS) -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb
 	@echo 'Finished building target: $@'
 	@echo ' '
 

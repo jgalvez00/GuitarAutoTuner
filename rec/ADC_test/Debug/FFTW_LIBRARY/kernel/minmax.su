@@ -1,0 +1,2 @@
+minmax.c:24:5:fftw_imax	16	static
+minmax.c:29:5:fftw_imin	16	static

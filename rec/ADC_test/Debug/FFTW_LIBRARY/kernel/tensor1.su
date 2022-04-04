@@ -1,0 +1,2 @@
+tensor1.c:24:9:fftw_mktensor_0d	8	static
+tensor1.c:29:9:fftw_mktensor_1d	32	static

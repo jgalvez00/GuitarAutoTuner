@@ -1,0 +1,4 @@
+cpy2d-pair.c:24:6:fftw_cpy2d_pair	48	static
+cpy2d-pair.c:39:6:fftw_zero1d_pair	32	static
+cpy2d-pair.c:49:6:fftw_cpy2d_pair_ci	56	static
+cpy2d-pair.c:60:6:fftw_cpy2d_pair_co	56	static

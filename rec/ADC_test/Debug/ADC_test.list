@@ -7,41 +7,41 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00008214  080000bc  080000bc  000100bc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000cf4  080082d0  080082d0  000182d0  2**2
+  2 .rodata       00000c94  080082d0  080082d0  000182d0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08008fc4  08008fc4  000200ec  2**0
+  3 .ARM.extab    00000000  08008f64  08008f64  000200ec  2**0
                   CONTENTS
-  4 .ARM          00000000  08008fc4  08008fc4  000200ec  2**0
+  4 .ARM          00000000  08008f64  08008f64  000200ec  2**0
                   CONTENTS
-  5 .preinit_array 00000000  08008fc4  08008fc4  000200ec  2**0
+  5 .preinit_array 00000000  08008f64  08008f64  000200ec  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08008fc4  08008fc4  00018fc4  2**2
+  6 .init_array   00000004  08008f64  08008f64  00018f64  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08008fc8  08008fc8  00018fc8  2**2
+  7 .fini_array   00000004  08008f68  08008f68  00018f68  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         000000ec  20000000  08008fcc  00020000  2**2
+  8 .data         000000ec  20000000  08008f6c  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000224  200000ec  080090b8  000200ec  2**2
+  9 .bss          000001fc  200000ec  08009058  000200ec  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000310  080090b8  00020310  2**0
+ 10 ._user_heap_stack 00000600  200002e8  08009058  000202e8  2**0
                   ALLOC
  11 .ARM.attributes 00000028  00000000  00000000  000200ec  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00013102  00000000  00000000  00020114  2**0
+ 12 .debug_info   0001306f  00000000  00000000  00020114  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002af3  00000000  00000000  00033216  2**0
+ 13 .debug_abbrev 00002aee  00000000  00000000  00033183  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00001198  00000000  00000000  00035d10  2**3
+ 14 .debug_aranges 00001198  00000000  00000000  00035c78  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00001078  00000000  00000000  00036ea8  2**3
+ 15 .debug_ranges 00001078  00000000  00000000  00036e10  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_line   0000fe53  00000000  00000000  00037f20  2**0
+ 16 .debug_line   0000fdd3  00000000  00000000  00037e88  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_str    0000506a  00000000  00000000  00047d73  2**0
+ 17 .debug_str    00004fe6  00000000  00000000  00047c5b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .comment      00000053  00000000  00000000  0004cddd  2**0
+ 18 .comment      00000053  00000000  00000000  0004cc41  2**0
                   CONTENTS, READONLY
- 19 .debug_frame  00004550  00000000  00000000  0004ce30  2**2
+ 19 .debug_frame  000043e0  00000000  00000000  0004cc94  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -4610,9 +4610,6 @@ int main(void)
   menu_home();
  80022c0:	f000 fdaa 	bl	8002e18 <menu_home>
 
-  /*fftw_complex *in;
-  in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * 10);
-  fftw_free(in);*/
    __NOP();
  80022c4:	46c0      	nop			; (mov r8, r8)
   while(1)
@@ -4879,7 +4876,7 @@ static void MX_ADC_Init(void)
  800242e:	46bd      	mov	sp, r7
  8002430:	b004      	add	sp, #16
  8002432:	bd80      	pop	{r7, pc}
- 8002434:	200002b8 	.word	0x200002b8
+ 8002434:	20000290 	.word	0x20000290
  8002438:	40012400 	.word	0x40012400
 
 0800243c <MX_I2C1_Init>:
@@ -5169,7 +5166,7 @@ static void MX_SPI1_Init(void)
  80025d2:	46bd      	mov	sp, r7
  80025d4:	bd80      	pop	{r7, pc}
  80025d6:	46c0      	nop			; (mov r8, r8)
- 80025d8:	200001e8 	.word	0x200001e8
+ 80025d8:	200001dc 	.word	0x200001dc
  80025dc:	40013000 	.word	0x40013000
  80025e0:	40021000 	.word	0x40021000
  80025e4:	ffff30ff 	.word	0xffff30ff
@@ -5373,7 +5370,7 @@ static void MX_TIM1_Init(void)
  800270a:	46bd      	mov	sp, r7
  800270c:	b012      	add	sp, #72	; 0x48
  800270e:	bd80      	pop	{r7, pc}
- 8002710:	200001a0 	.word	0x200001a0
+ 8002710:	20000194 	.word	0x20000194
  8002714:	40012c00 	.word	0x40012c00
  8002718:	00001d4c 	.word	0x00001d4c
  800271c:	00000ea6 	.word	0x00000ea6
@@ -5842,7 +5839,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
  80029ee:	b004      	add	sp, #16
  80029f0:	bd80      	pop	{r7, pc}
  80029f2:	46c0      	nop			; (mov r8, r8)
- 80029f4:	2000024c 	.word	0x2000024c
+ 80029f4:	20000240 	.word	0x20000240
 
 080029f8 <battery>:
 void battery() {
@@ -6058,7 +6055,7 @@ void auto_tune()
  8002b5a:	2150      	movs	r1, #80	; 0x50
  8002b5c:	2050      	movs	r0, #80	; 0x50
  8002b5e:	f7ff fb33 	bl	80021c8 <LCD_DrawString>
-	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t *)adc_buf, ADC_BUF_LEN);
  8002b62:	4906      	ldr	r1, [pc, #24]	; (8002b7c <auto_tune+0x38>)
  8002b64:	4b06      	ldr	r3, [pc, #24]	; (8002b80 <auto_tune+0x3c>)
  8002b66:	220a      	movs	r2, #10
@@ -6070,8 +6067,8 @@ void auto_tune()
  8002b72:	bd80      	pop	{r7, pc}
  8002b74:	0000ffe0 	.word	0x0000ffe0
  8002b78:	080082e4 	.word	0x080082e4
- 8002b7c:	2000024c 	.word	0x2000024c
- 8002b80:	200002b8 	.word	0x200002b8
+ 8002b7c:	20000240 	.word	0x20000240
+ 8002b80:	20000290 	.word	0x20000290
 
 08002b84 <startmotor>:
 void startmotor()
@@ -6087,7 +6084,7 @@ void startmotor()
  8002b92:	46c0      	nop			; (mov r8, r8)
  8002b94:	46bd      	mov	sp, r7
  8002b96:	bd80      	pop	{r7, pc}
- 8002b98:	200001a0 	.word	0x200001a0
+ 8002b98:	20000194 	.word	0x20000194
 
 08002b9c <stopmotor>:
 void stopmotor()
@@ -6111,7 +6108,7 @@ void stopmotor()
  8002bba:	46bd      	mov	sp, r7
  8002bbc:	bd80      	pop	{r7, pc}
  8002bbe:	46c0      	nop			; (mov r8, r8)
- 8002bc0:	200001a0 	.word	0x200001a0
+ 8002bc0:	20000194 	.word	0x20000194
  8002bc4:	48000400 	.word	0x48000400
 
 08002bc8 <Error_Handler>:
@@ -6509,7 +6506,7 @@ void initialize()
  8002e08:	08002b45 	.word	0x08002b45
  8002e0c:	20000028 	.word	0x20000028
  8002e10:	08003395 	.word	0x08003395
- 8002e14:	200002f8 	.word	0x200002f8
+ 8002e14:	200002d0 	.word	0x200002d0
 
 08002e18 <menu_home>:
 struct display *currDisplay;
@@ -6606,7 +6603,7 @@ void move_right()
  8002eb6:	46c0      	nop			; (mov r8, r8)
  8002eb8:	46bd      	mov	sp, r7
  8002eba:	bd80      	pop	{r7, pc}
- 8002ebc:	200002f8 	.word	0x200002f8
+ 8002ebc:	200002d0 	.word	0x200002d0
  8002ec0:	2000010c 	.word	0x2000010c
  8002ec4:	20000108 	.word	0x20000108
  8002ec8:	48000800 	.word	0x48000800
@@ -7007,7 +7004,7 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
  800316e:	b008      	add	sp, #32
  8003170:	bd80      	pop	{r7, pc}
  8003172:	46c0      	nop			; (mov r8, r8)
- 8003174:	200002f8 	.word	0x200002f8
+ 8003174:	200002d0 	.word	0x200002d0
  8003178:	0000ffe0 	.word	0x0000ffe0
  800317c:	2000010c 	.word	0x2000010c
  8003180:	20000108 	.word	0x20000108
@@ -7198,7 +7195,7 @@ void display_select(int selectIndex) {
  80032b4:	bd90      	pop	{r4, r7, pc}
  80032b6:	46c0      	nop			; (mov r8, r8)
  80032b8:	2000010c 	.word	0x2000010c
- 80032bc:	200002f8 	.word	0x200002f8
+ 80032bc:	200002d0 	.word	0x200002d0
  80032c0:	20000108 	.word	0x20000108
  80032c4:	0000ffe0 	.word	0x0000ffe0
  80032c8:	20000078 	.word	0x20000078
@@ -7283,7 +7280,7 @@ void resetSel()
  8003352:	46bd      	mov	sp, r7
  8003354:	b002      	add	sp, #8
  8003356:	bd80      	pop	{r7, pc}
- 8003358:	200002f8 	.word	0x200002f8
+ 8003358:	200002d0 	.word	0x200002d0
  800335c:	0000ffe0 	.word	0x0000ffe0
  8003360:	2000010c 	.word	0x2000010c
  8003364:	20000108 	.word	0x20000108
@@ -7359,8 +7356,8 @@ void autoRotate()
 080033d4 <stepperMotor>:
 void stepperMotor(int direction, int per, int angle, int mode)
 {// stepper motor control
- 80033d4:	b580      	push	{r7, lr}
- 80033d6:	b088      	sub	sp, #32
+ 80033d4:	b590      	push	{r4, r7, lr}
+ 80033d6:	b089      	sub	sp, #36	; 0x24
  80033d8:	af00      	add	r7, sp, #0
  80033da:	60f8      	str	r0, [r7, #12]
  80033dc:	60b9      	str	r1, [r7, #8]
@@ -7410,96 +7407,96 @@ void stepperMotor(int direction, int per, int angle, int mode)
 	if(mode == 1) //Manual stepper rotation
  8003422:	683b      	ldr	r3, [r7, #0]
  8003424:	2b01      	cmp	r3, #1
- 8003426:	d113      	bne.n	8003450 <stepperMotor+0x7c>
+ 8003426:	d114      	bne.n	8003452 <stepperMotor+0x7e>
 	{startmotor();
  8003428:	f7ff fbac 	bl	8002b84 <startmotor>
-	while(updateToggleHistory(5) || HAL_GPIO_ReadPin(GPIOB, 1 << (5)))
+	while(updateToggleHistory(5) | updateToggleHistory(7))
  800342c:	e003      	b.n	8003436 <stepperMotor+0x62>
 	{//while trigger button is being pressed, currently mapped to selection button for testing
 		nano_wait(5000000);
  800342e:	4b27      	ldr	r3, [pc, #156]	; (80034cc <stepperMotor+0xf8>)
  8003430:	0018      	movs	r0, r3
  8003432:	f7fe fac1 	bl	80019b8 <nano_wait>
-	while(updateToggleHistory(5) || HAL_GPIO_ReadPin(GPIOB, 1 << (5)))
+	while(updateToggleHistory(5) | updateToggleHistory(7))
  8003436:	2005      	movs	r0, #5
  8003438:	f000 f8fc 	bl	8003634 <updateToggleHistory>
- 800343c:	1e03      	subs	r3, r0, #0
- 800343e:	d1f6      	bne.n	800342e <stepperMotor+0x5a>
- 8003440:	4b20      	ldr	r3, [pc, #128]	; (80034c4 <stepperMotor+0xf0>)
- 8003442:	2120      	movs	r1, #32
- 8003444:	0018      	movs	r0, r3
- 8003446:	f001 fda9 	bl	8004f9c <HAL_GPIO_ReadPin>
- 800344a:	1e03      	subs	r3, r0, #0
- 800344c:	d1ef      	bne.n	800342e <stepperMotor+0x5a>
- 800344e:	e032      	b.n	80034b6 <stepperMotor+0xe2>
+ 800343c:	0003      	movs	r3, r0
+ 800343e:	001c      	movs	r4, r3
+ 8003440:	2007      	movs	r0, #7
+ 8003442:	f000 f8f7 	bl	8003634 <updateToggleHistory>
+ 8003446:	0003      	movs	r3, r0
+ 8003448:	4323      	orrs	r3, r4
+ 800344a:	b2db      	uxtb	r3, r3
+ 800344c:	2b00      	cmp	r3, #0
+ 800344e:	d1ee      	bne.n	800342e <stepperMotor+0x5a>
+ 8003450:	e032      	b.n	80034b8 <stepperMotor+0xe4>
 
 	}
 	}
 	else //Angular precise stepper movements
 		{
 		uint32_t timemotor = per* angle /10000/1.8*3.95; //period * number of steps(angle) / 10000 / 1.8degrees per step * 1.25
- 8003450:	68bb      	ldr	r3, [r7, #8]
- 8003452:	687a      	ldr	r2, [r7, #4]
- 8003454:	4353      	muls	r3, r2
- 8003456:	491e      	ldr	r1, [pc, #120]	; (80034d0 <stepperMotor+0xfc>)
- 8003458:	0018      	movs	r0, r3
- 800345a:	f7fc fedd 	bl	8000218 <__divsi3>
- 800345e:	0003      	movs	r3, r0
- 8003460:	0018      	movs	r0, r3
- 8003462:	f7fe f8ff 	bl	8001664 <__aeabi_i2d>
- 8003466:	4a1b      	ldr	r2, [pc, #108]	; (80034d4 <stepperMotor+0x100>)
- 8003468:	4b1b      	ldr	r3, [pc, #108]	; (80034d8 <stepperMotor+0x104>)
- 800346a:	f7fc ffdf 	bl	800042c <__aeabi_ddiv>
- 800346e:	0002      	movs	r2, r0
- 8003470:	000b      	movs	r3, r1
- 8003472:	0010      	movs	r0, r2
- 8003474:	0019      	movs	r1, r3
- 8003476:	4a19      	ldr	r2, [pc, #100]	; (80034dc <stepperMotor+0x108>)
- 8003478:	4b19      	ldr	r3, [pc, #100]	; (80034e0 <stepperMotor+0x10c>)
- 800347a:	f7fd fabf 	bl	80009fc <__aeabi_dmul>
- 800347e:	0002      	movs	r2, r0
- 8003480:	000b      	movs	r3, r1
- 8003482:	0010      	movs	r0, r2
- 8003484:	0019      	movs	r1, r3
- 8003486:	f7fc ffb3 	bl	80003f0 <__aeabi_d2uiz>
- 800348a:	0003      	movs	r3, r0
- 800348c:	61bb      	str	r3, [r7, #24]
+ 8003452:	68bb      	ldr	r3, [r7, #8]
+ 8003454:	687a      	ldr	r2, [r7, #4]
+ 8003456:	4353      	muls	r3, r2
+ 8003458:	491d      	ldr	r1, [pc, #116]	; (80034d0 <stepperMotor+0xfc>)
+ 800345a:	0018      	movs	r0, r3
+ 800345c:	f7fc fedc 	bl	8000218 <__divsi3>
+ 8003460:	0003      	movs	r3, r0
+ 8003462:	0018      	movs	r0, r3
+ 8003464:	f7fe f8fe 	bl	8001664 <__aeabi_i2d>
+ 8003468:	4a1a      	ldr	r2, [pc, #104]	; (80034d4 <stepperMotor+0x100>)
+ 800346a:	4b1b      	ldr	r3, [pc, #108]	; (80034d8 <stepperMotor+0x104>)
+ 800346c:	f7fc ffde 	bl	800042c <__aeabi_ddiv>
+ 8003470:	0002      	movs	r2, r0
+ 8003472:	000b      	movs	r3, r1
+ 8003474:	0010      	movs	r0, r2
+ 8003476:	0019      	movs	r1, r3
+ 8003478:	4a18      	ldr	r2, [pc, #96]	; (80034dc <stepperMotor+0x108>)
+ 800347a:	4b19      	ldr	r3, [pc, #100]	; (80034e0 <stepperMotor+0x10c>)
+ 800347c:	f7fd fabe 	bl	80009fc <__aeabi_dmul>
+ 8003480:	0002      	movs	r2, r0
+ 8003482:	000b      	movs	r3, r1
+ 8003484:	0010      	movs	r0, r2
+ 8003486:	0019      	movs	r1, r3
+ 8003488:	f7fc ffb2 	bl	80003f0 <__aeabi_d2uiz>
+ 800348c:	0003      	movs	r3, r0
+ 800348e:	61bb      	str	r3, [r7, #24]
 		startmotor();
- 800348e:	f7ff fb79 	bl	8002b84 <startmotor>
+ 8003490:	f7ff fb78 	bl	8002b84 <startmotor>
 		uint32_t motorstarttime = HAL_GetTick();
- 8003492:	f000 fbcf 	bl	8003c34 <HAL_GetTick>
- 8003496:	0003      	movs	r3, r0
- 8003498:	617b      	str	r3, [r7, #20]
+ 8003494:	f000 fbce 	bl	8003c34 <HAL_GetTick>
+ 8003498:	0003      	movs	r3, r0
+ 800349a:	617b      	str	r3, [r7, #20]
 		for(int i =0; i < timemotor; i++)
- 800349a:	2300      	movs	r3, #0
- 800349c:	61fb      	str	r3, [r7, #28]
- 800349e:	e006      	b.n	80034ae <stepperMotor+0xda>
+ 800349c:	2300      	movs	r3, #0
+ 800349e:	61fb      	str	r3, [r7, #28]
+ 80034a0:	e006      	b.n	80034b0 <stepperMotor+0xdc>
 		{
 			nano_wait(1000000);
- 80034a0:	4b10      	ldr	r3, [pc, #64]	; (80034e4 <stepperMotor+0x110>)
- 80034a2:	0018      	movs	r0, r3
- 80034a4:	f7fe fa88 	bl	80019b8 <nano_wait>
+ 80034a2:	4b10      	ldr	r3, [pc, #64]	; (80034e4 <stepperMotor+0x110>)
+ 80034a4:	0018      	movs	r0, r3
+ 80034a6:	f7fe fa87 	bl	80019b8 <nano_wait>
 		for(int i =0; i < timemotor; i++)
- 80034a8:	69fb      	ldr	r3, [r7, #28]
- 80034aa:	3301      	adds	r3, #1
- 80034ac:	61fb      	str	r3, [r7, #28]
- 80034ae:	69fb      	ldr	r3, [r7, #28]
- 80034b0:	69ba      	ldr	r2, [r7, #24]
- 80034b2:	429a      	cmp	r2, r3
- 80034b4:	d8f4      	bhi.n	80034a0 <stepperMotor+0xcc>
+ 80034aa:	69fb      	ldr	r3, [r7, #28]
+ 80034ac:	3301      	adds	r3, #1
+ 80034ae:	61fb      	str	r3, [r7, #28]
+ 80034b0:	69fb      	ldr	r3, [r7, #28]
+ 80034b2:	69ba      	ldr	r2, [r7, #24]
+ 80034b4:	429a      	cmp	r2, r3
+ 80034b6:	d8f4      	bhi.n	80034a2 <stepperMotor+0xce>
 		//{//while trigger is pressed and angle time is not exceeded, continue running the motor
 		//}
 		}
 
 	//stop motor
 	stopmotor();
- 80034b6:	f7ff fb71 	bl	8002b9c <stopmotor>
+ 80034b8:	f7ff fb70 	bl	8002b9c <stopmotor>
 }
- 80034ba:	46c0      	nop			; (mov r8, r8)
- 80034bc:	46bd      	mov	sp, r7
- 80034be:	b008      	add	sp, #32
- 80034c0:	bd80      	pop	{r7, pc}
- 80034c2:	46c0      	nop			; (mov r8, r8)
+ 80034bc:	46c0      	nop			; (mov r8, r8)
+ 80034be:	46bd      	mov	sp, r7
+ 80034c0:	b009      	add	sp, #36	; 0x24
+ 80034c2:	bd90      	pop	{r4, r7, pc}
  80034c4:	48000400 	.word	0x48000400
  80034c8:	48000800 	.word	0x48000800
  80034cc:	004c4b40 	.word	0x004c4b40
@@ -8025,7 +8022,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
  8003842:	46c0      	nop			; (mov r8, r8)
  8003844:	40012400 	.word	0x40012400
  8003848:	40021000 	.word	0x40021000
- 800384c:	20000274 	.word	0x20000274
+ 800384c:	2000024c 	.word	0x2000024c
  8003850:	40020008 	.word	0x40020008
  8003854:	40020000 	.word	0x40020000
 
@@ -8530,7 +8527,7 @@ void DMA1_Ch1_IRQHandler(void)
  8003aaa:	46bd      	mov	sp, r7
  8003aac:	bd80      	pop	{r7, pc}
  8003aae:	46c0      	nop			; (mov r8, r8)
- 8003ab0:	20000274 	.word	0x20000274
+ 8003ab0:	2000024c 	.word	0x2000024c
 
 08003ab4 <_sbrk>:
  *
@@ -8612,7 +8609,7 @@ void *_sbrk(ptrdiff_t incr)
  8003b10:	20008000 	.word	0x20008000
  8003b14:	00000400 	.word	0x00000400
  8003b18:	20000124 	.word	0x20000124
- 8003b1c:	20000310 	.word	0x20000310
+ 8003b1c:	200002e8 	.word	0x200002e8
 
 08003b20 <SystemInit>:
   * @brief  Setup the microcontroller system
@@ -8725,11 +8722,11 @@ LoopForever:
   ldr r1, =_edata
  8003b6c:	200000ec 	.word	0x200000ec
   ldr r2, =_sidata
- 8003b70:	08008fcc 	.word	0x08008fcc
+ 8003b70:	08008f6c 	.word	0x08008f6c
   ldr r2, =_sbss
  8003b74:	200000ec 	.word	0x200000ec
   ldr r4, =_ebss
- 8003b78:	20000310 	.word	0x20000310
+ 8003b78:	200002e8 	.word	0x200002e8
 
 08003b7c <ADC1_COMP_IRQHandler>:
  * @retval : None
@@ -8877,7 +8874,7 @@ __weak void HAL_IncTick(void)
  8003c28:	bd80      	pop	{r7, pc}
  8003c2a:	46c0      	nop			; (mov r8, r8)
  8003c2c:	20000084 	.word	0x20000084
- 8003c30:	200002fc 	.word	0x200002fc
+ 8003c30:	200002d4 	.word	0x200002d4
 
 08003c34 <HAL_GetTick>:
   * @note   This function is declared as __weak  to be overwritten  in case of other 
@@ -8896,7 +8893,7 @@ __weak uint32_t HAL_GetTick(void)
  8003c3e:	46bd      	mov	sp, r7
  8003c40:	bd80      	pop	{r7, pc}
  8003c42:	46c0      	nop			; (mov r8, r8)
- 8003c44:	200002fc 	.word	0x200002fc
+ 8003c44:	200002d4 	.word	0x200002d4
 
 08003c48 <HAL_ADC_Init>:
   *         of structure "ADC_InitTypeDef".
@@ -22060,10 +22057,10 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
  800817a:	4798      	blx	r3
  800817c:	3601      	adds	r6, #1
  800817e:	e7f2      	b.n	8008166 <__libc_init_array+0x1e>
- 8008180:	08008fc4 	.word	0x08008fc4
- 8008184:	08008fc4 	.word	0x08008fc4
- 8008188:	08008fc4 	.word	0x08008fc4
- 800818c:	08008fc8 	.word	0x08008fc8
+ 8008180:	08008f64 	.word	0x08008f64
+ 8008184:	08008f64 	.word	0x08008f64
+ 8008188:	08008f64 	.word	0x08008f64
+ 800818c:	08008f68 	.word	0x08008f68
 
 08008190 <malloc>:
  8008190:	b510      	push	{r4, lr}
@@ -22189,7 +22186,7 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
  800828a:	6023      	str	r3, [r4, #0]
  800828c:	bd70      	pop	{r4, r5, r6, pc}
  800828e:	46c0      	nop			; (mov r8, r8)
- 8008290:	20000300 	.word	0x20000300
+ 8008290:	200002d8 	.word	0x200002d8
 
 08008294 <__malloc_lock>:
  8008294:	b510      	push	{r4, lr}
@@ -22197,7 +22194,7 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
  8008298:	f000 f80c 	bl	80082b4 <__retarget_lock_acquire_recursive>
  800829c:	bd10      	pop	{r4, pc}
  800829e:	46c0      	nop			; (mov r8, r8)
- 80082a0:	20000308 	.word	0x20000308
+ 80082a0:	200002e0 	.word	0x200002e0
 
 080082a4 <__malloc_unlock>:
  80082a4:	b510      	push	{r4, lr}
@@ -22205,7 +22202,7 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
  80082a8:	f000 f805 	bl	80082b6 <__retarget_lock_release_recursive>
  80082ac:	bd10      	pop	{r4, pc}
  80082ae:	46c0      	nop			; (mov r8, r8)
- 80082b0:	20000308 	.word	0x20000308
+ 80082b0:	200002e0 	.word	0x200002e0
 
 080082b4 <__retarget_lock_acquire_recursive>:
  80082b4:	4770      	bx	lr

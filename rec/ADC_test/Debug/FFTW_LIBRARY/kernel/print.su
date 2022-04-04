@@ -1,0 +1,8 @@
+print.c:29:13:myputs	24	static
+print.c:36:13:newline	24	static
+print.c:47:13:putint	96	static
+print.c:67:13:putulong	104	static
+print.c:87:13:vprint	72	static
+print.c:217:13:print	28	static
+print.c:225:10:fftw_mkprinter	32	static
+print.c:239:6:fftw_printer_destroy	16	static

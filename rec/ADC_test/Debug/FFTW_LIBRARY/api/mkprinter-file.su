@@ -1,0 +1,4 @@
+mkprinter-file.c:33:13:myflush	16	static
+mkprinter-file.c:39:13:myputchr	24	static
+mkprinter-file.c:47:13:mycleanup	24	static
+mkprinter-file.c:53:10:fftw_mkprinter_file	24	static

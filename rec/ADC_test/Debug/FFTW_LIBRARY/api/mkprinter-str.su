@@ -1,0 +1,4 @@
+mkprinter-str.c:28:13:putchr_cnt	24	static
+mkprinter-str.c:35:10:fftw_mkprinter_cnt	24	static
+mkprinter-str.c:48:13:putchr_str	24	static
+mkprinter-str.c:55:10:fftw_mkprinter_str	24	static

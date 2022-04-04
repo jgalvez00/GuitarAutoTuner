@@ -1,0 +1,6 @@
+transpose.c:24:6:fftw_transpose	104	static
+transpose.c:74:13:dotile	120	static
+transpose.c:120:13:dotile_buf	80	static
+transpose.c:145:13:transpose_rec	56	static
+transpose.c:160:6:fftw_transpose_tiled	64	static
+transpose.c:172:6:fftw_transpose_tiledbuf	8256	static

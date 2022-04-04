@@ -1,0 +1,6 @@
+tensor5.c:24:13:dimcpy	40	static
+tensor5.c:32:9:fftw_tensor_copy	24	static
+tensor5.c:41:9:fftw_tensor_copy_inplace	24	static
+tensor5.c:58:9:fftw_tensor_copy_except	24	static
+tensor5.c:72:9:fftw_tensor_copy_sub	32	static
+tensor5.c:82:9:fftw_tensor_append	24	static

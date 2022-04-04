@@ -191,11 +191,11 @@ __lock___sinit_recursive_mutex
                     0x1               /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-lock.o)
 __lock___malloc_recursive_mutex
                     0x1               /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-lock.o)
-batbuf              0x10              ./Core/Src/main.o
+batbuf              0x4               ./Core/Src/main.o
 htim1               0x48              ./Core/Src/main.o
 lcddev              0xe               ./Core/Src/lcd.o
 hspi1               0x64              ./Core/Src/main.o
-adc_buf             0x28              ./Core/Src/main.o
+adc_buf             0xa               ./Core/Src/main.o
 __lock___at_quick_exit_mutex
                     0x1               /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-lock.o)
 hdma_adc            0x44              ./Core/Src/main.o
@@ -2503,7 +2503,7 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .igot.plt      0x00000000200000ec        0x0 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v6-m/nofp/crtbegin.o
                 0x00000000200000ec                . = ALIGN (0x4)
 
-.bss            0x00000000200000ec      0x224 load address 0x0000000008006400
+.bss            0x00000000200000ec      0x1fc load address 0x0000000008006400
                 0x00000000200000ec                _sbss = .
                 0x00000000200000ec                __bss_start__ = _sbss
  *(.bss)
@@ -2539,46 +2539,46 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  COMMON         0x0000000020000130        0xe ./Core/Src/lcd.o
                 0x0000000020000130                lcddev
  *fill*         0x000000002000013e        0x2 
- COMMON         0x0000000020000140      0x1b8 ./Core/Src/main.o
+ COMMON         0x0000000020000140      0x190 ./Core/Src/main.o
                 0x0000000020000140                tmp
                 0x0000000020000144                hi2c1
                 0x0000000020000190                batbuf
-                0x00000000200001a0                htim1
-                0x00000000200001e8                hspi1
-                0x000000002000024c                adc_buf
-                0x0000000020000274                hdma_adc
-                0x00000000200002b8                hadc
- COMMON         0x00000000200002f8        0x4 ./Core/Src/menu.o
-                0x00000000200002f8                currDisplay
- COMMON         0x00000000200002fc        0x4 ./Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
-                0x00000000200002fc                uwTick
- COMMON         0x0000000020000300        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-reent.o)
-                0x0000000020000300                errno
- COMMON         0x0000000020000304        0x9 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-lock.o)
-                0x0000000020000304                __lock___atexit_recursive_mutex
-                0x0000000020000305                __lock___arc4random_mutex
-                0x0000000020000306                __lock___env_recursive_mutex
-                0x0000000020000307                __lock___sinit_recursive_mutex
-                0x0000000020000308                __lock___malloc_recursive_mutex
-                0x0000000020000309                __lock___at_quick_exit_mutex
-                0x000000002000030a                __lock___dd_hash_mutex
-                0x000000002000030b                __lock___tz_mutex
-                0x000000002000030c                __lock___sfp_recursive_mutex
-                0x0000000020000310                . = ALIGN (0x4)
- *fill*         0x000000002000030d        0x3 
-                0x0000000020000310                _ebss = .
-                0x0000000020000310                __bss_end__ = _ebss
+                0x0000000020000194                htim1
+                0x00000000200001dc                hspi1
+                0x0000000020000240                adc_buf
+                0x000000002000024c                hdma_adc
+                0x0000000020000290                hadc
+ COMMON         0x00000000200002d0        0x4 ./Core/Src/menu.o
+                0x00000000200002d0                currDisplay
+ COMMON         0x00000000200002d4        0x4 ./Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
+                0x00000000200002d4                uwTick
+ COMMON         0x00000000200002d8        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-reent.o)
+                0x00000000200002d8                errno
+ COMMON         0x00000000200002dc        0x9 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.macos64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-lock.o)
+                0x00000000200002dc                __lock___atexit_recursive_mutex
+                0x00000000200002dd                __lock___arc4random_mutex
+                0x00000000200002de                __lock___env_recursive_mutex
+                0x00000000200002df                __lock___sinit_recursive_mutex
+                0x00000000200002e0                __lock___malloc_recursive_mutex
+                0x00000000200002e1                __lock___at_quick_exit_mutex
+                0x00000000200002e2                __lock___dd_hash_mutex
+                0x00000000200002e3                __lock___tz_mutex
+                0x00000000200002e4                __lock___sfp_recursive_mutex
+                0x00000000200002e8                . = ALIGN (0x4)
+ *fill*         0x00000000200002e5        0x3 
+                0x00000000200002e8                _ebss = .
+                0x00000000200002e8                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x0000000020000310      0x600 load address 0x0000000008006400
-                0x0000000020000310                . = ALIGN (0x8)
+                0x00000000200002e8      0x600 load address 0x0000000008006400
+                0x00000000200002e8                . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
-                0x0000000020000310                PROVIDE (_end = .)
-                0x0000000020000510                . = (. + _Min_Heap_Size)
- *fill*         0x0000000020000310      0x200 
-                0x0000000020000910                . = (. + _Min_Stack_Size)
- *fill*         0x0000000020000510      0x400 
-                0x0000000020000910                . = ALIGN (0x8)
+                0x00000000200002e8                PROVIDE (_end = .)
+                0x00000000200004e8                . = (. + _Min_Heap_Size)
+ *fill*         0x00000000200002e8      0x200 
+                0x00000000200008e8                . = (. + _Min_Stack_Size)
+ *fill*         0x00000000200004e8      0x400 
+                0x00000000200008e8                . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)

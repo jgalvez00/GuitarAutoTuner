@@ -1,0 +1,4 @@
+buffered.c:30:5:fftw_nbuf	40	static
+buffered.c:56:5:fftw_bufdist	16	static
+buffered.c:65:5:fftw_toobig	16	static
+buffered.c:73:5:fftw_nbuf_redundant	40	static

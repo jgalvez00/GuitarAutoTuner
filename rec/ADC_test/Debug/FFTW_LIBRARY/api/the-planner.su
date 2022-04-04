@@ -1,0 +1,3 @@
+the-planner.c:26:10:fftw_the_planner	8	static
+the-planner.c:36:6:fftw_cleanup	8	static
+the-planner.c:44:6:fftw_set_timelimit	16	static

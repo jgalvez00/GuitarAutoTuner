@@ -1,0 +1,3 @@
+import-wisdom-from-string.c:28:12:getchr_str	24	static
+import-wisdom-from-string.c:36:17:mkscanner_str	24	static
+import-wisdom-from-string.c:43:5:fftw_import_wisdom_from_string	32	static

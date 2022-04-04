@@ -1,0 +1,3 @@
+mktensor-rowmajor.c:23:9:fftw_mktensor_rowmajor	32	static
+mktensor-rowmajor.c:45:12:rowmajor_kosherp	24	static
+mktensor-rowmajor.c:58:5:fftw_many_kosherp	24	static

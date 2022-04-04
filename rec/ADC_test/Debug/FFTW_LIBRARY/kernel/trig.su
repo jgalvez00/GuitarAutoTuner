@@ -1,0 +1,11 @@
+trig.c:57:13:real_cexp	72	static
+trig.c:82:12:choose_twshft	24	static
+trig.c:92:13:cexpl_sqrtn_table	80	static
+trig.c:110:13:rotate_sqrtn_table	96	static
+trig.c:134:13:cexpl_sincos	24	static
+trig.c:139:13:cexp_zero	24	static
+trig.c:146:13:cexpl_zero	24	static
+trig.c:153:13:cexp_generic	48	static
+trig.c:161:13:rotate_generic	64	static
+trig.c:169:10:fftw_mktriggen	40	static
+trig.c:229:6:fftw_triggen_destroy	16	static

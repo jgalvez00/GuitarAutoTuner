@@ -1,0 +1,2 @@
+import-wisdom.c:29:12:getchr_generic	24	static
+import-wisdom.c:35:5:fftw_import_wisdom	32	static
