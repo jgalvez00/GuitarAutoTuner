@@ -1,0 +1,4 @@
+md5.c:76:13:doblock	120	static
+md5.c:110:6:fftw_md5begin	16	static
+md5.c:119:6:fftw_md5putc	16	static
+md5.c:125:6:fftw_md5end	24	static

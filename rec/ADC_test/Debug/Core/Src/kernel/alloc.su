@@ -1,0 +1,3 @@
+alloc.c:23:7:fftw_malloc_plain	24	static
+alloc.c:38:6:fftw_ifree	16	static
+alloc.c:43:6:fftw_ifree0	16	static

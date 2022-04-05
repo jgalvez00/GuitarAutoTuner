@@ -1,0 +1,10 @@
+twiddle.c:32:12:hash	24	static
+twiddle.c:41:12:equal_instr	16	static
+twiddle.c:67:12:ok_twid	24	static
+twiddle.c:78:14:lookup	48	static
+twiddle.c:90:12:twlen0	32	static
+twiddle.c:118:5:fftw_twiddle_length	24	static
+twiddle.c:124:11:compute	104	static
+twiddle.c:197:13:mktwiddle	48	static
+twiddle.c:224:13:twiddle_destroy	24	static
+twiddle.c:245:6:fftw_twiddle_awake	40	static

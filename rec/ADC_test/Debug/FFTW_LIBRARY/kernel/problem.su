@@ -1,0 +1,7 @@
+problem.c:25:10:fftw_mkproblem	24	static
+problem.c:34:6:fftw_problem_destroy	16	static
+problem.c:41:13:unsolvable_destroy	16	static
+problem.c:46:13:unsolvable_hash	16	static
+problem.c:52:13:unsolvable_print	16	static
+problem.c:58:13:unsolvable_zero	16	static
+problem.c:75:10:fftw_mkproblem_unsolvable	8	static

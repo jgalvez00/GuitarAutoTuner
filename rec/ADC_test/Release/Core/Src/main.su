@@ -1,0 +1,13 @@
+main.c:140:6:SystemClock_Config	104	static,ignoring_inline_asm
+main.c:81:5:main	112	static,ignoring_inline_asm
+main.c:484:6:HAL_GPIO_EXTI_Callback	16	static
+main.c:505:6:HAL_ADC_ConvHalfCpltCallback	0	static,ignoring_inline_asm
+main.c:519:6:battery	8	static
+main.c:527:6:LCD_Draw4digit	56	static
+main.c:510:6:HAL_ADC_ConvCpltCallback	16	static,ignoring_inline_asm
+main.c:522:6:HAL_I2C_MasterRxCpltCallback	8	static
+main.c:547:6:LCD_Drawpin	48	static
+main.c:567:6:auto_tune	24	static
+main.c:572:6:startmotor	8	static
+main.c:576:6:stopmotor	8	static
+main.c:587:6:Error_Handler	0	static,ignoring_inline_asm

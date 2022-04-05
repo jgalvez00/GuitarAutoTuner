@@ -1,0 +1,4 @@
+plan.c:28:7:fftw_mkplan	24	static
+plan.c:45:6:fftw_plan_destroy_internal	16	static
+plan.c:55:6:fftw_plan_null_destroy	16	static
+plan.c:61:6:fftw_plan_awake	16	static

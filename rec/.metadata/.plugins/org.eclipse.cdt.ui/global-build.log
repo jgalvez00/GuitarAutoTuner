@@ -1,0 +1,143 @@
+16:54:06 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'dspmain':
+../Core/Src/main.c:193:2: warning: implicit declaration of function 'LCD_Drawnum'; did you mean 'LCD_DrawChar'? [-Wimplicit-function-declaration]
+  193 |  LCD_Drawnum(3, 0, 1, &freq, &fmax);
+      |  ^~~~~~~~~~~
+      |  LCD_DrawChar
+../Core/Src/main.c:138:10: warning: variable 'standard' set but not used [-Wunused-but-set-variable]
+  138 |  TuneMap standard;
+      |          ^~~~~~~~
+../Core/Src/main.c: In function 'battery':
+../Core/Src/main.c:574:41: warning: passing argument 3 of 'HAL_I2C_Master_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  574 |  HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
+      |                                         ^~~~~~
+      |                                         |
+      |                                         uint32_t * {aka long unsigned int *}
+In file included from ../Core/Inc/stm32f0xx_hal_conf.h:241,
+                 from ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h:640:100: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+  640 | HAL_StatusTypeDef HAL_I2C_Master_Receive_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData,
+      |                                                                                           ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list"  -Wl,--start-group  -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb
+Finished building target: ADC_test.elf
+ 
+arm-none-eabi-size   ADC_test.elf 
+arm-none-eabi-objdump -h -S  ADC_test.elf  > "ADC_test.list"
+arm-none-eabi-objcopy  -O binary  ADC_test.elf  "ADC_test.bin"
+   text	   data	    bss	    dec	    hex	filename
+  62872	    248	  10240	  73360	  11e90	ADC_test.elf
+Finished building: default.size.stdout
+ 
+Finished building: ADC_test.bin
+ 
+Finished building: ADC_test.list
+ 
+16:54:15 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-size   ADC_test.elf 
+   text	   data	    bss	    dec	    hex	filename
+  62872	    248	  10240	  73360	  11e90	ADC_test.elf
+Finished building: default.size.stdout
+ 
+16:55:08 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-size   ADC_test.elf 
+   text	   data	    bss	    dec	    hex	filename
+  62872	    248	  10240	  73360	  11e90	ADC_test.elf
+Finished building: default.size.stdout
+ 
+17:06:28 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-size   ADC_test.elf 
+   text	   data	    bss	    dec	    hex	filename
+  62872	    248	  10240	  73360	  11e90	ADC_test.elf
+Finished building: default.size.stdout
+ 
+17:07:12 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-size   ADC_test.elf 
+   text	   data	    bss	    dec	    hex	filename
+  62872	    248	  10240	  73360	  11e90	ADC_test.elf
+Finished building: default.size.stdout
+ 
+17:11:18 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'dspmain':
+../Core/Src/main.c:193:2: warning: implicit declaration of function 'LCD_Drawnum'; did you mean 'LCD_DrawChar'? [-Wimplicit-function-declaration]
+  193 |  LCD_Drawnum(3, 0, 1, &freq, &fmax);
+      |  ^~~~~~~~~~~
+      |  LCD_DrawChar
+../Core/Src/main.c:138:10: warning: variable 'standard' set but not used [-Wunused-but-set-variable]
+  138 |  TuneMap standard;
+      |          ^~~~~~~~
+../Core/Src/main.c: In function 'battery':
+../Core/Src/main.c:574:41: warning: passing argument 3 of 'HAL_I2C_Master_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  574 |  HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
+      |                                         ^~~~~~
+      |                                         |
+      |                                         uint32_t * {aka long unsigned int *}
+In file included from ../Core/Inc/stm32f0xx_hal_conf.h:241,
+                 from ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h:640:100: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+  640 | HAL_StatusTypeDef HAL_I2C_Master_Receive_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData,
+      |                                                                                           ~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'auto_tune':
+../Core/Src/main.c:626:2: error: 'HAL_ADC_s' undeclared (first use in this function); did you mean 'HAL_ADC_Stop'?
+  626 |  HAL_ADC_s
+      |  ^~~~~~~~~
+      |  HAL_ADC_Stop
+../Core/Src/main.c:626:2: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:626:11: error: expected ';' before '}' token
+  626 |  HAL_ADC_s
+      |           ^
+      |           ;
+  627 |  //dspmain();
+  628 | }
+      | ~          
+make: *** [Core/Src/subdir.mk:43: Core/Src/main.o] Error 1
+"make -j3 all" terminated with exit code 2. Build might be incomplete.
+17:12:01 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'dspmain':
+../Core/Src/main.c:193:2: warning: implicit declaration of function 'LCD_Drawnum'; did you mean 'LCD_DrawChar'? [-Wimplicit-function-declaration]
+  193 |  LCD_Drawnum(3, 0, 1, &freq, &fmax);
+      |  ^~~~~~~~~~~
+      |  LCD_DrawChar
+../Core/Src/main.c:138:10: warning: variable 'standard' set but not used [-Wunused-but-set-variable]
+  138 |  TuneMap standard;
+      |          ^~~~~~~~
+../Core/Src/main.c: In function 'battery':
+../Core/Src/main.c:574:41: warning: passing argument 3 of 'HAL_I2C_Master_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  574 |  HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
+      |                                         ^~~~~~
+      |                                         |
+      |                                         uint32_t * {aka long unsigned int *}
+In file included from ../Core/Inc/stm32f0xx_hal_conf.h:241,
+                 from ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h:640:100: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+  640 | HAL_StatusTypeDef HAL_I2C_Master_Receive_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData,
+      |                                                                                           ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list"  -Wl,--start-group  -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb
+Finished building target: ADC_test.elf
+ 
+arm-none-eabi-size   ADC_test.elf 
+arm-none-eabi-objdump -h -S  ADC_test.elf  > "ADC_test.list"
+arm-none-eabi-objcopy  -O binary  ADC_test.elf  "ADC_test.bin"
+   text	   data	    bss	    dec	    hex	filename
+  62872	    248	  10240	  73360	  11e90	ADC_test.elf
+Finished building: default.size.stdout
+ 
+Finished building: ADC_test.bin
+ 
+Finished building: ADC_test.list
+ 

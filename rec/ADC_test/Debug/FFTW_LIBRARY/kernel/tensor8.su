@@ -1,0 +1,2 @@
+tensor8.c:24:6:fftw_tensor_destroy2	16	static
+tensor8.c:30:6:fftw_tensor_destroy4	24	static

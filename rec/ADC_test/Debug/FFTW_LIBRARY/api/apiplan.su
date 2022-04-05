@@ -1,0 +1,7 @@
+apiplan.c:25:6:fftw_set_planner_hooks	16	static
+apiplan.c:31:14:mkplan0	24	static
+apiplan.c:45:17:force_estimator	16	static
+apiplan.c:51:14:mkplan	48	static
+apiplan.c:86:10:fftw_mkapiplan	72	static
+apiplan.c:179:6:fftw_destroy_plan	16	static
+apiplan.c:195:5:fftw_alignment_of	16	static

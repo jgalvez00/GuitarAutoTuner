@@ -1,0 +1,3 @@
+mapflags.c:45:13:map_flags	32	static
+mapflags.c:58:17:timelimit_to_flags	56	static
+mapflags.c:77:6:fftw_mapflags	696	static

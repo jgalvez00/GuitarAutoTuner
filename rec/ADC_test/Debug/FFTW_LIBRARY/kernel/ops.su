@@ -1,0 +1,7 @@
+ops.c:24:6:fftw_ops_zero	16	static
+ops.c:29:6:fftw_ops_cpy	16	static
+ops.c:34:6:fftw_ops_other	16	static
+ops.c:40:6:fftw_ops_madd	24	static
+ops.c:48:6:fftw_ops_add	24	static
+ops.c:53:6:fftw_ops_add2	16	static
+ops.c:58:6:fftw_ops_madd2	24	static

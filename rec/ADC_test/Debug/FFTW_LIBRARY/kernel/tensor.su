@@ -1,0 +1,6 @@
+tensor.c:24:9:fftw_mktensor	24	static
+tensor.c:54:6:fftw_tensor_destroy	16	static
+tensor.c:62:5:fftw_tensor_sz	24	static
+tensor.c:75:6:fftw_tensor_md5	24	static
+tensor.c:91:5:fftw_tensor_tornk1	32	static
+tensor.c:106:6:fftw_tensor_print	56	static

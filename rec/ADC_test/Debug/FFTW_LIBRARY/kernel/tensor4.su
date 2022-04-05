@@ -1,0 +1,8 @@
+tensor4.c:24:5:fftw_tensor_max_index	40	static
+tensor4.c:50:5:fftw_tensor_min_istride	24	static
+tensor4.c:51:5:fftw_tensor_min_ostride	24	static
+tensor4.c:53:5:fftw_tensor_min_stride	24	static
+tensor4.c:58:5:fftw_tensor_inplace_strides	24	static
+tensor4.c:70:5:fftw_tensor_inplace_strides2	16	static
+tensor4.c:77:12:tensor_strides_decrease	24	static
+tensor4.c:98:5:fftw_tensor_strides_decrease	24	static

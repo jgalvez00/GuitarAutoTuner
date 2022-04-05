@@ -1,0 +1,2 @@
+pickdim.c:29:12:really_pickdim	32	static
+pickdim.c:63:5:fftw_pickdim	32	static
