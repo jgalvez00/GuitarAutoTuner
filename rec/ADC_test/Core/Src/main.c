@@ -52,7 +52,7 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
-uint32_t adc_buf[BUF_LEN] = {0};
+uint16_t adc_buf[BUF_LEN] = {0};
 uint32_t batbuf[I2C_BUF_LEN];
 int tmp;
 /* USER CODE END PV */
@@ -130,69 +130,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
-int dspmain()
-{
-	//printf("--------program start--------\n");
 
-	// define standard mapping
-	TuneMap standard;
-	standard.E1 = 329.63;
-	standard.B = 246.94;
-	standard.G = 196.00;
-	standard.D = 146.83;
-	standard.A = 110.00;
-	standard.E2 = 82.41;
-	/*
-	// construct the time array
-	float t[BUF_LEN];
-	BuildTime(t);
-
-	// printing the time array
-	bool print_time = false;
-
-	// construct the signal
-	float freq = 100.0; // hertz
-	float data_re[BUF_LEN] = {0};
-	float data_im[BUF_LEN] = {0};
-	bool center = true;
-	//float noise[BUF_LEN] = {0};
-	//AWGN(noise, Pn, BUF_LEN)
-	for (int n = 0; n < BUF_LEN; n++)
-	{
-		data_re[n] = center ? (sin(2 * PI * freq * t[n]) * pow(-1, n)) : sin(2 * PI * freq * t[n]); // real part
-		//data_re[n] += noise[n];
-	}
-
-	// Apply the Danielson-Lanczos Algorithm
-	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN);
-
-	// Print Output
-	bool print_mag = true;
-	//PrintData(data_re, data_im, BUF_LEN, fs, center, print_mag);
-
-	// Find the Fundamental Frequency
-	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
-	//printf("fmax = %f\n", fmax);
-
-	//printf("---------program end---------\n");
-	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-	*/
-	bool center = true;
-	float data_re[BUF_LEN] = {0};
-	for(int i =0; i < BUF_LEN; i++)
-	{
-		data_re[i] =(center)? (float) adc_buf[i] * (pow(-1,i)): (float) adc_buf[i];
-
-	}
-	float data_im[BUF_LEN] = {0};
-	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN);
-	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
-	float freq = 100.0;
-	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-	return 0;
-}
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -410,7 +348,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 7500;
+  htim1.Init.Period = 65535;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -425,7 +363,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 7500/2;
+  sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -489,8 +427,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
-                          |GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_10, GPIO_PIN_RESET);
@@ -502,10 +442,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB11 PB12 PB13 PB14
-                           PB15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
-                          |GPIO_PIN_15;
+  /*Configure GPIO pins : PB11 PB12 PB13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB14 PB15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -633,6 +578,69 @@ void stopmotor()
 {
 	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
+}
+int dspmain()
+{
+	//printf("--------program start--------\n");
+
+	// define standard mapping
+	TuneMap standard;
+	standard.E1 = 329.63;
+	standard.B = 246.94;
+	standard.G = 196.00;
+	standard.D = 146.83;
+	standard.A = 110.00;
+	standard.E2 = 82.41;
+	/*
+	// construct the time array
+	float t[BUF_LEN];
+	BuildTime(t);
+
+	// printing the time array
+	bool print_time = false;
+
+	// construct the signal
+	float freq = 100.0; // hertz
+	float data_re[BUF_LEN] = {0};
+	float data_im[BUF_LEN] = {0};
+	bool center = true;
+	//float noise[BUF_LEN] = {0};
+	//AWGN(noise, Pn, BUF_LEN)
+	for (int n = 0; n < BUF_LEN; n++)
+	{
+		data_re[n] = center ? (sin(2 * PI * freq * t[n]) * pow(-1, n)) : sin(2 * PI * freq * t[n]); // real part
+		//data_re[n] += noise[n];
+	}
+
+	// Apply the Danielson-Lanczos Algorithm
+	RearrangeFFT(data_re, data_im, BUF_LEN);
+	ComputeFFT(data_re, data_im, BUF_LEN);
+
+	// Print Output
+	bool print_mag = true;
+	//PrintData(data_re, data_im, BUF_LEN, fs, center, print_mag);
+
+	// Find the Fundamental Frequency
+	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
+	//printf("fmax = %f\n", fmax);
+
+	//printf("---------program end---------\n");
+	LCD_Drawnum(3, 0, 1, &freq, &fmax);
+	*/
+	bool center = true;
+	float data_re[BUF_LEN] = {0};
+	for(int i =0; i < BUF_LEN; i++)
+	{
+		data_re[i] =(center)? (float) adc_buf[i] * (pow(-1,i)): (float) adc_buf[i];
+
+	}
+	float data_im[BUF_LEN] = {0};
+	RearrangeFFT(data_re, data_im, BUF_LEN);
+	ComputeFFT(data_re, data_im, BUF_LEN);
+	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
+	float freq = 100.0;
+	LCD_Drawnum(3, 0, 1, &freq, &fmax);
+	return 0;
 }
 /* USER CODE END 4 */
 
