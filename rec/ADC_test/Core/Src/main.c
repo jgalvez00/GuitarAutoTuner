@@ -53,7 +53,7 @@ TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
 uint16_t adc_buf[BUF_LEN] = {0};
-uint32_t batbuf[I2C_BUF_LEN];
+uint8_t batbuf[I2C_BUF_LEN];
 int tmp;
 /* USER CODE END PV */
 
@@ -119,9 +119,9 @@ int main(void)
   LCD_Clear(BLUE);
   resetSel();
   menu_home();
-  auto_tune();
+  /*auto_tune();
   HAL_Delay(1000);
-  dspmain();
+  dspmain();*/
   while(1)
   {
   }
@@ -348,7 +348,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 65535;
+  htim1.Init.Period = 7500;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -363,7 +363,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 7500/2;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -516,12 +516,17 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   //dspmain();
 }
 void battery() {
+	LCD_DrawString(60,120,YELLOW, BLUE, "BATTERY", 16, 0);
 	HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
 }
 void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
 {
 	//for(int i = 0; i < 4; i++)
 		//LCD_Draw4digit(i, 0, i, batbuf);
+	char fma[15];
+	gcvt(*batbuf, 6, fma);
+	LCD_DrawString(60,120,YELLOW, BLUE, "BATTERY", 16, 0);
+	LCD_DrawString(60,140,YELLOW, BLUE, fma, 16, 0);
 }
 void LCD_Draw4digit(int idx, int side, int row, uint16_t *buff)
 {
