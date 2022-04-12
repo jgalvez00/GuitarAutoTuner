@@ -4,4 +4,4 @@
 //org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.postmortemLaunchType=org.eclipse.cdt.dsf.gdb.launch.coreCLaunch,debug,;
 //org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.remoteApplicationLaunchType=org.eclipse.rse.remotecdt.dsf.debug,debug,;
 eclipse.preferences.version=1
-prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<watchExpressions>\n    <expression enabled\="true" text\="adc_buf"/>\n</watchExpressions>\n
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<watchExpressions>\n    <expression enabled\="true" text\="adc_buf"/>\n    <expression enabled\="true" text\="fmax"/>\n    <expression enabled\="true" text\="fmax"/>\n    <expression enabled\="true" text\="fmab"/>\n    <expression enabled\="true" text\="data_re"/>\n    <expression enabled\="true" text\="data_im"/>\n    <expression enabled\="true" text\="avg"/>\n    <expression enabled\="true" text\="val"/>\n    <expression enabled\="true" text\="vmax"/>\n    <expression enabled\="true" text\="df"/>\n</watchExpressions>\n

@@ -1382,3 +1382,103 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/marks
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-07 11:18:27.053
 !MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-07 11:57:13.056 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-07 11:57:27.728
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-07 11:57:43.147
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-07 16:02:11.957 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY org.eclipse.core.resources 2 10035 2022-04-07 16:02:28.821
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-07 16:02:36.139
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-07 16:02:50.251
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-07 16:44:20.740 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-07 16:44:35.767
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-07 16:44:49.298
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-08 23:00:19.742 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-08 23:00:34.585
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-08 23:00:52.088
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-11 09:31:05.118 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-11 09:31:40.018
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-11 09:31:54.221
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-11 14:18:20.141 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-11 14:18:36.804
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-11 14:18:51.834
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-11 14:23:11.574 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-11 14:23:24.960
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-11 14:23:38.666
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2022-04-11 15:07:13.971
+!MESSAGE ST-LINK firmware verification, Check required failed
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2022-04-11 15:07:13.975
+!MESSAGE ST-LINK firmware verification, No latest info found: -1

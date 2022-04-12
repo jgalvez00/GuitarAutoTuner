@@ -6,10 +6,11 @@
 #include "lcd.h"
 #include "stm32f0xx.h"
 #include "dsp_v2.h"
+#include "main.h"
 // Macros
 #define SWAP(x, y) do {typeof(x) SWAP = x; x = y; y = SWAP; } while (0)
 
-// Method Declarations
+/*/ Method Declarations
 double randn(void);
 void BuildTime(float*);
 
@@ -18,11 +19,11 @@ void BuildTime(float*);
 void AWGN(float* noise, float Pn, const unsigned int N);
 void RearrangeFFT(float*, float*, const unsigned int);
 void ComputeFFT(float*, float*, const unsigned int);
-float Mag(float, float);
+//float Mag(float, float);
 float ArgMax(float*, float*, const unsigned int, const float, bool);
 //void PrintData(float*, float*, const unsigned int, const float, bool, bool);
-void LCD_Drawnum(int size, int side, int row, float * num, float *num2);
-/*int dspmain()
+void LCD_Drawnum(int size, int side, int row, float * num, float *num2);*/
+int dspmain()
 {
 	//printf("--------program start--------\n");
 	
@@ -69,22 +70,33 @@ void LCD_Drawnum(int size, int side, int row, float * num, float *num2);
 
 	//printf("---------program end---------\n");
 	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-
+*/
 	bool center = true;
 	float data_re[BUF_LEN] = {0};
+	float sum =0;
+	int tmperate = adc_buf[0];
 	for(int i =0; i < BUF_LEN; i++)
 	{
-		data_re[i] =(center)? (float) adc_buf[i] * (pow(-1,i)): (float) adc_buf[i];
-
+		//data_re[i] =(center)? ((float) adc_buf[i]) * (pow(-1,i)): (float) adc_buf[i];
+		data_re[i] = (float) adc_buf[i];
+		sum += adc_buf[i];
 	}
 	float data_im[BUF_LEN] = {0};
+	float avg = sum/BUF_LEN;
+	for(int i =0; i < BUF_LEN; i++)
+		{
+			data_re[i] =(center) ? (data_re[i] - avg) * (pow(-1,i)) : data_re[i] -avg;
+		}
+	//LCD_Drawnum(3, 0, 1, 0, &avg);
 	RearrangeFFT(data_re, data_im, BUF_LEN);
 	ComputeFFT(data_re, data_im, BUF_LEN);
 	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
 	float freq = 100.0;
+	fmax = (fmax< 0)? (fmax * -1) : fmax;
 	LCD_Drawnum(3, 0, 1, &freq, &fmax);
+
 	return 0;
-}*/
+}
 void LCD_Drawnum(int size, int side, int row, float *num, float *num2)
 {
 	char fma[15];
@@ -198,9 +210,9 @@ void ComputeFFT(float* data_re, float* data_im, const unsigned int N)
 	}
 }
 
-float Mag(float x1, float x2)
+void Mag(float x1, float x2, float * result)
 {
-	return sqrt(pow(x1, 2) + pow(x2, 2));
+	*result  = sqrt(pow(x1, 2) + pow(x2, 2));
 }
 
 float ArgMax(float* data_re, float* data_im, const unsigned int N, const float samp_freq, bool center)
@@ -210,7 +222,8 @@ float ArgMax(float* data_re, float* data_im, const unsigned int N, const float s
 	float fmax = 0.0;
 	for (int n = 0; n < N; n++)
 	{
-		const float val = Mag(data_re[n], data_im[n]);
+		const float val = 0;
+		Mag(data_re[n], data_im[n], &val);
 		if (val > vmax)
 		{
 			vmax = val;
@@ -219,12 +232,20 @@ float ArgMax(float* data_re, float* data_im, const unsigned int N, const float s
 				f = (-samp_freq / 2 + n * df) + (df / 2) * (N % 2);
 			else
 				f = n * df;
-			fmax = (f < 1)? fmax : f;
+			fmax = f;
 		}
 	}
 	return fmax;
 }
-
+void meanff(float *r1, const unsigned int N, float *av)
+{
+	float sum = 0;
+	for(int i = 0; i < N; i++)
+	{
+		sum += r1[i];
+	}
+	*av = sum/N;
+}
 /*void PrintData(float* data_re, float* data_im, const unsigned int N, const float samp_freq, bool center, bool mag)
 {
 	float df = samp_freq / N;

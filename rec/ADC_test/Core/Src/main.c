@@ -37,7 +37,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define ADC_BUF_LEN 2048
+//#define ADC_BUF_LEN 2048
 #define I2C_BUF_LEN 4
 /* USER CODE END PM */
 
@@ -52,7 +52,7 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
-uint16_t adc_buf[BUF_LEN] = {0};
+//uint16_t adc_buf[BUF_LEN] = {0};
 uint8_t batbuf[I2C_BUF_LEN];
 int tmp;
 /* USER CODE END PV */
@@ -513,7 +513,11 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
 
 // Called when buffer is completely filled
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-  //dspmain();
+	//LCD_Drawnum(3, 0, 0, , num2)
+	HAL_ADC_Stop_DMA(hadc);
+	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
+	dspmain();
+	LCD_DrawString(60 ,160,  YELLOW, BLUE,"Finished DSP", 16, 0);
 }
 void battery() {
 	LCD_DrawString(60,120,YELLOW, BLUE, "BATTERY", 16, 0);
@@ -584,7 +588,7 @@ void stopmotor()
 	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
 }
-int dspmain()
+/*int dspmain()
 {
 	//printf("--------program start--------\n");
 
@@ -631,7 +635,7 @@ int dspmain()
 
 	//printf("---------program end---------\n");
 	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-	*/
+
 	bool center = true;
 	float data_re[BUF_LEN] = {0};
 	for(int i =0; i < BUF_LEN; i++)
@@ -646,7 +650,7 @@ int dspmain()
 	float freq = 100.0;
 	LCD_Drawnum(3, 0, 1, &freq, &fmax);
 	return 0;
-}
+}*/
 /* USER CODE END 4 */
 
 /**
