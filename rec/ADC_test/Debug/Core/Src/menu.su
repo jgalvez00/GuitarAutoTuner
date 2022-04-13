@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-menu.c:30:6:initialize	48	static
-menu.c:130:6:menu_home	24	static
-menu.c:135:6:move_right	8	static
-menu.c:147:6:move_left	8	static
-menu.c:160:6:display_move	56	static
-menu.c:211:6:display_select	48	static
-menu.c:251:6:resetSel	32	static
-menu.c:261:6:Infomode	24	static
-menu.c:266:6:Manualmode	24	static
-menu.c:273:6:manualRotate	8	static
-menu.c:277:6:autoRotate	8	static
-menu.c:281:6:stepperMotor	40	static
-menu.c:321:6:Tunemode	24	static
-menu.c:335:6:pegDisplay	24	static
-menu.c:343:9:updateToggleHistory	40	static
-=======
 menu.c:31:6:initialize	48	static
 menu.c:131:6:menu_home	24	static
 menu.c:136:6:move_right	8	static
@@ -30,4 +13,3 @@ menu.c:282:6:stepperMotor	48	static
 menu.c:324:6:Tunemode	24	static
 menu.c:338:6:pegDisplay	24	static
 menu.c:347:9:updateToggleHistory	40	static
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142

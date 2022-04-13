@@ -132,8 +132,6 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/marks
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-02 19:38:02.942
 !MESSAGE Started RMI Server, listening on port 41337
-<<<<<<< HEAD
-=======
 !SESSION 2022-04-02 19:44:41.842 -----------------------------------------------
 eclipse.buildId=Version 1.8.0
 java.version=11.0.11
@@ -1510,4 +1508,3 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/marks
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-13 16:04:19.354
 !MESSAGE Started RMI Server, listening on port 41337
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142

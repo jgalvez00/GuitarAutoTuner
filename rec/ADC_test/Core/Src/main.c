@@ -23,11 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
 #include "menu.h"
-<<<<<<< HEAD
-#include "fftw3.h"
-=======
 #include "dsp_v2.h"
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,11 +37,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-<<<<<<< HEAD
-#define ADC_BUF_LEN 10
-=======
 //#define ADC_BUF_LEN 2048
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 #define I2C_BUF_LEN 4
 /* USER CODE END PM */
 
@@ -60,18 +52,12 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
-<<<<<<< HEAD
-uint32_t adc_buf[ADC_BUF_LEN];
-uint32_t batbuf[I2C_BUF_LEN];
-int tmp;
-=======
 //uint16_t adc_buf[BUF_LEN] = {0};
 uint8_t batbuf[I2C_BUF_LEN];
 int tmp;
 static const uint8_t I2C_BATTERY_MONITOR_ADDR = 0x64 << 1;
 
 void battery_setPresacle(uint8_t scale);
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -136,17 +122,9 @@ int main(void)
   LCD_Clear(BLUE);
   resetSel();
   menu_home();
-<<<<<<< HEAD
-
-  /*fftw_complex *in;
-  in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * 10);
-  fftw_free(in);*/
-   __NOP();
-=======
   /*auto_tune();
   HAL_Delay(1000);
   dspmain();*/
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
   while(1)
   {
   }
@@ -452,15 +430,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-<<<<<<< HEAD
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
-                          |GPIO_PIN_15, GPIO_PIN_RESET);
-=======
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_SET);
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_10, GPIO_PIN_RESET);
@@ -472,12 +445,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-<<<<<<< HEAD
-  /*Configure GPIO pins : PB11 PB12 PB13 PB14
-                           PB15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
-                          |GPIO_PIN_15;
-=======
   /*Configure GPIO pins : PB11 PB12 PB13 */
   GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -487,7 +454,6 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : PB14 PB15 */
   GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_15;
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -550,25 +516,6 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
 
 // Called when buffer is completely filled
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-<<<<<<< HEAD
-  __NOP();
-  //HAL_Delay(100);
-  HAL_ADC_Stop_DMA(hadc);
-  for(int i = 0; i < 5; i++)
-	  LCD_Draw4digit(i, 0, i, adc_buf);
-  for(int i = 5; i < 10; i++)
-  	  LCD_Draw4digit(i, 1, i-5, adc_buf);
-}
-void battery() {
-	HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
-}
-void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
-{
-	for(int i = 0; i < 4; i++)
-		LCD_Draw4digit(i, 0, i, batbuf);
-}
-void LCD_Draw4digit(int idx, int side, int row, uint8_t *buff)
-=======
 	//LCD_Drawnum(3, 0, 0, , num2)
 	HAL_ADC_Stop_DMA(hadc);
 	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
@@ -669,7 +616,6 @@ void battery_setPresacle(uint8_t scale)
 	LCD_DrawString(60,140,YELLOW, BLUE, fma, 16, 0);
 }*/
 void LCD_Draw4digit(int idx, int side, int row, uint16_t *buff)
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 {
 	tmp =0;
 	int renew = 0;
@@ -689,10 +635,7 @@ void LCD_Draw4digit(int idx, int side, int row, uint16_t *buff)
 	  }
 
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 void LCD_Drawpin(uint8_t pin)
 {
 	tmp =0;
@@ -717,10 +660,7 @@ void auto_tune()
 {
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
 	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
-<<<<<<< HEAD
-=======
 	//dspmain();
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 }
 void startmotor()
 {
@@ -731,8 +671,6 @@ void stopmotor()
 	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
 }
-<<<<<<< HEAD
-=======
 /*int dspmain()
 {
 	//printf("--------program start--------\n");
@@ -796,7 +734,6 @@ void stopmotor()
 	LCD_Drawnum(3, 0, 1, &freq, &fmax);
 	return 0;
 }*/
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END 4 */
 
 /**

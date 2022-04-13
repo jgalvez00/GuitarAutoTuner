@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-main.c:81:5:main	8	static,ignoring_inline_asm
-main.c:140:6:SystemClock_Config	112	static
-main.c:184:13:MX_ADC_Init	24	static
-main.c:236:13:MX_I2C1_Init	8	static
-main.c:282:13:MX_SPI1_Init	8	static
-main.c:336:13:MX_TIM1_Init	80	static
-main.c:401:13:MX_DMA_Init	16	static
-main.c:419:13:MX_GPIO_Init	48	static
-main.c:484:6:HAL_GPIO_EXTI_Callback	16	static
-main.c:505:6:HAL_ADC_ConvHalfCpltCallback	16	static,ignoring_inline_asm
-main.c:510:6:HAL_ADC_ConvCpltCallback	24	static,ignoring_inline_asm
-main.c:519:6:battery	8	static
-main.c:522:6:HAL_I2C_MasterRxCpltCallback	24	static
-main.c:527:6:LCD_Draw4digit	64	static
-main.c:547:6:LCD_Drawpin	48	static
-main.c:567:6:auto_tune	24	static
-main.c:572:6:startmotor	8	static
-main.c:576:6:stopmotor	8	static
-main.c:587:6:Error_Handler	8	static,ignoring_inline_asm
-=======
 main.c:84:5:main	8	static
 main.c:141:6:SystemClock_Config	112	static
 main.c:185:13:MX_ADC_Init	24	static
@@ -38,4 +17,3 @@ main.c:659:6:auto_tune	24	static
 main.c:665:6:startmotor	8	static
 main.c:669:6:stopmotor	8	static
 main.c:743:6:Error_Handler	8	static,ignoring_inline_asm
->>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
