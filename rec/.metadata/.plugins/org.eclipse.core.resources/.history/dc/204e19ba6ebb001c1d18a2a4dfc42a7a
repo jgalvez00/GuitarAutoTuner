@@ -661,11 +661,9 @@ void LCD_Drawpin(uint8_t pin)
 void auto_tune()
 {
 	LCD_Clear(BLUE);
-	for (int i = 0; i < 2; i++) {
-				LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, (currDisplay->selection)[i], 16, 0);
-			}
+	resetSel();
 	pegDisplay();
-	LCD_DrawString(65*2 + 25,200,  YELLOW, BLUE, (currDisplay->selection)[2], 16, 0);
+	LCD_DrawString(25,200,  YELLOW, BLUE, (currDisplay->selection)[0], 16, 0);
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
 	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
 	//dspmain();

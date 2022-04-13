@@ -311,7 +311,7 @@ void stepperMotor(int direction, int per, int angle, int mode)
 		uint32_t motorstarttime = HAL_GetTick();
 		for(int i =0; i < timemotor; i++)
 		{
-			nano_wait(6000000);
+			nano_wait(1000000);
 		}
 		//while((HAL_GetTick() - motorstarttime < timemotor)/* &( updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))*/)
 		//{//while trigger is pressed and angle time is not exceeded, continue running the motor

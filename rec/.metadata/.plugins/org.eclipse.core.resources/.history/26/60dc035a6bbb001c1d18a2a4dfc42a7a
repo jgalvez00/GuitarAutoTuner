@@ -15,7 +15,7 @@ extern uint32_t curr;
 extern int currentSelectIndex;
 extern int currentScrollIndex;
 extern int currentPeg;
-extern struct display *currDisplay;
+extern struct display currentDisplay;
 typedef void (*title)(); //function pointer
 struct display{
 	title ttl;//pointer to function that will display or perform action corresponding to selection
