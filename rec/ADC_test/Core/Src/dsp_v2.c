@@ -7,9 +7,12 @@
 #include "stm32f0xx.h"
 #include "dsp_v2.h"
 #include "main.h"
+#include "menu.h"
 // Macros
 #define SWAP(x, y) do {typeof(x) SWAP = x; x = y; y = SWAP; } while (0)
 
+float notefreq[6] = {81.38, 108.5,135.6, 189.9, 244.1,325.5};
+float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
 /*/ Method Declarations
 double randn(void);
 void BuildTime(float*);
@@ -22,7 +25,7 @@ void ComputeFFT(float*, float*, const unsigned int);
 //float Mag(float, float);
 float ArgMax(float*, float*, const unsigned int, const float, bool);
 //void PrintData(float*, float*, const unsigned int, const float, bool, bool);
-void LCD_Drawnum(int size, int side, int row, float * num, float *num2);*/
+void LCD_DrawFmax(int size, int side, int row, float * num, float *num2);*/
 int dspmain()
 {
 	//printf("--------program start--------\n");
@@ -69,12 +72,11 @@ int dspmain()
 	//printf("fmax = %f\n", fmax);
 
 	//printf("---------program end---------\n");
-	LCD_Drawnum(3, 0, 1, &freq, &fmax);
+	LCD_DrawFmax(3, 0, 1, &freq, &fmax);
 */
 	bool center = true;
 	float data_re[BUF_LEN] = {0};
 	float sum =0;
-	int tmperate = adc_buf[0];
 	for(int i =0; i < BUF_LEN; i++)
 	{
 		//data_re[i] =(center)? ((float) adc_buf[i]) * (pow(-1,i)): (float) adc_buf[i];
@@ -87,22 +89,33 @@ int dspmain()
 		{
 			data_re[i] =(center) ? (data_re[i] - avg) * (pow(-1,i)) : data_re[i] -avg;
 		}
-	//LCD_Drawnum(3, 0, 1, 0, &avg);
+	//LCD_DrawFmax(3, 0, 1, 0, &avg);
 	RearrangeFFT(data_re, data_im, BUF_LEN);
 	ComputeFFT(data_re, data_im, BUF_LEN);
 	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
 	float freq = 100.0;
 	fmax = (fmax< 0)? (fmax * -1) : fmax;
-	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-
+	LCD_DrawFmax(3, 0, 1, &freq, &fmax);
+	//Jacobs algorithm (AKA the J algo)
+	int angle = (notefreq[currentPeg] - fmax) / (AveDiff[currentPeg]/180.0);
+	char text[6];
+	sprintf(text, "%d", angle);
+	LCD_DrawString(60,180,YELLOW, BLUE, "ANGLE", 16, 0);
+	LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
+	int dir = (angle < 0)? 2: 1;
+	if(abs(angle) < 500 ){stepperMotor(dir, 7500, angle, 2);}
+	//
 	return 0;
 }
-void LCD_Drawnum(int size, int side, int row, float *num, float *num2)
+void LCD_DrawFmax(int size, int side, int row, float *num, float *num2)
 {
 	char fma[15];
+	gcvt(notefreq[currentPeg], 6, fma);
+	LCD_DrawString(60,100,YELLOW, BLUE, "Target FMAX", 16, 0);
+	LCD_DrawString(60,120,YELLOW, BLUE, fma, 16, 0);
 	gcvt(*num2, 6, fma);
-	LCD_DrawString(60,120,YELLOW, BLUE, "FMAX", 16, 0);
-	LCD_DrawString(60,140,YELLOW, BLUE, fma, 16, 0);
+	LCD_DrawString(60,140,YELLOW, BLUE, "FMAX", 16, 0);
+	LCD_DrawString(60,160,YELLOW, BLUE, fma, 16, 0);
 
 }
 double randn(void)

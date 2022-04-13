@@ -55,6 +55,9 @@ TIM_HandleTypeDef htim1;
 //uint16_t adc_buf[BUF_LEN] = {0};
 uint8_t batbuf[I2C_BUF_LEN];
 int tmp;
+static const uint8_t I2C_BATTERY_MONITOR_ADDR = 0x64 << 1;
+
+void battery_setPresacle(uint8_t scale);
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -517,13 +520,93 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 	HAL_ADC_Stop_DMA(hadc);
 	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
 	dspmain();
-	LCD_DrawString(60 ,160,  YELLOW, BLUE,"Finished DSP", 16, 0);
+	//LCD_DrawString(60 ,160,  YELLOW, BLUE,"Finished DSP", 16, 0);
 }
 void battery() {
-	LCD_DrawString(60,120,YELLOW, BLUE, "BATTERY", 16, 0);
-	HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
+
+	battery_setPresacle(5);
+
+
+	LCD_DrawString(60,100,YELLOW, BLUE, "I2C:", 16, 0);
+	//HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, pData, Size, Timeout);
+	HAL_StatusTypeDef ret;
+	batbuf[0] = 0;
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+		LCD_DrawString(140,100,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		LCD_DrawString(140,100,YELLOW, BLUE, "ACK", 16, 0);
+		LCD_DrawString(60,120,YELLOW, BLUE, "Status", 16, 0);
+
+		ret = HAL_I2C_Master_Receive(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+			LCD_DrawString(140,120,YELLOW, BLUE, "ERROR", 16, 0);
+		} else {
+			char text[20];
+			sprintf(text, "0x%x", batbuf[0]);
+
+			LCD_DrawString(140,120,YELLOW, BLUE, text, 16, 0);
+		}
+	}
+
+	batbuf[0] = 2;
+	LCD_DrawString(60,140,YELLOW, BLUE, "Chrg Reg:", 16, 0);
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+		LCD_DrawString(140,140,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		LCD_DrawString(140,140,YELLOW, BLUE, "ACK", 16, 0);
+
+		LCD_DrawString(60,160,YELLOW, BLUE, "Amount:", 16, 0);
+		ret = HAL_I2C_Master_Receive(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 4, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+			LCD_DrawString(140,160,YELLOW, BLUE, "ERROR", 16, 0);
+		} else {
+			char text[40];
+			sprintf(text, "0x%02x%02x %02x%02x", batbuf[0],batbuf[1],batbuf[2],batbuf[3]);
+
+			LCD_DrawString(140,160,YELLOW, BLUE, text, 16, 0);
+
+			float chargeAmount = 2 * 0.085 * (batbuf[3] + batbuf[2] * 256);
+			sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/5200.0*100));
+
+
+
+			LCD_DrawString(25 ,50,  YELLOW, BLUE, text, 16, 0);
+
+
+		}
+	}
+
+
+	//HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
+	//HAL_I2C_Master_Receive(&hi2c1, DevAddress, pData, Size, Timeout), DevAddress, pData, Size, Timeout)
+
+	//nano_wait(100000);
 }
-void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
+
+void battery_setPresacle(uint8_t scale)
+{
+	HAL_StatusTypeDef ret;
+	batbuf[0] = 0x01;
+	batbuf[1] = 0x38;
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 2, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+		LCD_DrawString(140,40,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		//LCD_DrawString(140,100,YELLOW, BLUE, "ACK", 16, 0);
+		//LCD_DrawString(60,120,YELLOW, BLUE, "Status", 16, 0);
+		batbuf[0] = 0x30;
+
+		//ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+				LCD_DrawString(140,40,YELLOW, BLUE, "ERROR", 16, 0);
+		} //else {LCD_DrawString(140,40,YELLOW, BLUE, "DONE", 16, 0);}
+	}
+
+	return;
+}
+/*void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
 {
 	//for(int i = 0; i < 4; i++)
 		//LCD_Draw4digit(i, 0, i, batbuf);
@@ -531,7 +614,7 @@ void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
 	gcvt(*batbuf, 6, fma);
 	LCD_DrawString(60,120,YELLOW, BLUE, "BATTERY", 16, 0);
 	LCD_DrawString(60,140,YELLOW, BLUE, fma, 16, 0);
-}
+}*/
 void LCD_Draw4digit(int idx, int side, int row, uint16_t *buff)
 {
 	tmp =0;

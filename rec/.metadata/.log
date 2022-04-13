@@ -1482,3 +1482,29 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/marks
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2022-04-11 15:07:13.975
 !MESSAGE ST-LINK firmware verification, No latest info found: -1
+!SESSION 2022-04-13 10:01:36.633 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-13 10:01:52.813
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-13 10:02:05.822
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-04-13 16:03:55.790 -----------------------------------------------
+eclipse.buildId=Version 1.8.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/markscheker/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/markscheker/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-04-13 16:04:08.258
+!MESSAGE Log4j initialized with config file /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-04-13 16:04:19.354
+!MESSAGE Started RMI Server, listening on port 41337

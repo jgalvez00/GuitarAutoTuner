@@ -30,7 +30,7 @@ Core/Src/dsp_v2.o: ../Core/Src/dsp_v2.c ../Core/Src/lcd.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi_ex.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h \
- ../Core/Src/dsp_v2.h ../Core/Inc/main.h
+ ../Core/Src/dsp_v2.h ../Core/Inc/main.h ../Core/Src/menu.h
 
 ../Core/Src/lcd.h:
 
@@ -99,3 +99,5 @@ Core/Src/dsp_v2.o: ../Core/Src/dsp_v2.c ../Core/Src/lcd.h \
 ../Core/Src/dsp_v2.h:
 
 ../Core/Inc/main.h:
+
+../Core/Src/menu.h:
