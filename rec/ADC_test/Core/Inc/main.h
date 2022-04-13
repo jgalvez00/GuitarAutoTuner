@@ -31,7 +31,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+<<<<<<< HEAD
 
+=======
+#define ADC_BUF_LEN 2048
+uint16_t adc_buf[ADC_BUF_LEN];
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

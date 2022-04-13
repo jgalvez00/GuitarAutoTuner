@@ -1,0 +1,4 @@
+import-wisdom-from-file.c:42:12:getchr_file	32	static
+import-wisdom-from-file.c:56:17:mkscanner_file	24	static
+import-wisdom-from-file.c:64:5:fftw_import_wisdom_from_file	32	static
+import-wisdom-from-file.c:73:5:fftw_import_wisdom_from_filename	24	static

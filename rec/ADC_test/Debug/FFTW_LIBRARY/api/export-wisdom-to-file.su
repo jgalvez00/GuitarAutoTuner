@@ -1,0 +1,2 @@
+export-wisdom-to-file.c:23:6:fftw_export_wisdom_to_file	24	static
+export-wisdom-to-file.c:31:5:fftw_export_wisdom_to_filename	24	static

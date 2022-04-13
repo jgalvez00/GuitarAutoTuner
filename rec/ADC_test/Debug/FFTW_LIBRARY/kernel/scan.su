@@ -1,0 +1,9 @@
+scan.c:48:12:mygetc	24	static
+scan.c:60:13:myungetc	16	static
+scan.c:67:13:eat_blanks	24	static
+scan.c:75:13:mygets	32	static
+scan.c:88:13:getlong	40	static
+scan.c:122:12:vscan	64	static
+scan.c:181:12:scan	28	static
+scan.c:191:10:fftw_mkscanner	24	static
+scan.c:201:6:fftw_scanner_destroy	16	static

@@ -1,0 +1,9 @@
+dsp_v2.c:39:5:dspmain	6224	static
+dsp_v2.c:90:6:LCD_Drawnum	88	static
+dsp_v2.c:133:8:randn	8	static
+dsp_v2.c:138:6:BuildTime	32	static
+dsp_v2.c:158:6:AWGN	64	static
+dsp_v2.c:192:6:RearrangeFFT	48	static
+dsp_v2.c:209:6:ComputeFFT	80	static
+dsp_v2.c:238:7:Mag	24	static
+dsp_v2.c:243:7:ArgMax	56	static

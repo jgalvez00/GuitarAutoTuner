@@ -1,0 +1,7 @@
+cpy2d.c:36:6:fftw_cpy2d	72	static
+cpy2d.c:108:6:fftw_cpy2d_ci	56	static
+cpy2d.c:120:6:fftw_cpy2d_co	56	static
+cpy2d.c:139:13:dotile	72	static
+cpy2d.c:149:13:dotile_buf	80	static
+cpy2d.c:169:6:fftw_cpy2d_tiled	80	static
+cpy2d.c:188:6:fftw_cpy2d_tiledbuf	4184	static

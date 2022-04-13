@@ -1,0 +1,13 @@
+primes.c:41:5:fftw_safe_mulmod	32	static
+primes.c:64:5:fftw_power_mod	32	static
+primes.c:78:12:get_prime_factors	24	static
+primes.c:105:5:fftw_find_generator	96	static
+primes.c:126:5:fftw_first_divisor	24	static
+primes.c:139:5:fftw_is_prime	16	static
+primes.c:144:5:fftw_next_prime	16	static
+primes.c:150:5:fftw_factors_into	16	static
+primes.c:159:5:fftw_isqrt	24	static
+primes.c:176:12:isqrt_maybe	24	static
+primes.c:183:5:fftw_choose_radix	16	static
+primes.c:198:5:fftw_modulo	24	static
+primes.c:208:5:fftw_factors_into_small_primes	16	static

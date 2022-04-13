@@ -1,0 +1,2 @@
+kalloc.c:71:7:fftw_kernel_malloc	24	static
+kalloc.c:141:6:fftw_kernel_free	16	static

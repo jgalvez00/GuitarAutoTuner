@@ -1,0 +1,5 @@
+md5-1.c:24:6:fftw_md5putb	32	static
+md5-1.c:32:6:fftw_md5puts	16	static
+md5-1.c:40:6:fftw_md5int	16	static
+md5-1.c:45:6:fftw_md5INT	16	static
+md5-1.c:50:6:fftw_md5unsigned	16	static

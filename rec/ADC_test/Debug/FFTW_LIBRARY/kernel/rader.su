@@ -1,0 +1,3 @@
+rader.c:36:6:fftw_rader_tl_insert	32	static
+rader.c:43:4:fftw_rader_tl_find	24	static
+rader.c:54:6:fftw_rader_tl_delete	24	static

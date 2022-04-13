@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 19:39:08 **** Incremental Build of configuration Debug for project ADC_test ****
 make -j3 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/FFTW_LIBRARY" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
@@ -44,12 +45,60 @@ In file included from ../Core/Src/main.c:24:
    81 | void LCD_Draw4digit(int idx, int side, int row, uint8_t *buff);
       |                                                 ~~~~~~~~~^~~~
 arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list" /Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior\ year/spring2022/rec/ADC_test/FFTW_LIBRARY/libfftw3.a -Wl,--start-group  -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static -L"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/FFTW_LIBRARY" --specs=nano.specs -mfloat-abi=soft -mthumb
+=======
+16:08:16 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/menu.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/menu.d" -MT"Core/Src/menu.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/menu.o"
+../Core/Src/menu.c: In function 'stepperMotor':
+../Core/Src/menu.c:299:3: warning: implicit declaration of function 'startmotor' [-Wimplicit-function-declaration]
+  299 |  {startmotor();
+      |   ^~~~~~~~~~
+../Core/Src/menu.c:310:12: warning: unused variable 'motorstarttime' [-Wunused-variable]
+  310 |   uint32_t motorstarttime = HAL_GetTick();
+      |            ^~~~~~~~~~~~~~
+../Core/Src/menu.c:321:2: warning: implicit declaration of function 'stopmotor' [-Wimplicit-function-declaration]
+  321 |  stopmotor();
+      |  ^~~~~~~~~
+../Core/Src/main.c: In function 'battery':
+../Core/Src/main.c:571:30: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+  571 |    sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/5200.0*100));
+      |                             ~^               ~~~~~~~~~~~~~~~~~~~~~~
+      |                              |               |
+      |                              int             long unsigned int
+      |                             %ld
+../Core/Src/main.c:571:39: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
+  571 |    sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/5200.0*100));
+      |                                      ~^                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                       |                              |
+      |                                       int                            long unsigned int
+      |                                      %ld
+../Core/Src/main.c: In function 'auto_tune':
+../Core/Src/main.c:662:27: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  662 |  HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
+      |                           ^~~~~~~
+      |                           |
+      |                           uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32f0xx_hal_conf.h:213,
+                 from ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h:959:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+  959 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:686:2: warning: "/*" within comment [-Wcomment]
+  686 |  /*
+      |   
+arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list"  -Wl,--start-group  -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 Finished building target: ADC_test.elf
  
 arm-none-eabi-size   ADC_test.elf 
 arm-none-eabi-objdump -h -S  ADC_test.elf  > "ADC_test.list"
 arm-none-eabi-objcopy  -O binary  ADC_test.elf  "ADC_test.bin"
    text	   data	    bss	    dec	    hex	filename
+<<<<<<< HEAD
   36804	    244	   2084	  39132	   98dc	ADC_test.elf
 Finished building: default.size.stdout
  
@@ -63,4 +112,12 @@ arm-none-eabi-size   ADC_test.elf
    text	   data	    bss	    dec	    hex	filename
   36804	    244	   2084	  39132	   98dc	ADC_test.elf
 Finished building: default.size.stdout
+=======
+  62464	    296	   6136	  68896	  10d20	ADC_test.elf
+Finished building: default.size.stdout
+Finished building: ADC_test.bin
+ 
+ 
+Finished building: ADC_test.list
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
  

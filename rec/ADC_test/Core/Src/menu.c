@@ -8,15 +8,26 @@
 #include "lcd.h"
 #include "menu.h"
 #include "main.h"
+<<<<<<< HEAD
 const char* menu[3] = {"Info", "Tune", "Manual"};
+=======
+const char* menu[3] = {"Info", "Tune", "Restring"};
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 const char* Tune[7] = {"Back", "Peg1", "Peg2", "Peg3", "Peg4", "Peg5", "Peg6"};
 const char* Manual[3] = {"Back", "Tight", "Loose"};
 const char* Info[2] = {"Back", "Next"};
 const char* Peg[3] = {"Back", "Test1", "AutoTune"};
 const char* pegsel[6] = {"Peg 1", "Peg 2", "Peg 3", "Peg 4", "Peg 5", "Peg 6"};
+<<<<<<< HEAD
 const char* note[6] = {"E", "A", "D", "G", "B", "E"};
 int currentSelectIndex = 0;
 int currentScrollIndex = 0;
+=======
+const char* note[6] = {"Low E", "A", "D", "G", "B", "High E"};
+int currentSelectIndex = 0;
+int currentScrollIndex = 0;
+int currentPeg = 0;
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 int goleft = 0;
 int goright  =0;
 uint32_t prev = 0;
@@ -107,7 +118,11 @@ void initialize()
 	//Manual
 	manual->scrollmax = 3;
 	manual->selectionmax = 3;
+<<<<<<< HEAD
 	manual->ttl = Infomode;
+=======
+	manual->ttl = Manualmode;
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 	manual->backout = home;
 	manual->childsel = rotate;
 	manual->nextsel = info;
@@ -171,7 +186,11 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 				{idx++;
 				if(idx >= currDisplay->selectionmax)
 					idx = 0;
+<<<<<<< HEAD
 				LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
+=======
+				LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 				}
 			scrollIndex = 0;
 		}
@@ -179,13 +198,21 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 		{
 			if(selectIndex >= currDisplay->selectionmax)
 				selectIndex = 0;
+<<<<<<< HEAD
 			LCD_DrawString(75*2 +25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+=======
+			LCD_DrawString(65*2 +25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 			int idx = selectIndex;
 			for(int i = 1; i >= 0; i--)
 			{idx--;
 			if(idx < 0)
 				idx = currDisplay->selectionmax-1;
+<<<<<<< HEAD
 			LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
+=======
+			LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 			}
 			scrollIndex = 2;
 		}
@@ -201,8 +228,13 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 	else if(selectIndex < 0)
 		selectIndex = currDisplay->selectionmax-1;
 
+<<<<<<< HEAD
 	LCD_DrawString(75*scrollIndex + 25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
 	LCD_DrawString(75*currentScrollIndex + 25,200,  YELLOW, BLUE, currDisplay->selection[currentSelectIndex], 16, 0);
+=======
+	LCD_DrawString(65*scrollIndex + 25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+	LCD_DrawString(65*currentScrollIndex + 25,200,  YELLOW, BLUE, currDisplay->selection[currentSelectIndex], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 	}
 	currentSelectIndex = selectIndex;
 	currentScrollIndex = scrollIndex;
@@ -211,7 +243,11 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 void display_select(int selectIndex) {
 	//selection cases of where to go
 	//highlight selected choice in red
+<<<<<<< HEAD
     LCD_DrawString(75*currentScrollIndex + 25,200,  YELLOW, RED, currDisplay->selection[currentSelectIndex], 16, 0);
+=======
+    LCD_DrawString(65*currentScrollIndex + 25,200,  YELLOW, RED, currDisplay->selection[currentSelectIndex], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
     lastPressed = selectIndex;
 
     if((currentSelectIndex == 0) && (currDisplay->identity != 'h'))
@@ -244,7 +280,11 @@ void display_select(int selectIndex) {
     	else
     	{
     		child->ttl();
+<<<<<<< HEAD
     		LCD_DrawString(75*selectIndex + 25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+=======
+    		LCD_DrawString(65*selectIndex + 25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
     	}
     }
 }
@@ -253,7 +293,11 @@ void resetSel()
 	//LCD_Clear(BLUE);
 	LCD_DrawString(25,200,  YELLOW, BLACK, (currDisplay->selection)[0], 16, 0);
 	for (int i = 1; i < currDisplay->scrollmax; i++) {
+<<<<<<< HEAD
 			LCD_DrawString(75*i + 25,200,  YELLOW, BLUE, (currDisplay->selection)[i], 16, 0);
+=======
+			LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, (currDisplay->selection)[i], 16, 0);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 		}
 	currentScrollIndex = 0;
 	currentSelectIndex = 0;
@@ -289,13 +333,21 @@ void stepperMotor(int direction, int per, int angle, int mode)
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
 	}
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET); //motor Enable
+<<<<<<< HEAD
+=======
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET); //Boost Enable
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 	//change_pwm(per);// this is to change pwm signal in case we want to speed or low down motore
 	// change_pwm might not even be used
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);//seting motor to full drive
 
 	if(mode == 1) //Manual stepper rotation
 	{startmotor();
+<<<<<<< HEAD
 	while(updateToggleHistory(5) || HAL_GPIO_ReadPin(GPIOB, 1 << (5)))
+=======
+	while(updateToggleHistory(5) | updateToggleHistory(7))
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 	{//while trigger button is being pressed, currently mapped to selection button for testing
 		nano_wait(5000000);
 
@@ -317,6 +369,10 @@ void stepperMotor(int direction, int per, int angle, int mode)
 
 	//stop motor
 	stopmotor();
+<<<<<<< HEAD
+=======
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET); //Boost Disable
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 }
 void Tunemode() {
 	//introduce scroll index which represents the current index in the list of tune
@@ -335,8 +391,14 @@ void Tunemode() {
 void pegDisplay()
 {
 	LCD_DrawString(60 ,40,  YELLOW, BLUE,pegsel[currentSelectIndex-1], 16, 0);
+<<<<<<< HEAD
 	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play Note", 16, 0);
 	LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentSelectIndex-1], 16, 0);
+=======
+	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play open", 16, 0);
+	LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentSelectIndex-1], 16, 0);
+	currentPeg = currentSelectIndex-1;
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 }
 
 

@@ -1,0 +1,11 @@
+tensor7.c:24:12:signof	16	static
+tensor7.c:32:5:fftw_dimcmp	40	static
+tensor7.c:54:13:canonicalize	16	static
+tensor7.c:62:12:compare_by_istride	24	static
+tensor7.c:70:16:really_compress	40	static
+tensor7.c:99:9:fftw_tensor_compress	24	static
+tensor7.c:108:12:strides_contig	16	static
+tensor7.c:116:9:fftw_tensor_compress_contiguous	40	static
+tensor7.c:171:6:fftw_tensor_split	24	static
+tensor7.c:180:5:fftw_tensor_equal	24	static
+tensor7.c:201:5:fftw_tensor_inplace_locations	40	static

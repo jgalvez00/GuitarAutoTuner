@@ -1,0 +1,2 @@
+tensor3.c:28:9:fftw_mktensor_4d	32	static
+tensor3.c:49:9:fftw_mktensor_5d	32	static

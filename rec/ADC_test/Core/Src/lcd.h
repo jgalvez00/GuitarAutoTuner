@@ -78,7 +78,12 @@ void LCD_DrawTriangle(u16 x0,u16 y0, u16 x1,u16 y1, u16 x2,u16 y2, u16 c);
 void LCD_DrawFillTriangle(u16 x0,u16 y0, u16 x1,u16 y1, u16 x2,u16 y2, u16 c);
 void LCD_DrawChar(u16 x,u16 y,u16 fc, u16 bc, char num, u8 size, u8 mode);
 void LCD_DrawString(u16 x,u16 y, u16 fc, u16 bg, const char *p, u8 size, u8 mode);
+<<<<<<< HEAD
 void LCD_Draw4digit(int idx, int side, int row, uint8_t *buff);
+=======
+void LCD_Draw4digit(int idx, int side, int row, uint16_t *buff);
+void LCD_DrawFmax(int size, int side, int row, float *num, float *num2);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 //===========================================================================
 // C Picture data structure.
 //===========================================================================

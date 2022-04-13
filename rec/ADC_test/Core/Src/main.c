@@ -23,7 +23,11 @@
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
 #include "menu.h"
+<<<<<<< HEAD
 #include "fftw3.h"
+=======
+#include "dsp_v2.h"
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,7 +41,11 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+<<<<<<< HEAD
 #define ADC_BUF_LEN 10
+=======
+//#define ADC_BUF_LEN 2048
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 #define I2C_BUF_LEN 4
 /* USER CODE END PM */
 
@@ -52,9 +60,18 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
+<<<<<<< HEAD
 uint32_t adc_buf[ADC_BUF_LEN];
 uint32_t batbuf[I2C_BUF_LEN];
 int tmp;
+=======
+//uint16_t adc_buf[BUF_LEN] = {0};
+uint8_t batbuf[I2C_BUF_LEN];
+int tmp;
+static const uint8_t I2C_BATTERY_MONITOR_ADDR = 0x64 << 1;
+
+void battery_setPresacle(uint8_t scale);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -119,11 +136,17 @@ int main(void)
   LCD_Clear(BLUE);
   resetSel();
   menu_home();
+<<<<<<< HEAD
 
   /*fftw_complex *in;
   in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * 10);
   fftw_free(in);*/
    __NOP();
+=======
+  /*auto_tune();
+  HAL_Delay(1000);
+  dspmain();*/
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
   while(1)
   {
   }
@@ -429,8 +452,15 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+<<<<<<< HEAD
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
                           |GPIO_PIN_15, GPIO_PIN_RESET);
+=======
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_SET);
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_10, GPIO_PIN_RESET);
@@ -442,10 +472,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+<<<<<<< HEAD
   /*Configure GPIO pins : PB11 PB12 PB13 PB14
                            PB15 */
   GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
                           |GPIO_PIN_15;
+=======
+  /*Configure GPIO pins : PB11 PB12 PB13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB14 PB15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_15;
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -508,6 +550,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
 
 // Called when buffer is completely filled
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+<<<<<<< HEAD
   __NOP();
   //HAL_Delay(100);
   HAL_ADC_Stop_DMA(hadc);
@@ -525,6 +568,108 @@ void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
 		LCD_Draw4digit(i, 0, i, batbuf);
 }
 void LCD_Draw4digit(int idx, int side, int row, uint8_t *buff)
+=======
+	//LCD_Drawnum(3, 0, 0, , num2)
+	HAL_ADC_Stop_DMA(hadc);
+	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
+	dspmain();
+	//LCD_DrawString(60 ,160,  YELLOW, BLUE,"Finished DSP", 16, 0);
+}
+void battery() {
+
+	battery_setPresacle(5);
+
+
+	LCD_DrawString(60,100,YELLOW, BLUE, "I2C:", 16, 0);
+	//HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, pData, Size, Timeout);
+	HAL_StatusTypeDef ret;
+	batbuf[0] = 0;
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+		LCD_DrawString(140,100,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		LCD_DrawString(140,100,YELLOW, BLUE, "ACK", 16, 0);
+		LCD_DrawString(60,120,YELLOW, BLUE, "Status", 16, 0);
+
+		ret = HAL_I2C_Master_Receive(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+			LCD_DrawString(140,120,YELLOW, BLUE, "ERROR", 16, 0);
+		} else {
+			char text[20];
+			sprintf(text, "0x%x", batbuf[0]);
+
+			LCD_DrawString(140,120,YELLOW, BLUE, text, 16, 0);
+		}
+	}
+
+	batbuf[0] = 2;
+	LCD_DrawString(60,140,YELLOW, BLUE, "Chrg Reg:", 16, 0);
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+		LCD_DrawString(140,140,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		LCD_DrawString(140,140,YELLOW, BLUE, "ACK", 16, 0);
+
+		LCD_DrawString(60,160,YELLOW, BLUE, "Amount:", 16, 0);
+		ret = HAL_I2C_Master_Receive(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 4, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+			LCD_DrawString(140,160,YELLOW, BLUE, "ERROR", 16, 0);
+		} else {
+			char text[40];
+			sprintf(text, "0x%02x%02x %02x%02x", batbuf[0],batbuf[1],batbuf[2],batbuf[3]);
+
+			LCD_DrawString(140,160,YELLOW, BLUE, text, 16, 0);
+
+			float chargeAmount = 2 * 0.085 * (batbuf[3] + batbuf[2] * 256);
+			sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/5200.0*100));
+
+
+
+			LCD_DrawString(25 ,50,  YELLOW, BLUE, text, 16, 0);
+
+
+		}
+	}
+
+
+	//HAL_I2C_Master_Receive_IT(&hi2c1, 100, batbuf, I2C_BUF_LEN);
+	//HAL_I2C_Master_Receive(&hi2c1, DevAddress, pData, Size, Timeout), DevAddress, pData, Size, Timeout)
+
+	//nano_wait(100000);
+}
+
+void battery_setPresacle(uint8_t scale)
+{
+	HAL_StatusTypeDef ret;
+	batbuf[0] = 0x01;
+	batbuf[1] = 0x38;
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 2, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+		LCD_DrawString(140,40,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		//LCD_DrawString(140,100,YELLOW, BLUE, "ACK", 16, 0);
+		//LCD_DrawString(60,120,YELLOW, BLUE, "Status", 16, 0);
+		batbuf[0] = 0x30;
+
+		//ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+				LCD_DrawString(140,40,YELLOW, BLUE, "ERROR", 16, 0);
+		} //else {LCD_DrawString(140,40,YELLOW, BLUE, "DONE", 16, 0);}
+	}
+
+	return;
+}
+/*void HAL_I2C_MasterRxCpltCallback (I2C_HandleTypeDef * hi2c)
+{
+	//for(int i = 0; i < 4; i++)
+		//LCD_Draw4digit(i, 0, i, batbuf);
+	char fma[15];
+	gcvt(*batbuf, 6, fma);
+	LCD_DrawString(60,120,YELLOW, BLUE, "BATTERY", 16, 0);
+	LCD_DrawString(60,140,YELLOW, BLUE, fma, 16, 0);
+}*/
+void LCD_Draw4digit(int idx, int side, int row, uint16_t *buff)
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 {
 	tmp =0;
 	int renew = 0;
@@ -544,6 +689,10 @@ void LCD_Draw4digit(int idx, int side, int row, uint8_t *buff)
 	  }
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 void LCD_Drawpin(uint8_t pin)
 {
 	tmp =0;
@@ -568,6 +717,10 @@ void auto_tune()
 {
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
 	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
+<<<<<<< HEAD
+=======
+	//dspmain();
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 }
 void startmotor()
 {
@@ -578,6 +731,72 @@ void stopmotor()
 	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
 }
+<<<<<<< HEAD
+=======
+/*int dspmain()
+{
+	//printf("--------program start--------\n");
+
+	// define standard mapping
+	TuneMap standard;
+	standard.E1 = 329.63;
+	standard.B = 246.94;
+	standard.G = 196.00;
+	standard.D = 146.83;
+	standard.A = 110.00;
+	standard.E2 = 82.41;
+	/*
+	// construct the time array
+	float t[BUF_LEN];
+	BuildTime(t);
+
+	// printing the time array
+	bool print_time = false;
+
+	// construct the signal
+	float freq = 100.0; // hertz
+	float data_re[BUF_LEN] = {0};
+	float data_im[BUF_LEN] = {0};
+	bool center = true;
+	//float noise[BUF_LEN] = {0};
+	//AWGN(noise, Pn, BUF_LEN)
+	for (int n = 0; n < BUF_LEN; n++)
+	{
+		data_re[n] = center ? (sin(2 * PI * freq * t[n]) * pow(-1, n)) : sin(2 * PI * freq * t[n]); // real part
+		//data_re[n] += noise[n];
+	}
+
+	// Apply the Danielson-Lanczos Algorithm
+	RearrangeFFT(data_re, data_im, BUF_LEN);
+	ComputeFFT(data_re, data_im, BUF_LEN);
+
+	// Print Output
+	bool print_mag = true;
+	//PrintData(data_re, data_im, BUF_LEN, fs, center, print_mag);
+
+	// Find the Fundamental Frequency
+	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
+	//printf("fmax = %f\n", fmax);
+
+	//printf("---------program end---------\n");
+	LCD_Drawnum(3, 0, 1, &freq, &fmax);
+
+	bool center = true;
+	float data_re[BUF_LEN] = {0};
+	for(int i =0; i < BUF_LEN; i++)
+	{
+		data_re[i] =(center)? (float) adc_buf[i] * (pow(-1,i)): (float) adc_buf[i];
+
+	}
+	float data_im[BUF_LEN] = {0};
+	RearrangeFFT(data_re, data_im, BUF_LEN);
+	ComputeFFT(data_re, data_im, BUF_LEN);
+	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
+	float freq = 100.0;
+	LCD_Drawnum(3, 0, 1, &freq, &fmax);
+	return 0;
+}*/
+>>>>>>> cfb7a437a08243987430d9087084b84a4c4f1142
 /* USER CODE END 4 */
 
 /**

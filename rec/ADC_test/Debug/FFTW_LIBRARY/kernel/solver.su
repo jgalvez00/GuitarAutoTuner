@@ -1,0 +1,4 @@
+solver.c:24:9:fftw_mksolver	24	static
+solver.c:33:6:fftw_solver_use	16	static
+solver.c:38:6:fftw_solver_destroy	16	static
+solver.c:47:6:fftw_solver_register	16	static

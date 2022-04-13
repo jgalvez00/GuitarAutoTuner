@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;ADC_test/lib&apos;" deleteContents="false" description="Delete resource &apos;ADC_test/lib&apos;" element1="/ADC_test/lib" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1648818525919"/>&#x0A;<refactoring comment="Delete resource &apos;ADC_test/Core/Src/fftw3.h&apos;" deleteContents="false" description="Delete resource &apos;ADC_test/Core/Src/fftw3.h&apos;" element1="/ADC_test/Core/Src/fftw3.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1648818535497"/>
-</session>

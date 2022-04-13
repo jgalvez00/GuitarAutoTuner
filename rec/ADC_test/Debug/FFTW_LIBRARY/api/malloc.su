@@ -1,0 +1,4 @@
+malloc.c:24:7:fftw_malloc	16	static
+malloc.c:29:6:fftw_free	16	static
+malloc.c:42:4:fftw_alloc_real	16	static
+malloc.c:47:4:fftw_alloc_complex	16	static

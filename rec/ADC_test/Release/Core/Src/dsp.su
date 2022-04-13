@@ -1,6 +1,0 @@
-dsp.c:50:8:randn	8	static
-dsp.c:55:6:BuildTime	16	static
-dsp.c:66:6:AWGN	40	static
-dsp.c:100:6:BuildInput	2056	static
-dsp.c:136:7:argmax	48	static
-dsp.c:8:8:DSPMain	2032	static
