@@ -190,6 +190,7 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 			}
 			scrollIndex = 2;
 		}
+		currentPeg = currentSelectIndex-1;
 	}
 	else
 	{
@@ -340,7 +341,7 @@ void pegDisplay()
 	LCD_DrawString(60 ,40,  YELLOW, BLUE,pegsel[currentSelectIndex-1], 16, 0);
 	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play open", 16, 0);
 	LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentSelectIndex-1], 16, 0);
-	currentPeg = currentSelectIndex-1;
+	//currentPeg = currentSelectIndex-1;
 }
 
 

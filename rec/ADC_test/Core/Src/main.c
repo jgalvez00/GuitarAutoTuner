@@ -658,6 +658,9 @@ void LCD_Drawpin(uint8_t pin)
 }
 void auto_tune()
 {
+	LCD_Clear(BLUE);
+	resetSel();
+	pegDisplay();
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
 	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
 	//dspmain();
