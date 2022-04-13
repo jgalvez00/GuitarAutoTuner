@@ -14,6 +14,6 @@ main.c:590:6:battery_setPresacle	48	static
 main.c:620:6:LCD_Draw4digit	64	static
 main.c:641:6:LCD_Drawpin	48	static
 main.c:661:6:auto_tune	32	static
-main.c:673:6:startmotor	8	static
-main.c:677:6:stopmotor	8	static
-main.c:751:6:Error_Handler	8	static,ignoring_inline_asm
+main.c:675:6:startmotor	8	static
+main.c:679:6:stopmotor	8	static
+main.c:753:6:Error_Handler	8	static,ignoring_inline_asm

@@ -15,6 +15,8 @@ extern uint32_t curr;
 extern int currentSelectIndex;
 extern int currentScrollIndex;
 extern int currentPeg;
+extern const char* note[6];
+const char* pegsel[6];
 extern struct display *currDisplay;
 typedef void (*title)(); //function pointer
 struct display{

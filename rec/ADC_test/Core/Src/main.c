@@ -664,7 +664,9 @@ void auto_tune()
 	for (int i = 0; i < 2; i++) {
 				LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, (currDisplay->selection)[i], 16, 0);
 			}
-	pegDisplay();
+	LCD_DrawString(60 ,40,  YELLOW, BLUE,pegsel[currentSelectIndex-1], 16, 0);
+		LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play open", 16, 0);
+		LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentSelectIndex-1], 16, 0);
 	LCD_DrawString(65*2 + 25,200,  YELLOW, BLUE, (currDisplay->selection)[2], 16, 0);
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
 	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);

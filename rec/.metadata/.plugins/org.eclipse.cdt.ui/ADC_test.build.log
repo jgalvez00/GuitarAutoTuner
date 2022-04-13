@@ -1,35 +1,10 @@
-17:15:30 **** Incremental Build of configuration Debug for project ADC_test ****
+17:29:15 **** Incremental Build of configuration Debug for project ADC_test ****
 make -j3 all 
-arm-none-eabi-gcc "../Core/Src/dsp_v2.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/dsp_v2.d" -MT"Core/Src/dsp_v2.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/dsp_v2.o"
-../Core/Src/dsp_v2.c: In function 'dspmain':
-../Core/Src/dsp_v2.c:34:10: warning: variable 'standard' set but not used [-Wunused-but-set-variable]
-   34 |  TuneMap standard;
-      |          ^~~~~~~~
-../Core/Src/dsp_v2.c: In function 'LCD_DrawFmax':
-../Core/Src/dsp_v2.c:113:2: warning: implicit declaration of function 'gcvt' [-Wimplicit-function-declaration]
-  113 |  gcvt(notefreq[currentPeg], 6, fma);
-      |  ^~~~
-../Core/Src/dsp_v2.c: In function 'ArgMax':
-../Core/Src/dsp_v2.c:239:31: warning: passing argument 3 of 'Mag' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-  239 |   Mag(data_re[n], data_im[n], &val);
-      |                               ^~~~
-../Core/Src/dsp_v2.c:226:38: note: expected 'float *' but argument is of type 'const float *'
-  226 | void Mag(float x1, float x2, float * result)
-      |                              ~~~~~~~~^~~~~~
-arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list"  -Wl,--start-group  -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb
-Finished building target: ADC_test.elf
- 
 arm-none-eabi-size   ADC_test.elf 
-arm-none-eabi-objdump -h -S  ADC_test.elf  > "ADC_test.list"
-arm-none-eabi-objcopy  -O binary  ADC_test.elf  "ADC_test.bin"
    text	   data	    bss	    dec	    hex	filename
-  62584	    296	   6136	  69016	  10d98	ADC_test.elf
+  62716	    296	   6136	  69148	  10e1c	ADC_test.elf
 Finished building: default.size.stdout
  
-Finished building: ADC_test.bin
- 
-Finished building: ADC_test.list
- 
 
-17:15:32 Build Finished. 0 errors, 3 warnings. (took 1s.146ms)
+17:29:15 Build Finished. 0 errors, 0 warnings. (took 414ms)
 
