@@ -16,6 +16,7 @@
 #define PI 3.14159265
 #define BUF_LEN 2048 // length of sample buffer
 #define fs 55555.56 // sampling rate (Hz)
+
 // Structures
 typedef struct TuneMap
 {
@@ -30,11 +31,10 @@ typedef struct TuneMap
 // Method Declarations
 int dspmain();
 void meanff(float *r1, const unsigned int N, float *av);
-double randn(void);
 void BuildTime(float*);
-void AWGN(float* noise, float Pn, const unsigned int N);
 void RearrangeFFT(float*, float*, const unsigned int);
 void ComputeFFT(float*, float*, const unsigned int);
 void Mag(float, float, float *);
 float ArgMax(float*, float*, const unsigned int, const float, bool);
+void HighPass(float*, float, float, const unsigned int);
 #endif

@@ -8,29 +8,17 @@
 #include "dsp_v2.h"
 #include "main.h"
 #include "menu.h"
+
 // Macros
 #define SWAP(x, y) do {typeof(x) SWAP = x; x = y; y = SWAP; } while (0)
 
-float notefreq[6] = {81.38, 108.5,135.6, 189.9, 244.1,325.5};
-float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
-/*/ Method Declarations
-double randn(void);
-void BuildTime(float*);
+// Global Variables
+const float notefreq[6] = {81.38, 108.5,135.6, 189.9, 244.1,325.5};
+const float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
 
-//void PrintTime(float*);
-//void AWGN(float*, float);
-void AWGN(float* noise, float Pn, const unsigned int N);
-void RearrangeFFT(float*, float*, const unsigned int);
-void ComputeFFT(float*, float*, const unsigned int);
-//float Mag(float, float);
-float ArgMax(float*, float*, const unsigned int, const float, bool);
-//void PrintData(float*, float*, const unsigned int, const float, bool, bool);
-void LCD_DrawFmax(int size, int side, int row, float * num, float *num2);*/
 int dspmain()
 {
-	//printf("--------program start--------\n");
-	
-	// define standard mapping
+	// Define Standard Mapping
 	TuneMap standard;
 	standard.E1 = 329.63;
 	standard.B = 246.94;
@@ -38,61 +26,45 @@ int dspmain()
 	standard.D = 146.83;
 	standard.A = 110.00;
 	standard.E2 = 82.41;
-	/*
-	// construct the time array
-	float t[BUF_LEN];
-	BuildTime(t);
-	
-	// printing the time array
-	bool print_time = false;
-	
-	// construct the signal
-	float freq = 100.0; // hertz
+
+	// Construct the Signal & Compute Average
 	float data_re[BUF_LEN] = {0};
 	float data_im[BUF_LEN] = {0};
-	bool center = true;
-	//float noise[BUF_LEN] = {0};
-	//AWGN(noise, Pn, BUF_LEN)
-	for (int n = 0; n < BUF_LEN; n++)
-	{
-		data_re[n] = center ? (sin(2 * PI * freq * t[n]) * pow(-1, n)) : sin(2 * PI * freq * t[n]); // real part
-		//data_re[n] += noise[n];
-	}
-	
-	// Apply the Danielson-Lanczos Algorithm
-	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN);
-	
-	// Print Output
-	bool print_mag = true;
-	//PrintData(data_re, data_im, BUF_LEN, fs, center, print_mag);
-	
-	// Find the Fundamental Frequency
-	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
-	//printf("fmax = %f\n", fmax);
-
-	//printf("---------program end---------\n");
-	LCD_DrawFmax(3, 0, 1, &freq, &fmax);
-*/
-	bool center = true;
-	float data_re[BUF_LEN] = {0};
 	float sum =0;
 	for(int i =0; i < BUF_LEN; i++)
 	{
-		//data_re[i] =(center)? ((float) adc_buf[i]) * (pow(-1,i)): (float) adc_buf[i];
 		data_re[i] = (float) adc_buf[i];
-		sum += adc_buf[i];
+		sum += data_re[i];
 	}
-	float data_im[BUF_LEN] = {0};
 	float avg = sum/BUF_LEN;
+
+	//Remove the DC Bias
 	for(int i =0; i < BUF_LEN; i++)
+	{
+		data_re[i] -= avg;
+	}
+
+	// High-Pass Filter
+	float cutoff = 50.0; // hertz
+	HighPass(data_re, cutoff, fs, BUF_LEN);
+
+	// Center Data in Frequency
+	bool center = true;
+	if (center)
+	{
+		for (int n = 0; n < BUF_LEN; n++)
 		{
-			data_re[i] =(center) ? (data_re[i] - avg) * (pow(-1,i)) : data_re[i] -avg;
+			data_re[n] = data_re[n] * pow(-1, n);
 		}
-	//LCD_DrawFmax(3, 0, 1, 0, &avg);
+	}
+
+	// Apply the Danielson-Lanczos Algorithm
 	RearrangeFFT(data_re, data_im, BUF_LEN);
 	ComputeFFT(data_re, data_im, BUF_LEN);
+
+	// Find the Fundamental Frequency
 	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
+
 	float freq = 100.0;
 	fmax = (fmax< 0)? (fmax * -1) : fmax;
 	LCD_DrawFmax(3, 0, 1, &freq, &fmax);
@@ -107,6 +79,7 @@ int dspmain()
 	//
 	return 0;
 }
+
 void LCD_DrawFmax(int size, int side, int row, float *num, float *num2)
 {
 	char fma[15];
@@ -118,10 +91,6 @@ void LCD_DrawFmax(int size, int side, int row, float *num, float *num2)
 	LCD_DrawString(60,160,YELLOW, BLUE, fma, 16, 0);
 
 }
-double randn(void)
-{
-	return (double)rand() / (double)RAND_MAX;
-}
 
 void BuildTime(float* t)
 {
@@ -131,49 +100,6 @@ void BuildTime(float* t)
 	{
 		t[i] = t[i - 1] + dt;
 	}
-	return;
-}
-
-/*void PrintTime(float* t)
-{
-	for (int i = 0; i < BUF_LEN; i++)
-	{
-		printf("t[%d] = %f\n", i, t[i]);
-	}
-	return;
-}*/
-
-void AWGN(float* noise, float Pn, const unsigned int N)
-{
-	float avgNoise = 0.0;
-	for (int i = 0; i < N; i++)
-	{
-		float n = randn();
-		avgNoise += n;
-		noise[i] = n;
-	}
-	avgNoise /= N;
-	
-	// ensure noise is zero-mean
-	for (int i = 0; i < N; i++)
-	{
-		noise[i] -= avgNoise;
-	}
-	
-	// compute zero-mean noise power
-	float Pw = 0.0;
-	for (int i = 0; i < N; i++)
-	{
-		Pw += pow(noise[i], 2);
-	}
-	Pw /= N;
-	
-	// scale noise to desired power level
-	for (int i = 0; i < N; i++)
-	{
-		noise[i] *= sqrt(Pn / Pw);
-	}
-	
 	return;
 }
 
@@ -235,7 +161,7 @@ float ArgMax(float* data_re, float* data_im, const unsigned int N, const float s
 	float fmax = 0.0;
 	for (int n = 0; n < N; n++)
 	{
-		const float val = 0;
+		float val = 0;
 		Mag(data_re[n], data_im[n], &val);
 		if (val > vmax)
 		{
@@ -250,6 +176,7 @@ float ArgMax(float* data_re, float* data_im, const unsigned int N, const float s
 	}
 	return fmax;
 }
+
 void meanff(float *r1, const unsigned int N, float *av)
 {
 	float sum = 0;
@@ -259,19 +186,19 @@ void meanff(float *r1, const unsigned int N, float *av)
 	}
 	*av = sum/N;
 }
-/*void PrintData(float* data_re, float* data_im, const unsigned int N, const float samp_freq, bool center, bool mag)
+
+void HighPass(float* x, float cutoff, float samp_rate, const unsigned int N)
 {
-	float df = samp_freq / N;
-	for (int n = 0; n < N; n++)
+	float deltaT = 1 / samp_rate;
+	float alpha = 1 / (2 * PI * deltaT * cutoff + 1);
+
+	float x_prev = x[0];
+	float y_prev = x[0];
+	for (int k = 1; k < N; k++)
 	{
-		float f = 0.0;
-		if (center)
-			f = (-samp_freq / 2 + n * df) + (df / 2) * (N % 2);
-		else
-			f = n * df;
-		if (mag)
-			printf("%f, %f\n", f, Mag(data_re[n], data_im[n]));
-		else
-			printf("%f, %f, %f\n", f, data_re[n], data_im[n]);
+		float x_curr = x[k];
+		x[k] = alpha * (y_prev + x_curr - x_prev);
+		x_prev = x_curr;
+		y_prev = x[k];
 	}
-}*/
+}
