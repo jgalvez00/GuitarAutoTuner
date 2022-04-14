@@ -75,7 +75,7 @@ int dspmain()
 	LCD_DrawString(60,180,YELLOW, BLUE, "ANGLE", 16, 0);
 	LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
 	int dir = (angle < 0)? 2: 1;
-	if(abs(angle) < 500 ){stepperMotor(dir, 7500, angle, 2);}
+	if(abs(angle) < 2700 ){stepperMotor(dir, 7500, abs(angle), 2);}
 	//
 	return 0;
 }
