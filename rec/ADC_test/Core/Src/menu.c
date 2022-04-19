@@ -284,11 +284,11 @@ void stepperMotor(int direction, int per, int angle, int mode)
 {// stepper motor control
 	if(direction == 1) // directional change
 	{
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);//tight
 	}
 	else
 	{
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);//loosen
 	}
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET); //motor Enable
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET); //Boost Enable

@@ -35,13 +35,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_ranges 00001160  00000000  00000000  000399e8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_line   00010b7d  00000000  00000000  0003ab48  2**0
+ 16 .debug_line   00010def  00000000  00000000  0003ab48  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_str    0000537b  00000000  00000000  0004b6c5  2**0
+ 17 .debug_str    00005395  00000000  00000000  0004b937  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .comment      00000053  00000000  00000000  00050a40  2**0
+ 18 .comment      00000053  00000000  00000000  00050ccc  2**0
                   CONTENTS, READONLY
- 19 .debug_frame  00005788  00000000  00000000  00050a94  2**2
+ 19 .debug_frame  00005788  00000000  00000000  00050d20  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -10680,68 +10680,68 @@ void auto_tune()
  8004efa:	2b01      	cmp	r3, #1
  8004efc:	dddf      	ble.n	8004ebe <auto_tune+0x12>
 			}
-	LCD_DrawString(60 ,40,  YELLOW, BLUE,pegsel[currentPeg-1], 16, 0);
+	LCD_DrawString(60 ,40,  YELLOW, BLUE,pegsel[currentPeg], 16, 0);
  8004efe:	4b2e      	ldr	r3, [pc, #184]	; (8004fb8 <auto_tune+0x10c>)
- 8004f00:	681b      	ldr	r3, [r3, #0]
- 8004f02:	1e5a      	subs	r2, r3, #1
- 8004f04:	4b2d      	ldr	r3, [pc, #180]	; (8004fbc <auto_tune+0x110>)
- 8004f06:	0092      	lsls	r2, r2, #2
- 8004f08:	58d3      	ldr	r3, [r2, r3]
- 8004f0a:	492a      	ldr	r1, [pc, #168]	; (8004fb4 <auto_tune+0x108>)
- 8004f0c:	2200      	movs	r2, #0
- 8004f0e:	9202      	str	r2, [sp, #8]
- 8004f10:	2210      	movs	r2, #16
- 8004f12:	9201      	str	r2, [sp, #4]
- 8004f14:	9300      	str	r3, [sp, #0]
- 8004f16:	231f      	movs	r3, #31
- 8004f18:	000a      	movs	r2, r1
- 8004f1a:	2128      	movs	r1, #40	; 0x28
- 8004f1c:	203c      	movs	r0, #60	; 0x3c
- 8004f1e:	f7ff f9eb 	bl	80042f8 <LCD_DrawString>
-		LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play open", 16, 0);
- 8004f22:	4a24      	ldr	r2, [pc, #144]	; (8004fb4 <auto_tune+0x108>)
- 8004f24:	2300      	movs	r3, #0
- 8004f26:	9302      	str	r3, [sp, #8]
- 8004f28:	2310      	movs	r3, #16
- 8004f2a:	9301      	str	r3, [sp, #4]
- 8004f2c:	4b24      	ldr	r3, [pc, #144]	; (8004fc0 <auto_tune+0x114>)
- 8004f2e:	9300      	str	r3, [sp, #0]
- 8004f30:	231f      	movs	r3, #31
- 8004f32:	213c      	movs	r1, #60	; 0x3c
- 8004f34:	203c      	movs	r0, #60	; 0x3c
- 8004f36:	f7ff f9df 	bl	80042f8 <LCD_DrawString>
-		LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentPeg-1], 16, 0);
- 8004f3a:	4b1f      	ldr	r3, [pc, #124]	; (8004fb8 <auto_tune+0x10c>)
- 8004f3c:	681b      	ldr	r3, [r3, #0]
- 8004f3e:	1e5a      	subs	r2, r3, #1
- 8004f40:	4b20      	ldr	r3, [pc, #128]	; (8004fc4 <auto_tune+0x118>)
- 8004f42:	0092      	lsls	r2, r2, #2
- 8004f44:	58d3      	ldr	r3, [r2, r3]
- 8004f46:	491b      	ldr	r1, [pc, #108]	; (8004fb4 <auto_tune+0x108>)
- 8004f48:	2200      	movs	r2, #0
- 8004f4a:	9202      	str	r2, [sp, #8]
- 8004f4c:	2210      	movs	r2, #16
- 8004f4e:	9201      	str	r2, [sp, #4]
- 8004f50:	9300      	str	r3, [sp, #0]
- 8004f52:	231f      	movs	r3, #31
- 8004f54:	000a      	movs	r2, r1
- 8004f56:	213c      	movs	r1, #60	; 0x3c
- 8004f58:	208c      	movs	r0, #140	; 0x8c
- 8004f5a:	f7ff f9cd 	bl	80042f8 <LCD_DrawString>
-	LCD_DrawString(65*2 + 25,200,  YELLOW, BLUE, (currDisplay->selection)[2], 16, 0);
- 8004f5e:	4b14      	ldr	r3, [pc, #80]	; (8004fb0 <auto_tune+0x104>)
- 8004f60:	681b      	ldr	r3, [r3, #0]
- 8004f62:	689b      	ldr	r3, [r3, #8]
- 8004f64:	3308      	adds	r3, #8
- 8004f66:	681b      	ldr	r3, [r3, #0]
- 8004f68:	4912      	ldr	r1, [pc, #72]	; (8004fb4 <auto_tune+0x108>)
- 8004f6a:	2200      	movs	r2, #0
- 8004f6c:	9202      	str	r2, [sp, #8]
- 8004f6e:	2210      	movs	r2, #16
- 8004f70:	9201      	str	r2, [sp, #4]
+ 8004f00:	681a      	ldr	r2, [r3, #0]
+ 8004f02:	4b2e      	ldr	r3, [pc, #184]	; (8004fbc <auto_tune+0x110>)
+ 8004f04:	0092      	lsls	r2, r2, #2
+ 8004f06:	58d3      	ldr	r3, [r2, r3]
+ 8004f08:	492a      	ldr	r1, [pc, #168]	; (8004fb4 <auto_tune+0x108>)
+ 8004f0a:	2200      	movs	r2, #0
+ 8004f0c:	9202      	str	r2, [sp, #8]
+ 8004f0e:	2210      	movs	r2, #16
+ 8004f10:	9201      	str	r2, [sp, #4]
+ 8004f12:	9300      	str	r3, [sp, #0]
+ 8004f14:	231f      	movs	r3, #31
+ 8004f16:	000a      	movs	r2, r1
+ 8004f18:	2128      	movs	r1, #40	; 0x28
+ 8004f1a:	203c      	movs	r0, #60	; 0x3c
+ 8004f1c:	f7ff f9ec 	bl	80042f8 <LCD_DrawString>
+	LCD_DrawString(60 ,60,  YELLOW, BLUE,"Play open", 16, 0);
+ 8004f20:	4a24      	ldr	r2, [pc, #144]	; (8004fb4 <auto_tune+0x108>)
+ 8004f22:	2300      	movs	r3, #0
+ 8004f24:	9302      	str	r3, [sp, #8]
+ 8004f26:	2310      	movs	r3, #16
+ 8004f28:	9301      	str	r3, [sp, #4]
+ 8004f2a:	4b25      	ldr	r3, [pc, #148]	; (8004fc0 <auto_tune+0x114>)
+ 8004f2c:	9300      	str	r3, [sp, #0]
+ 8004f2e:	231f      	movs	r3, #31
+ 8004f30:	213c      	movs	r1, #60	; 0x3c
+ 8004f32:	203c      	movs	r0, #60	; 0x3c
+ 8004f34:	f7ff f9e0 	bl	80042f8 <LCD_DrawString>
+	LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentPeg], 16, 0);
+ 8004f38:	4b1f      	ldr	r3, [pc, #124]	; (8004fb8 <auto_tune+0x10c>)
+ 8004f3a:	681a      	ldr	r2, [r3, #0]
+ 8004f3c:	4b21      	ldr	r3, [pc, #132]	; (8004fc4 <auto_tune+0x118>)
+ 8004f3e:	0092      	lsls	r2, r2, #2
+ 8004f40:	58d3      	ldr	r3, [r2, r3]
+ 8004f42:	491c      	ldr	r1, [pc, #112]	; (8004fb4 <auto_tune+0x108>)
+ 8004f44:	2200      	movs	r2, #0
+ 8004f46:	9202      	str	r2, [sp, #8]
+ 8004f48:	2210      	movs	r2, #16
+ 8004f4a:	9201      	str	r2, [sp, #4]
+ 8004f4c:	9300      	str	r3, [sp, #0]
+ 8004f4e:	231f      	movs	r3, #31
+ 8004f50:	000a      	movs	r2, r1
+ 8004f52:	213c      	movs	r1, #60	; 0x3c
+ 8004f54:	208c      	movs	r0, #140	; 0x8c
+ 8004f56:	f7ff f9cf 	bl	80042f8 <LCD_DrawString>
+	LCD_DrawString(65*2 + 25,200,  YELLOW, RED, (currDisplay->selection)[2], 16, 0);
+ 8004f5a:	4b15      	ldr	r3, [pc, #84]	; (8004fb0 <auto_tune+0x104>)
+ 8004f5c:	681b      	ldr	r3, [r3, #0]
+ 8004f5e:	689b      	ldr	r3, [r3, #8]
+ 8004f60:	3308      	adds	r3, #8
+ 8004f62:	681b      	ldr	r3, [r3, #0]
+ 8004f64:	22f8      	movs	r2, #248	; 0xf8
+ 8004f66:	0212      	lsls	r2, r2, #8
+ 8004f68:	4812      	ldr	r0, [pc, #72]	; (8004fb4 <auto_tune+0x108>)
+ 8004f6a:	2100      	movs	r1, #0
+ 8004f6c:	9102      	str	r1, [sp, #8]
+ 8004f6e:	2110      	movs	r1, #16
+ 8004f70:	9101      	str	r1, [sp, #4]
  8004f72:	9300      	str	r3, [sp, #0]
- 8004f74:	231f      	movs	r3, #31
- 8004f76:	000a      	movs	r2, r1
+ 8004f74:	0013      	movs	r3, r2
+ 8004f76:	0002      	movs	r2, r0
  8004f78:	21c8      	movs	r1, #200	; 0xc8
  8004f7a:	209b      	movs	r0, #155	; 0x9b
  8004f7c:	f7ff f9bc 	bl	80042f8 <LCD_DrawString>
@@ -10757,7 +10757,7 @@ void auto_tune()
  8004f90:	2150      	movs	r1, #80	; 0x50
  8004f92:	2050      	movs	r0, #80	; 0x50
  8004f94:	f7ff f9b0 	bl	80042f8 <LCD_DrawString>
-	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t *) adc_buf, ADC_BUF_LEN);
  8004f98:	2380      	movs	r3, #128	; 0x80
  8004f9a:	011a      	lsls	r2, r3, #4
  8004f9c:	490b      	ldr	r1, [pc, #44]	; (8004fcc <auto_tune+0x120>)
@@ -12100,7 +12100,7 @@ void stepperMotor(int direction, int per, int angle, int mode)
  8005864:	2b01      	cmp	r3, #1
  8005866:	d107      	bne.n	8005878 <stepperMotor+0x24>
 	{
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);//tight
  8005868:	2380      	movs	r3, #128	; 0x80
  800586a:	01db      	lsls	r3, r3, #7
  800586c:	483c      	ldr	r0, [pc, #240]	; (8005960 <stepperMotor+0x10c>)
@@ -12111,7 +12111,7 @@ void stepperMotor(int direction, int per, int angle, int mode)
 	}
 	else
 	{
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);//loosen
  8005878:	2380      	movs	r3, #128	; 0x80
  800587a:	01db      	lsls	r3, r3, #7
  800587c:	4838      	ldr	r0, [pc, #224]	; (8005960 <stepperMotor+0x10c>)
