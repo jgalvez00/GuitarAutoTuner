@@ -15,7 +15,10 @@
 // Global Variables
 const float notefreq[6] = {81.38, 108.5,135.6, 189.9, 244.1,325.5};
 const float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
+/*int dspmain2()
+{
 
+}*/
 int dspmain()
 {
 	// Define Standard Mapping
@@ -45,9 +48,11 @@ int dspmain()
 	}
 
 	// High-Pass Filter
-	float cutoff = 50.0; // hertz
-	HighPass(data_re, cutoff, fs, BUF_LEN);
-
+	float cutoffLow = 45.0; // hertz
+	HighPass(data_re, cutoffLow, fs, BUF_LEN);
+	float cutoffHigh = 600.0;
+	LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
+	LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
 	// Center Data in Frequency
 	bool center = true;
 	if (center)
@@ -75,7 +80,7 @@ int dspmain()
 	LCD_DrawString(60,180,YELLOW, BLUE, "ANGLE", 16, 0);
 	LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
 	int dir = (angle < 0)? 2: 1;
-	if(abs(angle) < 2700 ){stepperMotor(dir, 7500, abs(angle), 2);}
+	if(abs(angle) < 500 ){stepperMotor(dir, 7500, abs(angle), 2);}
 	//
 	return 0;
 }
@@ -201,4 +206,13 @@ void HighPass(float* x, float cutoff, float samp_rate, const unsigned int N)
 		x_prev = x_curr;
 		y_prev = x[k];
 	}
+}
+void LowPass(float* x, float cutoff, const float samp_rate, const unsigned int N)
+{
+	float deltaT = 1 / samp_rate;
+	float alpha = 2 * PI * deltaT * cutoff / (2 * PI * deltaT * cutoff + 1);
+
+	x[0] *= alpha;
+	for (int n = 1; n < N; n++)
+		x[n] = x[n - 1] + alpha * (x[n] - x[n - 1]);
 }

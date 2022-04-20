@@ -1,0 +1,28 @@
+15:43:03 **** Incremental Build of configuration Debug for project ADC_test ****
+make -j3 all 
+arm-none-eabi-gcc "../Core/Src/dsp_v2.c" -mcpu=cortex-m0 -std=gnu11 -g -DDEBUG -DSTM32F091xC -DUSE_HAL_DRIVER -c -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/dsp_v2.d" -MT"Core/Src/dsp_v2.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/dsp_v2.o"
+../Core/Src/dsp_v2.c: In function 'dspmain':
+../Core/Src/dsp_v2.c:22:10: warning: variable 'standard' set but not used [-Wunused-but-set-variable]
+   22 |  TuneMap standard;
+      |          ^~~~~~~~
+../Core/Src/dsp_v2.c: In function 'LCD_DrawFmax':
+../Core/Src/dsp_v2.c:88:2: warning: implicit declaration of function 'gcvt' [-Wimplicit-function-declaration]
+   88 |  gcvt(notefreq[currentPeg], 6, fma);
+      |  ^~~~
+arm-none-eabi-gcc -o "ADC_test.elf" @"objects.list"  -Wl,--start-group  -Wl,--end-group -mcpu=cortex-m0 -T"/Users/markscheker/Library/CloudStorage/OneDrive-purdue.edu/Senior year/spring2022/rec/ADC_test/STM32F091RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_test.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb
+Finished building target: ADC_test.elf
+ 
+arm-none-eabi-size   ADC_test.elf 
+arm-none-eabi-objdump -h -S  ADC_test.elf  > "ADC_test.list"
+arm-none-eabi-objcopy  -O binary  ADC_test.elf  "ADC_test.bin"
+   text	   data	    bss	    dec	    hex	filename
+  63432	    248	   6136	  69816	  110b8	ADC_test.elf
+Finished building: default.size.stdout
+ 
+Finished building: ADC_test.bin
+ 
+Finished building: ADC_test.list
+ 
+
+15:43:05 Build Finished. 0 errors, 2 warnings. (took 2s.408ms)
+

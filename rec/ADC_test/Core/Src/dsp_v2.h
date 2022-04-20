@@ -37,4 +37,5 @@ void ComputeFFT(float*, float*, const unsigned int);
 void Mag(float, float, float *);
 float ArgMax(float*, float*, const unsigned int, const float, bool);
 void HighPass(float*, float, float, const unsigned int);
+void LowPass(float*, float, const float, const unsigned int);
 #endif

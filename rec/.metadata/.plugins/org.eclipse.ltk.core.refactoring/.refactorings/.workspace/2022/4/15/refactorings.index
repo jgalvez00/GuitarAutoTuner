@@ -1,0 +1,7 @@
+1649016119449	Delete resource 'ADC_test/FFTW_LIBRARY/libfftw3.a'
+1649018470317	Delete resource 'ADC_test/FFTW_LIBRARY/api/version.c'
+1649018828877	Delete resource 'ADC_test/FFTW_LIBRARY/api/configure.c'
+1649080813065	Delete resource 'ADC_test/FFTW_LIBRARY'
+1649081489367	Delete resource 'ADC_test/FFTW_LIBRARY'
+1649090212115	Delete resource 'ADC_test/Core/Src/dsp.h'
+1649090218969	Delete resource 'ADC_test/Core/Src/dsp.c'
