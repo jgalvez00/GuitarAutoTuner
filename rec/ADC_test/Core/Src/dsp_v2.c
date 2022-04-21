@@ -34,8 +34,10 @@ int dspmain2()
 			data_re[n] -= avg;
 
 		// Filter
-		float cutoffLow = 45.0; // hertz
-		float cutoffHigh = 600.0; // hertz
+		float cutoffLow = notefreq[currentPeg] - 60.0; // hertz
+		float cutoffHigh = notefreq[currentPeg] + 60.0; // hertz
+
+
 		HighPass(data_re, cutoffLow, fs, BUF_LEN); // only need to filter the original BUF_LEN number of samples
 		LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
 		LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
