@@ -10,8 +10,8 @@
 #include "main.h"
 const char* menu[3] = {"Info", "Tune", "Restring"};
 const char* Tune[7] = {"Back", "Peg1", "Peg2", "Peg3", "Peg4", "Peg5", "Peg6"};
-const char* Manual[3] = {"Back", "Tight", "Loose"};
-const char* Info[2] = {"Back", "Next"};
+const char* Manual[3] = {"Back", "Loose", "Tight"};
+const char* Info[2] = {"Back", "Battery"};
 const char* Peg[3] = {"Back", "Test1", "AutoTune"};
 const char* pegsel[6] = {"Peg 1", "Peg 2", "Peg 3", "Peg 4", "Peg 5", "Peg 6"};
 const char* note[6] = {"Low E", "A", "D", "G", "B", "High E"};
