@@ -298,7 +298,7 @@ void stepperMotor(int direction, int per, int angle, int mode)
 
 	if(mode == 1) //Manual stepper rotation
 	{startmotor();
-	while(updateToggleHistory(5) | updateToggleHistory(7))
+	while(updateToggleHistory(5) | updateToggleHistory(7) | HAL_GPIO_ReadPin(GPIOB, 1 << (5)) | HAL_GPIO_ReadPin(GPIOB, 1 << (7)))
 	{//while trigger button is being pressed, currently mapped to selection button for testing
 		nano_wait(5000000);
 

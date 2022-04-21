@@ -13,12 +13,60 @@
 #define SWAP(x, y) do {typeof(x) SWAP = x; x = y; y = SWAP; } while (0)
 
 // Global Variables
-const float notefreq[6] = {81.38, 108.5,135.6, 189.9, 244.1,325.5};
+const float notefreq[6] = {82.41, 110.00,146.83, 196.00, 246.94,329.63};
 const float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
-/*int dspmain2()
+int dspmain2()
 {
+	// construct the signal
+		float data_re[2 * BUF_LEN] = {0}; // 2 * BUF_LEN because of Autocorrelation (otherwise, would result in circular autocorrelation)
+		float data_im[2 * BUF_LEN] = {0}; // same reason for 2 * BUF_LEN as data_re[]
 
-}*/
+		float avg = 0.0;
+		for(int i =0; i < BUF_LEN; i++)
+			{
+				data_re[i] = (float) adc_buf[i];
+				avg += data_re[i];
+		}
+		avg /= BUF_LEN;
+
+		// remove any possible DC bias
+		for (int n = 0; n < BUF_LEN; n++)
+			data_re[n] -= avg;
+
+		// Filter
+		float cutoffLow = 45.0; // hertz
+		float cutoffHigh = 600.0; // hertz
+		HighPass(data_re, cutoffLow, fs, BUF_LEN); // only need to filter the original BUF_LEN number of samples
+		LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
+		LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
+		// Center Data in Frequency
+
+		// compute the autocorrelation
+		Autocorr(data_re, data_im, 2 * BUF_LEN); // result of autocorrelation stored in data_re[]
+
+		// print the result
+		bool print_mag = false; // set to true for printing magnitude
+		bool inverse = true; // set to false if printing frequency data, otherwise set to true
+		bool corr = true; // set to true for printing autocorrelation
+		//PrintData(data_re, data_im, 2 * BUF_LEN, fs, center, print_mag, inverse, corr);
+
+		// estimate the input frequency
+		float fmax = 0.0;
+		AutocorrFreq(data_re, BUF_LEN, fs, &fmax);
+		//printf("Estimated Frequency: %.6f\n", fmax);
+		float freq = 100.0;
+		LCD_DrawFmax(3, 0, 1, &freq, &fmax);
+		int angle = (notefreq[currentPeg] - fmax) / (AveDiff[currentPeg]/180.0);
+		char text[6];
+		sprintf(text, "%d", angle);
+		LCD_DrawString(60,180,YELLOW, BLUE, "ANGLE", 16, 0);
+		LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
+		int dir = (angle < 0)? 1: 2;
+		if(abs(angle) < 500 ){stepperMotor(dir, 7500, abs(angle), 2);}
+			//
+		return 0;
+
+}
 int dspmain()
 {
 	// Define Standard Mapping
@@ -65,7 +113,7 @@ int dspmain()
 
 	// Apply the Danielson-Lanczos Algorithm
 	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN);
+	ComputeFFT(data_re, data_im, BUF_LEN, false);
 
 	// Find the Fundamental Frequency
 	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
@@ -125,7 +173,7 @@ void RearrangeFFT(float* data_re, float* data_im, const unsigned int N)
 	}
 }
 
-void ComputeFFT(float* data_re, float* data_im, const unsigned int N)
+void ComputeFFT(float* data_re, float* data_im, const unsigned int N, bool inverse)
 {
 	for (int step = 1; step < N; step <<= 1)
 	{
@@ -147,9 +195,18 @@ void ComputeFFT(float* data_re, float* data_im, const unsigned int N)
 			}
 			if ((group + 1) == step)
 				continue;
-			float angle = -PI * ((float) group + 1) / step_d;
+			float angle = -PI * ((float) group + 1) / step_d * (inverse ? -1 : 1);
 			twiddle_re = cos(angle);
 			twiddle_im = sin(angle);
+		}
+	}
+
+	if (inverse)
+	{
+		for (int k = 0; k < N; k++)
+		{
+			data_re[k] /= N;
+			data_im[k] /= N;
 		}
 	}
 }
@@ -215,4 +272,55 @@ void LowPass(float* x, float cutoff, const float samp_rate, const unsigned int N
 	x[0] *= alpha;
 	for (int n = 1; n < N; n++)
 		x[n] = x[n - 1] + alpha * (x[n] - x[n - 1]);
+}
+
+void FFT(float* data_re, float* data_im, const unsigned int N, bool inverse)
+{
+	/* NOTE: N must be a power of 2 */
+
+	RearrangeFFT(data_re, data_im, N);
+	ComputeFFT(data_re, data_im, N, inverse);
+}
+
+void Autocorr(float* data_re, float* data_im, const unsigned int N)
+{
+	/* NOTE: N must be 2x the size of the original data vector */
+
+	// compute the Fourier Transform
+	bool inverse = false;
+	FFT(data_re, data_im, N, inverse);
+
+	// compute the power spectral density
+	for (int k = 0; k < 2 * BUF_LEN; k++)
+	{
+		data_re[k] = pow(data_re[k], 2) + pow(data_im[k], 2);
+		data_im[k] = 0.0;
+	}
+
+	// compute the autocorrelation (stored in data_re[])
+	inverse = true;
+	FFT(data_re, data_im, 2 * BUF_LEN, inverse);
+}
+
+void AutocorrFreq(float* r, const unsigned int N, const float samp_rate, float * result)
+{
+	/* NOTE: N only needs to be the size of the original data vector because
+			 the autocorrelation is symmetric about the zero-lag index
+	*/
+
+	float vmax = 0.0;
+	int nmax = 0.0;
+	for (int n = 1; n < N - 1; n++)
+	{
+		float val_prev = r[n - 1];
+		float val = r[n];
+		float val_next = r[n + 1];
+		if ((val_prev < val) && (val_next < val) && (val > vmax))
+		{
+			nmax = n;
+			vmax = val;
+		}
+	}
+
+	*result = samp_rate / nmax;
 }

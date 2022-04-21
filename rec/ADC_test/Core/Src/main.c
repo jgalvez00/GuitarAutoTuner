@@ -521,7 +521,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 	//LCD_Drawnum(3, 0, 0, , num2)
 	HAL_ADC_Stop_DMA(hadc);
 	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
-	dspmain();
+	//dspmain();
+	dspmain2();
 	//LCD_DrawString(60 ,160,  YELLOW, BLUE,"Finished DSP", 16, 0);
 }
 void battery() {
@@ -569,7 +570,7 @@ void battery() {
 
 			LCD_DrawString(140,160,YELLOW, BLUE, text, 16, 0);
 
-			float chargeAmount = 2 * 0.085 * (batbuf[3] + batbuf[2] * 256);
+			float chargeAmount = 0.085 * (batbuf[3] + batbuf[2] * 256);
 			sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/5200.0*100));
 
 
@@ -591,7 +592,7 @@ void battery_setPresacle(uint8_t scale)
 {
 	HAL_StatusTypeDef ret;
 	batbuf[0] = 0x01;
-	batbuf[1] = 0x38;
+	batbuf[1] = 0x30;
 	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 2, HAL_MAX_DELAY);
 	if ( ret != HAL_OK ) {
 		LCD_DrawString(140,40,YELLOW, BLUE, "ERROR", 16, 0);
