@@ -54,7 +54,9 @@ TIM_HandleTypeDef htim1;
 /* USER CODE BEGIN PV */
 //uint16_t adc_buf[BUF_LEN] = {0};
 uint8_t batbuf[I2C_BUF_LEN];
+//uint16_t temp[ADC_BUF_LEN*8];
 int tmp;
+uint8_t gotNote;
 static const uint8_t I2C_BATTERY_MONITOR_ADDR = 0x64 << 1;
 
 void battery_setPresacle(uint8_t scale);
@@ -70,6 +72,7 @@ static void MX_TIM1_Init(void);
 static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
 void Sample(ADC_HandleTypeDef*, uint32_t*, uint32_t);
+void acquireTune();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -518,12 +521,21 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
 
 // Called when buffer is completely filled
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+//	gotNote = 1;
+//	HAL_ADC_Stop_DMA(hadc);
 	//LCD_Drawnum(3, 0, 0, , num2)
+
 	HAL_ADC_Stop_DMA(hadc);
+
+//	for(int i = 0; i < ADC_BUF_LEN; i++){
+//			adc_buf[i] = buffer.raw[i*8];
+//	}
+
 	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
 	//dspmain();
 	dspmain2();
 	//LCD_DrawString(60 ,160,  YELLOW, BLUE,"Finished DSP", 16, 0);
+
 }
 void battery() {
 
@@ -670,9 +682,32 @@ void auto_tune()
 	LCD_DrawString(140 ,60,  YELLOW, BLUE, note[currentPeg], 16, 0);
 	LCD_DrawString(65*2 + 25,200,  YELLOW, BLUE, (currDisplay->selection)[2], 16, 0);
 	LCD_DrawString(80 ,80,  YELLOW, BLUE,"Take samples", 16, 0);
-	HAL_ADC_Start_DMA(&hadc, adc_buf, ADC_BUF_LEN);
+	acquireTune();
+
+
+
+	//dspmain();
+	//dspmain2();
+
 	//dspmain();
 }
+
+void acquireTune()
+{
+	//gotNote = 0;
+	//uint16_t temp[ADC_BUF_LEN*8]= {0};
+	HAL_ADC_Start_DMA(&hadc, buffer.raw, SAMPLE_LEN);
+//	while(gotNote == 0) nano_wait(100);
+//
+//	for(int i = 0; i < ADC_BUF_LEN; i++){
+//		adc_buf[i] = temp[i*8];
+//	}
+//
+//	LCD_DrawString(60 ,80,  YELLOW, BLUE,"Finished samples", 16, 0);
+
+
+}
+
 void startmotor()
 {
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
@@ -682,69 +717,7 @@ void stopmotor()
 	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
 }
-/*int dspmain()
-{
-	//printf("--------program start--------\n");
 
-	// define standard mapping
-	TuneMap standard;
-	standard.E1 = 329.63;
-	standard.B = 246.94;
-	standard.G = 196.00;
-	standard.D = 146.83;
-	standard.A = 110.00;
-	standard.E2 = 82.41;
-	/*
-	// construct the time array
-	float t[BUF_LEN];
-	BuildTime(t);
-
-	// printing the time array
-	bool print_time = false;
-
-	// construct the signal
-	float freq = 100.0; // hertz
-	float data_re[BUF_LEN] = {0};
-	float data_im[BUF_LEN] = {0};
-	bool center = true;
-	//float noise[BUF_LEN] = {0};
-	//AWGN(noise, Pn, BUF_LEN)
-	for (int n = 0; n < BUF_LEN; n++)
-	{
-		data_re[n] = center ? (sin(2 * PI * freq * t[n]) * pow(-1, n)) : sin(2 * PI * freq * t[n]); // real part
-		//data_re[n] += noise[n];
-	}
-
-	// Apply the Danielson-Lanczos Algorithm
-	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN);
-
-	// Print Output
-	bool print_mag = true;
-	//PrintData(data_re, data_im, BUF_LEN, fs, center, print_mag);
-
-	// Find the Fundamental Frequency
-	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
-	//printf("fmax = %f\n", fmax);
-
-	//printf("---------program end---------\n");
-	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-
-	bool center = true;
-	float data_re[BUF_LEN] = {0};
-	for(int i =0; i < BUF_LEN; i++)
-	{
-		data_re[i] =(center)? (float) adc_buf[i] * (pow(-1,i)): (float) adc_buf[i];
-
-	}
-	float data_im[BUF_LEN] = {0};
-	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN);
-	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
-	float freq = 100.0;
-	LCD_Drawnum(3, 0, 1, &freq, &fmax);
-	return 0;
-}*/
 /* USER CODE END 4 */
 
 /**

@@ -15,36 +15,58 @@
 // Global Variables
 const float notefreq[6] = {82.41, 110.00,146.83, 196.00, 246.94,329.63};
 const float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
+
+
+
 int dspmain2()
 {
 	// construct the signal
-		float data_re[2 * BUF_LEN] = {0}; // 2 * BUF_LEN because of Autocorrelation (otherwise, would result in circular autocorrelation)
-		float data_im[2 * BUF_LEN] = {0}; // same reason for 2 * BUF_LEN as data_re[]
+		LCD_DrawString(60,250,YELLOW, BLUE, "                    ", 16, 0);
+		LCD_DrawString(20,270,YELLOW, BLUE, "                             ", 16, 0);
+//		buffer.dspFloat.data_re[2 * BUF_LEN] = {0}; // 2 * BUF_LEN because of Autocorrelation (otherwise, would result in circular autocorrelation)
+//		buffer.dspFloat.data_im[2 * BUF_LEN] = {0}; // same reason for 2 * BUF_LEN as data_re[]
+
+		for(int i = 0; i < ADC_BUF_LEN; i++){
+					adc_buf[i] = buffer.raw[i*SAMPLE_MULT];
+		}
+
 
 		float avg = 0.0;
 		for(int i =0; i < BUF_LEN; i++)
 			{
-				data_re[i] = (float) adc_buf[i];
-				avg += data_re[i];
+				buffer.dspFloat.data_re[i] = (float) adc_buf[i];
+				avg += buffer.dspFloat.data_re[i];
 		}
 		avg /= BUF_LEN;
 
 		// remove any possible DC bias
 		for (int n = 0; n < BUF_LEN; n++)
-			data_re[n] -= avg;
+			buffer.dspFloat.data_re[n] -= avg;
 
 		// Filter
-		float cutoffLow = notefreq[currentPeg] - 60.0; // hertz
-		float cutoffHigh = notefreq[currentPeg] + 60.0; // hertz
+//		float cutoffLow = notefreq[currentPeg] - 60.0; // hertz
+//		float cutoffHigh = notefreq[currentPeg] + 60.0; // hertz
+
+		float cutoffLow = 30; // hertz
+		float cutoffHigh = 600; // hertz
+
+		char thing[6];
+		sprintf(thing, "%d", currentPeg);
+		LCD_DrawString(20,180,YELLOW, BLUE, thing, 16, 0);
+
+		if (currentPeg == 0) {
+			//cutoffHigh = 100; // hertz
+			//cutoffLow = 60;
+		}
 
 
-		HighPass(data_re, cutoffLow, fs, BUF_LEN); // only need to filter the original BUF_LEN number of samples
-		LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
-		LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
+		HighPass(buffer.dspFloat.data_re, cutoffLow, fs, BUF_LEN); // only need to filter the original BUF_LEN number of samples
+		LowPass(buffer.dspFloat.data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
+		LowPass(buffer.dspFloat.data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
 		// Center Data in Frequency
 
 		// compute the autocorrelation
-		Autocorr(data_re, data_im, 2 * BUF_LEN); // result of autocorrelation stored in data_re[]
+		Autocorr(buffer.dspFloat.data_re, buffer.dspFloat.data_im, 2 * BUF_LEN); // result of autocorrelation stored in data_re[]
 
 		// print the result
 		bool print_mag = false; // set to true for printing magnitude
@@ -54,7 +76,7 @@ int dspmain2()
 
 		// estimate the input frequency
 		float fmax = 0.0;
-		AutocorrFreq(data_re, BUF_LEN, fs, &fmax);
+		AutocorrFreq(buffer.dspFloat.data_re, BUF_LEN, fs, &fmax);
 		//printf("Estimated Frequency: %.6f\n", fmax);
 		float freq = 100.0;
 		LCD_DrawFmax(3, 0, 1, &freq, &fmax);
@@ -64,76 +86,31 @@ int dspmain2()
 		LCD_DrawString(60,180,YELLOW, BLUE, "ANGLE", 16, 0);
 		LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
 		int dir = (angle < 0)? 1: 2;
-		if(abs(angle) < 500 ){stepperMotor(dir, 7500, abs(angle), 2);}
+		if(abs(angle) < 500 ){
+			LCD_DrawString(60,250,YELLOW, BLUE, "Tuning is Primed", 16, 0);
+			LCD_DrawString(20,270,YELLOW, BLUE, "Attach & Press Trigger", 16, 0);
+
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET); //motor Enable
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET); //Boost Enable
+
+			while (!(HAL_GPIO_ReadPin(GPIOB, 1 << (5)) || HAL_GPIO_ReadPin(GPIOB, 1 << (7)))){
+				nano_wait(5000000);
+
+			}
+			stepperMotor(dir, 7500, abs(angle), 2);
+
+			LCD_DrawString(60,250,YELLOW, BLUE, "                    ", 16, 0);
+			LCD_DrawString(20,270,YELLOW, BLUE, "                             ", 16, 0);
+		}
+		else {
+			LCD_DrawString(40,250,YELLOW, BLUE, "Bad Signal TRY AGAIN", 16, 0);
+
+		}
 			//
 		return 0;
 
 }
-int dspmain()
-{
-	// Define Standard Mapping
-	TuneMap standard;
-	standard.E1 = 329.63;
-	standard.B = 246.94;
-	standard.G = 196.00;
-	standard.D = 146.83;
-	standard.A = 110.00;
-	standard.E2 = 82.41;
 
-	// Construct the Signal & Compute Average
-	float data_re[BUF_LEN] = {0};
-	float data_im[BUF_LEN] = {0};
-	float sum =0;
-	for(int i =0; i < BUF_LEN; i++)
-	{
-		data_re[i] = (float) adc_buf[i];
-		sum += data_re[i];
-	}
-	float avg = sum/BUF_LEN;
-
-	//Remove the DC Bias
-	for(int i =0; i < BUF_LEN; i++)
-	{
-		data_re[i] -= avg;
-	}
-
-	// High-Pass Filter
-	float cutoffLow = 45.0; // hertz
-	HighPass(data_re, cutoffLow, fs, BUF_LEN);
-	float cutoffHigh = 600.0;
-	LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
-	LowPass(data_re, cutoffHigh, fs, BUF_LEN); // same reason for BUF_LEN as HighPass
-	// Center Data in Frequency
-	bool center = true;
-	if (center)
-	{
-		for (int n = 0; n < BUF_LEN; n++)
-		{
-			data_re[n] = data_re[n] * pow(-1, n);
-		}
-	}
-
-	// Apply the Danielson-Lanczos Algorithm
-	RearrangeFFT(data_re, data_im, BUF_LEN);
-	ComputeFFT(data_re, data_im, BUF_LEN, false);
-
-	// Find the Fundamental Frequency
-	float fmax = ArgMax(data_re, data_im, BUF_LEN, fs, center);
-
-	float freq = 100.0;
-	fmax = (fmax< 0)? (fmax * -1) : fmax;
-	LCD_DrawFmax(3, 0, 1, &freq, &fmax);
-	//Jacobs algorithm (AKA the J algo)
-	int angle = (notefreq[currentPeg] - fmax) / (AveDiff[currentPeg]/180.0);
-	char text[6];
-	sprintf(text, "%d", angle);
-	LCD_DrawString(60,180,YELLOW, BLUE, "ANGLE", 16, 0);
-	LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
-	int dir = (angle < 0)? 2: 1;
-	if(abs(angle) < 500 ){stepperMotor(dir, 7500, abs(angle), 2);}
-	//
-	return 0;
-}
 
 void LCD_DrawFmax(int size, int side, int row, float *num, float *num2)
 {

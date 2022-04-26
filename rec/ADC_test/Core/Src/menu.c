@@ -306,7 +306,8 @@ void stepperMotor(int direction, int per, int angle, int mode)
 	}
 	else //Angular precise stepper movements
 		{
-		uint32_t timemotor = per* angle /10000/1.8*3.95; //period * number of steps(angle) / 10000 / 1.8degrees per step * 1.25
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);//seting motor to full drive
+		uint32_t timemotor = per* angle /10000/1.8*3.95 * 2; //period * number of steps(angle) / 10000 / 1.8degrees per step * 1.25
 		startmotor();
 		uint32_t motorstarttime = HAL_GetTick();
 		for(int i =0; i < timemotor; i++)
@@ -316,6 +317,7 @@ void stepperMotor(int direction, int per, int angle, int mode)
 		//while((HAL_GetTick() - motorstarttime < timemotor)/* &( updateToggleHistory(3) || HAL_GPIO_ReadPin(GPIOB, 1 << (3)))*/)
 		//{//while trigger is pressed and angle time is not exceeded, continue running the motor
 		//}
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);
 		}
 
 	//stop motor

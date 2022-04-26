@@ -15,7 +15,11 @@
 // Constants
 #define PI 3.14159265
 #define BUF_LEN 1024 // length of sample buffer
-#define fs 55555.56 // sampling rate (Hz)
+#define SAMPLE_MULT 8
+#define SAMPLE_LEN BUF_LEN*SAMPLE_MULT
+#define fs_base 55555.56 // sampling rate (Hz)
+//#define fs 6944.445 // sampling rate (Hz)
+#define fs fs_base/SAMPLE_MULT // sampling rate (Hz)
 
 // Structures
 typedef struct TuneMap
@@ -27,6 +31,21 @@ typedef struct TuneMap
 	float A;
 	float E2;
 } TuneMap;
+
+typedef struct floatPair
+{
+	float data_re[2 * BUF_LEN];
+	float data_im[2 * BUF_LEN];
+};
+
+union adcData
+{
+	uint16_t raw[SAMPLE_LEN];
+	struct floatPair dspFloat;
+
+};
+
+union adcData buffer;
 
 // Method Declarations
 int dspmain();
