@@ -131,7 +131,7 @@ struct display *currDisplay;
 void menu_home()
 {
 	battery_display();
-	LCD_DrawString(25,200,  YELLOW, BLACK, menu[0], 16, 0);
+	LCD_DrawString(25,SELECT_HEIGHT,  YELLOW, BLACK, menu[0], 16, 0);
 	LCD_DrawString(80 ,40,  YELLOW, BLUE,"Home Menu", 16, 0);
 }
 void move_right()
@@ -167,13 +167,13 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 		{
 			if(selectIndex < 0)
 				selectIndex = currDisplay->selectionmax-1;
-			LCD_DrawString(25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+			LCD_DrawString(25,SELECT_HEIGHT,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
 			int idx = selectIndex;
 			for(int i = 1; i < 3; i++)
 				{idx++;
 				if(idx >= currDisplay->selectionmax)
 					idx = 0;
-				LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
+				LCD_DrawString(65*i + 25,SELECT_HEIGHT,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
 				}
 			scrollIndex = 0;
 		}
@@ -181,13 +181,13 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 		{
 			if(selectIndex >= currDisplay->selectionmax)
 				selectIndex = 0;
-			LCD_DrawString(65*2 +25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+			LCD_DrawString(65*2 +25,SELECT_HEIGHT,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
 			int idx = selectIndex;
 			for(int i = 1; i >= 0; i--)
 			{idx--;
 			if(idx < 0)
 				idx = currDisplay->selectionmax-1;
-			LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
+			LCD_DrawString(65*i + 25,SELECT_HEIGHT,  YELLOW, BLUE, currDisplay->selection[idx], 16, 0);
 			}
 			scrollIndex = 2;
 		}
@@ -204,8 +204,8 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 	else if(selectIndex < 0)
 		selectIndex = currDisplay->selectionmax-1;
 
-	LCD_DrawString(65*scrollIndex + 25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
-	LCD_DrawString(65*currentScrollIndex + 25,200,  YELLOW, BLUE, currDisplay->selection[currentSelectIndex], 16, 0);
+	LCD_DrawString(65*scrollIndex + 25,SELECT_HEIGHT,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+	LCD_DrawString(65*currentScrollIndex + 25,SELECT_HEIGHT,  YELLOW, BLUE, currDisplay->selection[currentSelectIndex], 16, 0);
 	}
 	currentSelectIndex = selectIndex;
 	currentScrollIndex = scrollIndex;
@@ -214,7 +214,7 @@ void display_move(int scrollIndex, int selectIndex, int enable) {
 void display_select(int selectIndex) {
 	//selection cases of where to go
 	//highlight selected choice in red
-    LCD_DrawString(65*currentScrollIndex + 25,200,  YELLOW, RED, currDisplay->selection[currentSelectIndex], 16, 0);
+    LCD_DrawString(65*currentScrollIndex + 25,SELECT_HEIGHT,  YELLOW, RED, currDisplay->selection[currentSelectIndex], 16, 0);
     lastPressed = selectIndex;
 
     if((currentSelectIndex == 0) && (currDisplay->identity != 'h'))
@@ -247,16 +247,16 @@ void display_select(int selectIndex) {
     	else
     	{
     		child->ttl();
-    		LCD_DrawString(65*selectIndex + 25,200,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
+    		LCD_DrawString(65*selectIndex + 25,SELECT_HEIGHT,  YELLOW, BLACK, currDisplay->selection[selectIndex], 16, 0);
     	}
     }
 }
 void resetSel()
 {
 	//LCD_Clear(BLUE);
-	LCD_DrawString(25,200,  YELLOW, BLACK, (currDisplay->selection)[0], 16, 0);
+	LCD_DrawString(25,SELECT_HEIGHT,  YELLOW, BLACK, (currDisplay->selection)[0], 16, 0);
 	for (int i = 1; i < currDisplay->scrollmax; i++) {
-			LCD_DrawString(65*i + 25,200,  YELLOW, BLUE, (currDisplay->selection)[i], 16, 0);
+			LCD_DrawString(65*i + 25,SELECT_HEIGHT,  YELLOW, BLUE, (currDisplay->selection)[i], 16, 0);
 		}
 	currentScrollIndex = 0;
 	currentSelectIndex = 0;
@@ -269,6 +269,7 @@ void Infomode()
 }
 void Manualmode()
 { //display manual mode
+	battery_display();
 	LCD_DrawString(25 ,50,  YELLOW, BLUE,"Manually Control drill", 16, 0);
 	LCD_DrawString(25 ,75,  YELLOW, BLUE,"Re-String Purpose", 16, 0);
 
@@ -330,6 +331,7 @@ void Tunemode() {
 	//introduce scroll index which represents the current index in the list of tune
 	/*currentSelectIndex is just representing the index respective to which of current three selection
 	on the screen is being highlighted */
+	battery_display();
 	//display peg diagram
 	LCD_DrawString(95 ,25,  YELLOW, BLUE,"-----", 16, 0);
 	LCD_DrawString(60 ,40,  YELLOW, BLUE,"3 - |    | - 4", 16, 0);

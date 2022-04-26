@@ -7,6 +7,9 @@
 #include "stdlib.h"
 #include "main.h"
 #include "lcd.h"
+
+#define SELECT_HEIGHT 260
+
 extern int goleft;
 extern int goright;
 //extern const char* menu[3];
