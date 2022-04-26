@@ -32,7 +32,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define ADC_BUF_LEN 1024
-uint16_t adc_buf[ADC_BUF_LEN];
+uint16_t static adc_buf[ADC_BUF_LEN];
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -57,6 +57,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 void auto_tune();
+void battery_display();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

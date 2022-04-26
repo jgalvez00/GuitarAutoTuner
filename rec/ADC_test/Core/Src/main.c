@@ -39,6 +39,8 @@
 /* USER CODE BEGIN PM */
 //#define ADC_BUF_LEN 2048
 #define I2C_BUF_LEN 4
+#define BATTERY_CAPACITY 5200.0
+#define BATTERY_PRESCALE 1
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -60,6 +62,7 @@ uint8_t gotNote;
 static const uint8_t I2C_BATTERY_MONITOR_ADDR = 0x64 << 1;
 
 void battery_setPresacle(uint8_t scale);
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -585,8 +588,6 @@ void battery() {
 			float chargeAmount = 0.085 * (batbuf[3] + batbuf[2] * 256);
 			sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/5200.0*100));
 
-
-
 			LCD_DrawString(25 ,50,  YELLOW, BLUE, text, 16, 0);
 
 
@@ -599,6 +600,32 @@ void battery() {
 
 	//nano_wait(100000);
 }
+
+void battery_display()
+{
+	HAL_StatusTypeDef ret;
+	batbuf[0] = 2;
+	ret = HAL_I2C_Master_Transmit(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 1, HAL_MAX_DELAY);
+	if ( ret != HAL_OK ) {
+//		LCD_DrawString(140,140,YELLOW, BLUE, "ERROR", 16, 0);
+	} else {
+		ret = HAL_I2C_Master_Receive(&hi2c1, I2C_BATTERY_MONITOR_ADDR, batbuf, 4, HAL_MAX_DELAY);
+		if ( ret != HAL_OK ) {
+//			LCD_DrawString(140,160,YELLOW, BLUE, "ERROR", 16, 0);
+		} else {
+			char text[40];
+			float chargeAmount = 0.085 * BATTERY_PRESCALE * (batbuf[3] + batbuf[2] * 256);
+			sprintf(text, "Capacity: %d mAh   %d %%", (uint32_t)chargeAmount, (uint32_t) (chargeAmount/BATTERY_CAPACITY*100));
+
+			LCD_DrawString(25 ,5,  YELLOW, BLUE, text, 16, 0);
+
+
+		}
+	}
+
+
+}
+
 
 void battery_setPresacle(uint8_t scale)
 {

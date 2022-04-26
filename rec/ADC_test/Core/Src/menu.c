@@ -130,8 +130,9 @@ void initialize()
 struct display *currDisplay;
 void menu_home()
 {
-LCD_DrawString(25,200,  YELLOW, BLACK, menu[0], 16, 0);
-LCD_DrawString(80 ,40,  YELLOW, BLUE,"Home Menu", 16, 0);
+	battery_display();
+	LCD_DrawString(25,200,  YELLOW, BLACK, menu[0], 16, 0);
+	LCD_DrawString(80 ,40,  YELLOW, BLUE,"Home Menu", 16, 0);
 }
 void move_right()
 {
@@ -262,6 +263,7 @@ void resetSel()
 }
 void Infomode()
 {//Info mode that displays product usage and info
+
 	LCD_DrawString(25 ,50,  YELLOW, BLUE,"Info will be displayed", 16, 0);
 	//currently nothing is displayed for now
 }
