@@ -21,8 +21,8 @@ const float AveDiff[6] = {5.5, 7, 9.75, 18.25, 15.5, 19.25};
 int dspmain2()
 {
 	// construct the signal
-		LCD_DrawString(60,250,YELLOW, BLUE, "                    ", 16, 0);
-		LCD_DrawString(20,270,YELLOW, BLUE, "                             ", 16, 0);
+		LCD_DrawString(30,210,YELLOW, BLUE, "                                 ", 16, 0);
+		LCD_DrawString(30,230,YELLOW, BLUE, "                             ", 16, 0);
 //		buffer.dspFloat.data_re[2 * BUF_LEN] = {0}; // 2 * BUF_LEN because of Autocorrelation (otherwise, would result in circular autocorrelation)
 //		buffer.dspFloat.data_im[2 * BUF_LEN] = {0}; // same reason for 2 * BUF_LEN as data_re[]
 
@@ -52,7 +52,7 @@ int dspmain2()
 
 		char thing[6];
 		sprintf(thing, "%d", currentPeg);
-		LCD_DrawString(20,180,YELLOW, BLUE, thing, 16, 0);
+//		LCD_DrawString(20,180,YELLOW, BLUE, thing, 16, 0);
 
 		if (currentPeg == 0) {
 			//cutoffHigh = 100; // hertz
@@ -87,8 +87,8 @@ int dspmain2()
 		LCD_DrawString(120,180,YELLOW, BLUE, text, 16, 0);
 		int dir = (angle < 0)? 1: 2;
 		if(abs(angle) < 500 ){
-			LCD_DrawString(60,250,YELLOW, BLUE, "Tuning is Primed", 16, 0);
-			LCD_DrawString(20,270,YELLOW, BLUE, "Attach & Press Trigger", 16, 0);
+			LCD_DrawString(50,210,YELLOW, BLUE, "Tuning is Primed", 16, 0);
+			LCD_DrawString(30,230,YELLOW, BLUE, "Attach & Press Trigger", 16, 0);
 
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET); //motor Enable
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET); //Boost Enable
@@ -99,11 +99,11 @@ int dspmain2()
 			}
 			stepperMotor(dir, 7500, abs(angle), 2);
 
-			LCD_DrawString(60,250,YELLOW, BLUE, "                    ", 16, 0);
-			LCD_DrawString(20,270,YELLOW, BLUE, "                             ", 16, 0);
+			LCD_DrawString(50,210,YELLOW, BLUE, "                             ", 16, 0);
+			LCD_DrawString(20,230,YELLOW, BLUE, "                             ", 16, 0);
 		}
 		else {
-			LCD_DrawString(40,250,YELLOW, BLUE, "Bad Signal TRY AGAIN", 16, 0);
+			LCD_DrawString(40,210,YELLOW, BLUE, "Bad Signal TRY AGAIN", 16, 0);
 
 		}
 			//
